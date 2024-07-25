@@ -1,0 +1,60 @@
+services:
+  mongo-express:
+    image: mongo-express
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: root
+      ME_CONFIG_MONGODB_URL: mongodb://root:root@mongo:27017/?authSource=admin
+      ME_CONFIG_BASICAUTH_USERNAME: root
+      ME_CONFIG_BASICAUTH_PASSWORD: root
+    links:
+      - mongo
+    networks:
+      - local-network
+    ports:
+      - "8081:8081"
+
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./.docker/mongo:/data/db
+    networks:
+      - local-network
+
+  app:
+    build: .
+    ports:
+      - "3001:3001"
+    env_file:
+      - .env
+    networks:
+      - local-network
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./ops/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - local-network
+
+  grafana:
+    image: grafana/grafana
+    volumes:
+      - ./ops/grafana/provisioning:/etc/grafana/provisioning
+    ports:
+      - 3000:3000
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    networks:
+      - local-network
+
+networks:
+  local-network:
+    driver: bridge

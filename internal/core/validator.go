@@ -22,6 +22,8 @@ func ValidateStruct(obj interface{}) error {
 		return NewValidationErr(ErrMaxLength(field, err.Param()))
 	case "min":
 		return NewValidationErr(ErrMinLength(field, err.Param()))
+	case "email":
+		return NewValidationErr(ErrInvalidFormat("email"))
 	}
 
 	return NewValidationErr(fmt.Sprintf("%s validation error on %s", field, err.Tag()))

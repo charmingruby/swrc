@@ -4,12 +4,11 @@ import (
 	"time"
 
 	"github.com/charmingruby/swrc/internal/core"
-	"github.com/oklog/ulid/v2"
 )
 
 func NewDeveloperMetrics(accountID string) (*DeveloperMetrics, error) {
 	dm := DeveloperMetrics{
-		ID:                ulid.Make().String(),
+		ID:                core.NewID(),
 		SnippetsPublished: 0,
 		Stars:             0,
 		AccountID:         accountID,

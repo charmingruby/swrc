@@ -3,12 +3,11 @@ package review_entity
 import (
 	"testing"
 
-	"github.com/oklog/ulid/v2"
 	"github.com/stretchr/testify/assert"
 )
 
 func Test_NewDeveloperMetrics(t *testing.T) {
-	accountID := ulid.Make().String()
+	accountID := "account id"
 
 	t.Run("it should be able to create a developer metrics", func(t *testing.T) {
 		dm, err := NewDeveloperMetrics(accountID)

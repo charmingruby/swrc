@@ -4,12 +4,11 @@ import (
 	"time"
 
 	"github.com/charmingruby/swrc/internal/core"
-	"github.com/oklog/ulid/v2"
 )
 
 func NewAccount(githubDisplayName, email, password string) (*Account, error) {
 	a := Account{
-		ID:                ulid.Make().String(),
+		ID:                core.NewID(),
 		GithubDisplayName: githubDisplayName,
 		Email:             email,
 		Password:          password,

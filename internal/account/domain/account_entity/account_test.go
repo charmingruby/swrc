@@ -18,6 +18,8 @@ func Test_NewAccount(t *testing.T) {
 		assert.NoError(t, err)
 		assert.Equal(t, ghDisplayName, account.GithubDisplayName)
 		assert.Equal(t, email, account.Email)
+		assert.Equal(t, false, account.Verified)
+		assert.Equal(t, ACCOUNT_ROLE_DEVELOPER, account.Role)
 		assert.Equal(t, password, account.Password)
 	})
 

@@ -1,6 +1,6 @@
 package account_dto
 
-type ManageAccountRoleDTO struct {
+type ManageAccountRoleInputDTO struct {
 	ActorAccountID string
 	AccountID      string
 	NewRole        string

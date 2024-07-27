@@ -6,10 +6,10 @@ import (
 )
 
 type AccountUseCase interface {
-	RegisterUseCase(dto account_dto.RegisterDTO) (string, error)
-	AuthenticateUseCase(dto account_dto.AuthenticateDTO) (string, error)
-	VerifyAccountUseCase(dto account_dto.VerifyAccountDTO) error
-	ManageAccountRoleUseCase(dto account_dto.ManageAccountRoleDTO) error
+	RegisterUseCase(dto account_dto.RegisterInputDTO) (account_dto.RegisterOutputDTO, error)
+	AuthenticateUseCase(dto account_dto.AuthenticateInputDTO) (account_dto.AuthenticateOutputDTO, error)
+	VerifyAccountUseCase(dto account_dto.VerifyAccountInputDTO) error
+	ManageAccountRoleUseCase(dto account_dto.ManageAccountRoleInputDTO) error
 }
 
 func NewAccountUseCaseRegistry(accountRepository account_repository.AccountRepository) *AccountUseCaseRegistry {

@@ -1,5 +1,5 @@
 package account_dto
 
-type VerifyAccountDTO struct {
+type VerifyAccountInputDTO struct {
 	AccountID string
 }

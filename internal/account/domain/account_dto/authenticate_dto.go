@@ -1,6 +1,10 @@
 package account_dto
 
-type AuthenticateDTO struct {
+type AuthenticateInputDTO struct {
 	Email    string
 	Password string
+}
+
+type AuthenticateOutputDTO struct {
+	ID string
 }

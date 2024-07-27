@@ -18,6 +18,7 @@ func NewSnippet(title, description, codeSnippet, accountID string) (*Snippet, er
 		Description: description,
 		CodeSnippet: codeSnippet,
 		Status:      SNIPPET_STATUS_OPEN,
+		Version:     0,
 		Reactions:   0,
 		Comments:    0,
 		Votes:       0,
@@ -38,6 +39,7 @@ type Snippet struct {
 	Description string    `json:"description" validate:"required"`
 	CodeSnippet string    `json:"code_snippet" validate:"required"`
 	Status      string    `json:"status" validate:"required"`
+	Version     int       `json:"version"`
 	Reactions   int       `json:"reactions"`
 	Comments    int       `json:"comments"`
 	Votes       int       `json:"votes"`

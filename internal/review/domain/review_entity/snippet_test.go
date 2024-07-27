@@ -21,6 +21,7 @@ func Test_NewSnippet(t *testing.T) {
 		assert.Equal(t, codeSnippet, snp.CodeSnippet)
 		assert.Equal(t, SNIPPET_STATUS_OPEN, snp.Status)
 		assert.NoError(t, err)
+		assert.Equal(t, 0, snp.Version)
 		assert.Equal(t, 0, snp.Reactions)
 		assert.Equal(t, 0, snp.Comments)
 		assert.Equal(t, 0, snp.Votes)

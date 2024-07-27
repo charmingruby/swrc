@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/charmingruby/swrc/internal/infra/cli"
+	"github.com/charmingruby/swrc/internal/common/cli"
 	"github.com/spf13/cobra"
 )
 

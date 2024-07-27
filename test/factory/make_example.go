@@ -1,8 +1,8 @@
 package factory
 
 import (
-	"github.com/charmingruby/swrc/internal/domain/example/example_entity"
-	"github.com/charmingruby/swrc/internal/domain/example/example_repository"
+	"github.com/charmingruby/swrc/internal/example/domain/example_entity"
+	"github.com/charmingruby/swrc/internal/example/domain/example_repository"
 )
 
 func MakeExample(

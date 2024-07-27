@@ -1,8 +1,8 @@
 package inmemory
 
 import (
-	"github.com/charmingruby/swrc/internal/core"
-	"github.com/charmingruby/swrc/internal/domain/example/example_entity"
+	"github.com/charmingruby/swrc/internal/common/core"
+	"github.com/charmingruby/swrc/internal/example/domain/example_entity"
 )
 
 func NewInMemoryExampleRepository() *InMemoryExampleRepository {

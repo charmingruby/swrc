@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/charmingruby/swrc/config"
-	"github.com/charmingruby/swrc/internal/domain/example/example_usecase"
+	"github.com/charmingruby/swrc/internal/example/domain/example_usecase"
 	"github.com/charmingruby/swrc/pkg/mongodb"
 	"github.com/charmingruby/swrc/test/inmemory"
 	"github.com/joho/godotenv"

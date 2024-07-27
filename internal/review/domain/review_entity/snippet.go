@@ -6,23 +6,13 @@ import (
 	"github.com/charmingruby/swrc/internal/common/core"
 )
 
-const (
-	SNIPPET_STATUS_OPEN   = "OPEN"
-	SNIPPET_STATUS_CLOSED = "CLOSED"
-)
-
-func NewSnippet(title, description, codeSnippet, accountID string) (*Snippet, error) {
+func NewSnippet(version int, codeSnippet, message, topicID string) (*Snippet, error) {
 	snp := Snippet{
 		ID:          core.NewID(),
-		Title:       title,
-		Description: description,
+		Version:     version,
 		CodeSnippet: codeSnippet,
-		Status:      SNIPPET_STATUS_OPEN,
-		Version:     0,
-		Reactions:   0,
-		Comments:    0,
-		Votes:       0,
-		AccountID:   accountID,
+		Message:     message,
+		TopicID:     topicID,
 		CreatedAt:   time.Now(),
 	}
 
@@ -35,18 +25,9 @@ func NewSnippet(title, description, codeSnippet, accountID string) (*Snippet, er
 
 type Snippet struct {
 	ID          string    `json:"id" validate:"required"`
-	Title       string    `json:"title" validate:"required"`
-	Description string    `json:"description" validate:"required"`
+	Version     int       `json:"version" validate:"required"`
 	CodeSnippet string    `json:"code_snippet" validate:"required"`
-	Status      string    `json:"status" validate:"required"`
-	Version     int       `json:"version"`
-	Reactions   int       `json:"reactions"`
-	Comments    int       `json:"comments"`
-	Votes       int       `json:"votes"`
-	AccountID   string    `json:"account_id" validate:"required"`
+	Message     string    `json:"message"`
+	TopicID     string    `json:"topic_id" validate:"required"`
 	CreatedAt   time.Time `json:"created_at" validate:"required"`
-}
-
-func (snp *Snippet) Close() {
-	snp.Status = SNIPPET_STATUS_CLOSED
 }

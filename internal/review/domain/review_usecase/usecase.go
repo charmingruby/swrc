@@ -1,6 +1,7 @@
 package review_usecase
 
 import (
+	"github.com/charmingruby/swrc/internal/review/domain/review_adapter"
 	"github.com/charmingruby/swrc/internal/review/domain/review_dto"
 	"github.com/charmingruby/swrc/internal/review/domain/review_repository"
 )
@@ -43,14 +44,17 @@ type ReviewUseCase interface {
 func NewReviewUseCaseRegistry(
 	snippetRepository review_repository.SnippetRepository,
 	snippetTopicRepository review_repository.SnippetTopicRepository,
+	accountClient review_adapter.AccountClient,
 ) *ReviewUseCaseRegistry {
 	return &ReviewUseCaseRegistry{
 		SnippetRepository:      snippetRepository,
 		SnippetTopicRepository: snippetTopicRepository,
+		AccountClient:          accountClient,
 	}
 }
 
 type ReviewUseCaseRegistry struct {
 	SnippetRepository      review_repository.SnippetRepository
 	SnippetTopicRepository review_repository.SnippetTopicRepository
+	AccountClient          review_adapter.AccountClient
 }

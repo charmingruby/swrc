@@ -14,12 +14,12 @@ type AccountUseCase interface {
 
 func NewAccountUseCaseRegistry(accountRepository account_repository.AccountRepository) *AccountUseCaseRegistry {
 	registry := AccountUseCaseRegistry{
-		accountRepository: accountRepository,
+		AccountRepository: accountRepository,
 	}
 
 	return &registry
 }
 
 type AccountUseCaseRegistry struct {
-	accountRepository account_repository.AccountRepository
+	AccountRepository account_repository.AccountRepository
 }

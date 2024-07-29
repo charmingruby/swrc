@@ -6,9 +6,7 @@ import (
 	"os"
 
 	"github.com/charmingruby/swrc/config"
-	"github.com/charmingruby/swrc/internal/example/domain/example_usecase"
 	"github.com/charmingruby/swrc/pkg/mongodb"
-	"github.com/charmingruby/swrc/test/inmemory"
 	"github.com/joho/godotenv"
 )
 
@@ -35,13 +33,4 @@ func main() {
 	initDependencies()
 }
 
-func initDependencies() {
-	exampleRepo := inmemory.NewInMemoryExampleRepository()
-	// if err != nil {
-	// 	slog.Error(fmt.Sprintf("DATABASE REPOSITORY: %s", err.Error()))
-	// 	os.Exit(1)
-	// }
-
-	_ = example_usecase.NewExampleUseCaseRegistry(exampleRepo)
-
-}
+func initDependencies() {}

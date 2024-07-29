@@ -1,6 +1,7 @@
 package account_usecase
 
 import (
+	"github.com/charmingruby/swrc/internal/account/domain/account_adapter"
 	"github.com/charmingruby/swrc/internal/account/domain/account_dto"
 	"github.com/charmingruby/swrc/internal/account/domain/account_repository"
 )
@@ -12,9 +13,12 @@ type AccountUseCase interface {
 	ManageAccountRoleUseCase(dto account_dto.ManageAccountRoleInputDTO) error
 }
 
-func NewAccountUseCaseRegistry(accountRepository account_repository.AccountRepository) *AccountUseCaseRegistry {
+func NewAccountUseCaseRegistry(
+	accountRepository account_repository.AccountRepository,
+	hashAdapter account_adapter.HashAdapter) *AccountUseCaseRegistry {
 	registry := AccountUseCaseRegistry{
 		AccountRepository: accountRepository,
+		HashAdapter:       hashAdapter,
 	}
 
 	return &registry
@@ -22,4 +26,5 @@ func NewAccountUseCaseRegistry(accountRepository account_repository.AccountRepos
 
 type AccountUseCaseRegistry struct {
 	AccountRepository account_repository.AccountRepository
+	HashAdapter       account_adapter.HashAdapter
 }

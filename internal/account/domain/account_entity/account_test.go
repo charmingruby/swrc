@@ -58,5 +58,48 @@ func Test_NewAccount(t *testing.T) {
 }
 
 func Test_AccountVerify(t *testing.T) {
+	ghDisplayName := "charmingruby"
+	email := "dummy@mail.com"
+	password := "password123"
 
+	t.Run("it should be able to verify for the first time", func(t *testing.T) {
+		acc, err := NewAccount(ghDisplayName, email, password)
+		assert.NoError(t, err)
+
+		err = acc.Verify(false)
+		assert.NoError(t, err)
+		assert.Equal(t, false, acc.Verification.IsValid)
+		assert.Equal(t, true, acc.Verification.Verified)
+	})
+
+	t.Run("it should be able to modify verification even if it's already verification", func(t *testing.T) {
+		acc, err := NewAccount(ghDisplayName, email, password)
+		assert.NoError(t, err)
+
+		err = acc.Verify(false)
+		assert.NoError(t, err)
+		assert.Equal(t, false, acc.Verification.IsValid)
+		assert.Equal(t, true, acc.Verification.Verified)
+
+		err = acc.Verify(true)
+		assert.NoError(t, err)
+		assert.Equal(t, true, acc.Verification.IsValid)
+		assert.Equal(t, true, acc.Verification.Verified)
+	})
+
+	t.Run("it should be not able to verify with same verification", func(t *testing.T) {
+		acc, err := NewAccount(ghDisplayName, email, password)
+		assert.NoError(t, err)
+
+		err = acc.Verify(false)
+		assert.NoError(t, err)
+		assert.Equal(t, false, acc.Verification.IsValid)
+		assert.Equal(t, true, acc.Verification.Verified)
+
+		err = acc.Verify(false)
+		assert.Error(t, err)
+		assert.Equal(t, core.NewValidationErr("nothing to change").Error(), err.Error())
+		assert.Equal(t, false, acc.Verification.IsValid)
+		assert.Equal(t, true, acc.Verification.Verified)
+	})
 }

@@ -41,12 +41,12 @@ type Account struct {
 }
 
 func (a *Account) Verify(verification bool) error {
-	if !a.Verification.Verified {
-		a.Verification.Verified = true
+	if a.Verification.IsValid == verification && a.Verification.Verified {
+		return core.NewValidationErr("nothing to change")
 	}
 
-	if a.Verification.IsValid == verification {
-		return core.NewValidationErr("nothing to change")
+	if !a.Verification.Verified {
+		a.Verification.Verified = true
 	}
 
 	a.Verification.IsValid = verification

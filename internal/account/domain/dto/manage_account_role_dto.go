@@ -1,7 +1,7 @@
 package dto
 
 type ManageAccountRoleInputDTO struct {
-	ActorAccountID string
-	AccountID      string
-	NewRole        string
+	ManagerAccountID string
+	AccountID        string
+	NewRole          string
 }

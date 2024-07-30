@@ -1,5 +1,7 @@
 package account_dto
 
 type VerifyAccountInputDTO struct {
-	AccountID string
+	SolicitorAccountID string
+	AccountToVerifyID  string
+	Verification       bool
 }

@@ -57,3 +57,17 @@ type ErrInvalidCredentials struct {
 func (e *ErrInvalidCredentials) Error() string {
 	return e.Message
 }
+
+func NewUnauthorizedErr() error {
+	return &ErrUnauthorized{
+		Message: "unauthorized",
+	}
+}
+
+type ErrUnauthorized struct {
+	Message string `json:"message"`
+}
+
+func (e *ErrUnauthorized) Error() string {
+	return e.Message
+}

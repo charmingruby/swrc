@@ -18,7 +18,8 @@ func Test_NewAccount(t *testing.T) {
 		assert.NoError(t, err)
 		assert.Equal(t, ghDisplayName, account.GithubDisplayName)
 		assert.Equal(t, email, account.Email)
-		assert.Equal(t, false, account.Verified)
+		assert.Equal(t, false, account.Verification.Verified)
+		assert.Equal(t, false, account.Verification.IsValid)
 		assert.Equal(t, ACCOUNT_ROLE_DEVELOPER, account.Role)
 		assert.Equal(t, password, account.Password)
 	})
@@ -54,4 +55,8 @@ func Test_NewAccount(t *testing.T) {
 		assert.Nil(t, account)
 		assert.Equal(t, core.NewValidationErr(core.ErrMaxLength("password", "16")).Error(), err.Error())
 	})
+}
+
+func Test_AccountVerify(t *testing.T) {
+
 }

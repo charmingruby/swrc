@@ -3,6 +3,7 @@ package account_entity
 import (
 	"time"
 
+	"github.com/charmingruby/swrc/internal/account/domain/account_entity/account_valueobj"
 	"github.com/charmingruby/swrc/internal/common/core"
 )
 
@@ -18,7 +19,7 @@ func NewAccount(githubDisplayName, email, password string) (*Account, error) {
 		Email:             email,
 		Password:          password,
 		Role:              ACCOUNT_ROLE_DEVELOPER,
-		Verified:          false,
+		Verification:      account_valueobj.NewVerification(false),
 		CreatedAt:         time.Now(),
 	}
 
@@ -30,11 +31,25 @@ func NewAccount(githubDisplayName, email, password string) (*Account, error) {
 }
 
 type Account struct {
-	ID                string    `json:"id" validate:"required"`
-	GithubDisplayName string    `json:"github_display_name" validate:"required"`
-	Email             string    `json:"email" validate:"required,email"`
-	Password          string    `json:"password" validate:"required,min=8,max=16"`
-	Verified          bool      `json:"verified"`
+	ID                string `json:"id" validate:"required"`
+	GithubDisplayName string `json:"github_display_name" validate:"required"`
+	Email             string `json:"email" validate:"required,email"`
+	Password          string `json:"password" validate:"required,min=8,max=16"`
+	Verification      *account_valueobj.Verification
 	Role              string    `json:"role" validate:"required"`
 	CreatedAt         time.Time `json:"created_at" validate:"required"`
+}
+
+func (a *Account) Verify(verification bool) error {
+	if !a.Verification.Verified {
+		a.Verification.Verified = true
+	}
+
+	if a.Verification.IsValid == verification {
+		return core.NewValidationErr("nothing to change")
+	}
+
+	a.Verification.IsValid = verification
+
+	return nil
 }

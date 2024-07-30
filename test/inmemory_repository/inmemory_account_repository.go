@@ -57,7 +57,8 @@ func (r *InMemoryAccountRepository) Store(acc *account_entity.Account) (string, 
 func (r *InMemoryAccountRepository) SaveVerification(acc *account_entity.Account) error {
 	for idx, repoAcc := range r.Items {
 		if repoAcc.ID == acc.ID {
-			r.Items[idx].Verified = acc.Verified
+			r.Items[idx].Verification.IsValid = acc.Verification.IsValid
+			r.Items[idx].Verification.Verified = acc.Verification.Verified
 			return nil
 		}
 	}

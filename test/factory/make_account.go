@@ -10,6 +10,9 @@ type MakeAccountInput struct {
 	GithubDisplayName string
 	Email             string
 	Password          string
+	IsValid           *bool
+	Verified          *bool
+	Role              string
 }
 
 func MakeAccount(
@@ -23,6 +26,18 @@ func MakeAccount(
 	)
 	if err != nil {
 		return nil, err
+	}
+
+	if in.Verified != nil {
+		acc.Verification.Verified = *in.Verified
+	}
+
+	if in.IsValid != nil {
+		acc.Verification.IsValid = *in.IsValid
+	}
+
+	if in.Role != "" {
+		acc.Role = in.Role
 	}
 
 	if _, err := repo.Store(acc); err != nil {

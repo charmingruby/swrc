@@ -1,12 +1,12 @@
 package client
 
-import "github.com/charmingruby/swrc/internal/account/domain/account_usecase"
+import "github.com/charmingruby/swrc/internal/account/domain/usecase"
 
 type AccountClient struct {
-	service *account_usecase.AccountUseCaseRegistry
+	service *usecase.AccountUseCaseRegistry
 }
 
-func NewAccountClient(svc *account_usecase.AccountUseCaseRegistry) *AccountClient {
+func NewAccountClient(svc *usecase.AccountUseCaseRegistry) *AccountClient {
 	return &AccountClient{
 		service: svc,
 	}

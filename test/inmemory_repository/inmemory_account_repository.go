@@ -1,7 +1,7 @@
 package inmemory_repository
 
 import (
-	"github.com/charmingruby/swrc/internal/account/domain/account_entity"
+	"github.com/charmingruby/swrc/internal/account/domain/entity"
 	"github.com/charmingruby/swrc/internal/common/core"
 )
 
@@ -11,15 +11,15 @@ var (
 
 func NewInMemoryAccountRepository() *InMemoryAccountRepository {
 	return &InMemoryAccountRepository{
-		Items: []account_entity.Account{},
+		Items: []entity.Account{},
 	}
 }
 
 type InMemoryAccountRepository struct {
-	Items []account_entity.Account
+	Items []entity.Account
 }
 
-func (r *InMemoryAccountRepository) FindByID(id string) (*account_entity.Account, error) {
+func (r *InMemoryAccountRepository) FindByID(id string) (*entity.Account, error) {
 	for _, acc := range r.Items {
 		if acc.ID == id {
 			return &acc, nil
@@ -29,7 +29,7 @@ func (r *InMemoryAccountRepository) FindByID(id string) (*account_entity.Account
 	return nil, ErrNotFound
 }
 
-func (r *InMemoryAccountRepository) FindByEmail(email string) (*account_entity.Account, error) {
+func (r *InMemoryAccountRepository) FindByEmail(email string) (*entity.Account, error) {
 	for _, acc := range r.Items {
 		if acc.Email == email {
 			return &acc, nil
@@ -39,7 +39,7 @@ func (r *InMemoryAccountRepository) FindByEmail(email string) (*account_entity.A
 	return nil, ErrNotFound
 }
 
-func (r *InMemoryAccountRepository) FindByGithubDisplayName(githubDisplayName string) (*account_entity.Account, error) {
+func (r *InMemoryAccountRepository) FindByGithubDisplayName(githubDisplayName string) (*entity.Account, error) {
 	for _, acc := range r.Items {
 		if acc.GithubDisplayName == githubDisplayName {
 			return &acc, nil
@@ -49,12 +49,12 @@ func (r *InMemoryAccountRepository) FindByGithubDisplayName(githubDisplayName st
 	return nil, ErrNotFound
 }
 
-func (r *InMemoryAccountRepository) Store(acc *account_entity.Account) (string, error) {
+func (r *InMemoryAccountRepository) Store(acc *entity.Account) (string, error) {
 	r.Items = append(r.Items, *acc)
 	return acc.ID, nil
 }
 
-func (r *InMemoryAccountRepository) SaveVerification(acc *account_entity.Account) error {
+func (r *InMemoryAccountRepository) SaveVerification(acc *entity.Account) error {
 	for idx, repoAcc := range r.Items {
 		if repoAcc.ID == acc.ID {
 			r.Items[idx].Verification.IsValid = acc.Verification.IsValid
@@ -66,7 +66,7 @@ func (r *InMemoryAccountRepository) SaveVerification(acc *account_entity.Account
 	return ErrNotFound
 }
 
-func (r *InMemoryAccountRepository) SaveRole(acc *account_entity.Account) error {
+func (r *InMemoryAccountRepository) SaveRole(acc *entity.Account) error {
 	for idx, repoAcc := range r.Items {
 		if repoAcc.ID == acc.ID {
 			r.Items[idx].Role = acc.Role

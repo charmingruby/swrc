@@ -1,8 +1,8 @@
 package factory
 
 import (
-	"github.com/charmingruby/swrc/internal/account/domain/account_entity"
-	"github.com/charmingruby/swrc/internal/account/domain/account_repository"
+	"github.com/charmingruby/swrc/internal/account/domain/entity"
+	"github.com/charmingruby/swrc/internal/account/domain/repository"
 	"github.com/charmingruby/swrc/test/fake"
 )
 
@@ -16,10 +16,10 @@ type MakeAccountInput struct {
 }
 
 func MakeAccount(
-	repo account_repository.AccountRepository,
-	in MakeAccountInput) (*account_entity.Account, error) {
+	repo repository.AccountRepository,
+	in MakeAccountInput) (*entity.Account, error) {
 	hashedPassword, _ := fake.NewFakeHashService().GenerateHash(in.Password)
-	acc, err := account_entity.NewAccount(
+	acc, err := entity.NewAccount(
 		in.GithubDisplayName,
 		in.Email,
 		in.Password,

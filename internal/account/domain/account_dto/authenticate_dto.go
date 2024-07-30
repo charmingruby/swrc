@@ -6,5 +6,7 @@ type AuthenticateInputDTO struct {
 }
 
 type AuthenticateOutputDTO struct {
-	ID string
+	ID       string
+	Role     string
+	Verified bool
 }

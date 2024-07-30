@@ -43,3 +43,17 @@ type ErrNotFound struct {
 func (e *ErrNotFound) Error() string {
 	return e.Message
 }
+
+func NewInvalidCredentialsErr() error {
+	return &ErrInvalidCredentials{
+		Message: "invalid credentials",
+	}
+}
+
+type ErrInvalidCredentials struct {
+	Message string `json:"message"`
+}
+
+func (e *ErrInvalidCredentials) Error() string {
+	return e.Message
+}

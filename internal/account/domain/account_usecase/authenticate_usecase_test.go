@@ -31,7 +31,7 @@ func (s *Suite) Test_AuthenticateUseCase() {
 
 		s.NoError(err)
 		s.Equal(acc.ID, output.ID)
-		s.Equal(acc.Verified, output.Verified)
+		s.Equal(acc.Verification.Verified, output.Verified)
 		s.Equal(acc.Role, output.Role)
 	})
 

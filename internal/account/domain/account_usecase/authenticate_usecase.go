@@ -18,6 +18,7 @@ func (s *AccountUseCaseRegistry) AuthenticateUseCase(dto account_dto.Authenticat
 	return &account_dto.AuthenticateOutputDTO{
 		ID:       acc.ID,
 		Role:     acc.Role,
-		Verified: acc.Verified,
+		Verified: acc.Verification.Verified,
+		IsValid:  acc.Verification.IsValid,
 	}, nil
 }

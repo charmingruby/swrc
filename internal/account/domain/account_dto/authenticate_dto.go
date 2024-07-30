@@ -9,4 +9,5 @@ type AuthenticateOutputDTO struct {
 	ID       string
 	Role     string
 	Verified bool
+	IsValid  bool
 }

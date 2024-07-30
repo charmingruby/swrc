@@ -53,3 +53,23 @@ func (a *Account) Verify(verification bool) error {
 
 	return nil
 }
+
+func (a *Account) ModifyRole(role string) error {
+	validRoles := map[string]string{
+		ACCOUNT_ROLE_MANAGER:   ACCOUNT_ROLE_MANAGER,
+		ACCOUNT_ROLE_DEVELOPER: ACCOUNT_ROLE_DEVELOPER,
+	}
+
+	newRole, ok := validRoles[role]
+	if !ok {
+		return core.NewValidationErr("invalid role")
+	}
+
+	if newRole == a.Role {
+		return core.NewValidationErr("nothing to change")
+	}
+
+	a.Role = newRole
+
+	return nil
+}

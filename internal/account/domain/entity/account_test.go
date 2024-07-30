@@ -103,3 +103,41 @@ func Test_AccountVerify(t *testing.T) {
 		assert.Equal(t, true, acc.Verification.Verified)
 	})
 }
+
+func Test_AccountModifyRole(t *testing.T) {
+	ghDisplayName := "charmingruby"
+	email := "dummy@mail.com"
+	password := "password123"
+
+	t.Run("it should be able to modify an account with a valid role", func(t *testing.T) {
+		acc, err := NewAccount(ghDisplayName, email, password)
+		assert.NoError(t, err)
+
+		newRole := ACCOUNT_ROLE_MANAGER
+		err = acc.ModifyRole(newRole)
+		assert.NoError(t, err)
+		assert.Equal(t, newRole, acc.Role)
+	})
+
+	t.Run("it should be not able to modify an account with an invalid role", func(t *testing.T) {
+		acc, err := NewAccount(ghDisplayName, email, password)
+		assert.NoError(t, err)
+
+		newRole := "invalid role"
+		err = acc.ModifyRole(newRole)
+		assert.Error(t, err)
+		assert.Equal(t, core.NewValidationErr("invalid role").Error(), err.Error())
+	})
+
+	t.Run("it should be not able to modify an account with the same role", func(t *testing.T) {
+		acc, err := NewAccount(ghDisplayName, email, password)
+		assert.NoError(t, err)
+
+		newRole := ACCOUNT_ROLE_DEVELOPER
+		acc.Role = newRole
+
+		err = acc.ModifyRole(newRole)
+		assert.Error(t, err)
+		assert.Equal(t, core.NewValidationErr("nothing to change").Error(), err.Error())
+	})
+}

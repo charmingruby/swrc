@@ -22,11 +22,12 @@ func MakeAccount(
 	acc, err := account_entity.NewAccount(
 		in.GithubDisplayName,
 		in.Email,
-		hashedPassword,
+		in.Password,
 	)
 	if err != nil {
 		return nil, err
 	}
+	acc.Password = hashedPassword
 
 	if in.Verified != nil {
 		acc.Verification.Verified = *in.Verified

@@ -1,14 +1,243 @@
 package account_usecase
 
-func (s *Suite) Test_VerifyAccountUseCase() {
-	s.Run("it should be able to verify an account", func() {})
+import (
+	"github.com/charmingruby/swrc/internal/account/domain/account_dto"
+	"github.com/charmingruby/swrc/internal/account/domain/account_entity"
+	"github.com/charmingruby/swrc/internal/common/core"
+	"github.com/charmingruby/swrc/test/factory"
+)
 
-	s.Run("it should be not able to verify an account when solicitor account id is invalid", func() {
+func (s *Suite) Test_VerifyAccountUseCase() {
+	accountToVerifyDisplayName := "charmingruby"
+	accountToVerifyEmail := "dummy@email.com"
+	accountToVerifyPassword := "password"
+
+	solicitorGhDisplayName := accountToVerifyDisplayName + "-solic"
+	solicitorEmail := accountToVerifyEmail + "-solic"
+	solicitorPassword := accountToVerifyPassword + "-solic"
+
+	s.Run("it should be able to verify an account", func() {
+		isVerified := true
+		isValid := true
+
+		solicitorAcc, err := factory.MakeAccount(
+			s.accountRepository,
+			factory.MakeAccountInput{
+				GithubDisplayName: solicitorGhDisplayName,
+				Email:             solicitorEmail,
+				Password:          solicitorPassword,
+				IsValid:           &isValid,
+				Verified:          &isVerified,
+				Role:              account_entity.ACCOUNT_ROLE_MANAGER,
+			},
+		)
+		s.NoError(err)
+
+		accToVerify, err := factory.MakeAccount(
+			s.accountRepository,
+			factory.MakeAccountInput{
+				GithubDisplayName: accountToVerifyDisplayName,
+				Email:             accountToVerifyEmail,
+				Password:          accountToVerifyPassword,
+				Role:              account_entity.ACCOUNT_ROLE_MANAGER,
+			},
+		)
+		s.NoError(err)
+
+		verification := true
+		input := account_dto.VerifyAccountInputDTO{
+			SolicitorAccountID: solicitorAcc.ID,
+			AccountToVerifyID:  accToVerify.ID,
+			Verification:       verification,
+		}
+
+		err = s.accountUseCase.VerifyAccountUseCase(input)
+		s.NoError(err)
+
+		newVerifiedAcc, err := s.accountRepository.FindByID(accToVerify.ID)
+		s.NoError(err)
+		s.Equal(verification, newVerifiedAcc.Verification.IsValid)
+		s.True(newVerifiedAcc.Verification.Verified)
 	})
 
-	s.Run("it should be not able to verify an account when solicitor don't have needed permissions", func() {})
+	s.Run("it should be able to verify an account even if already have verification values", func() {
+		isVerified := true
+		isValid := true
 
-	s.Run("it should be not able to verify an account when account to verify id is invalid", func() {})
+		solicitorAcc, err := factory.MakeAccount(
+			s.accountRepository,
+			factory.MakeAccountInput{
+				GithubDisplayName: solicitorGhDisplayName,
+				Email:             solicitorEmail,
+				Password:          solicitorPassword,
+				IsValid:           &isValid,
+				Verified:          &isVerified,
+				Role:              account_entity.ACCOUNT_ROLE_MANAGER,
+			},
+		)
+		s.NoError(err)
 
-	s.Run("it should be not able to verify an account when account to verify id is already verified", func() {})
+		accToVerify, err := factory.MakeAccount(
+			s.accountRepository,
+			factory.MakeAccountInput{
+				GithubDisplayName: accountToVerifyDisplayName,
+				Email:             accountToVerifyEmail,
+				Password:          accountToVerifyPassword,
+				Role:              account_entity.ACCOUNT_ROLE_MANAGER,
+				IsValid:           &isValid,
+				Verified:          &isVerified,
+			},
+		)
+		s.NoError(err)
+
+		verification := false
+		input := account_dto.VerifyAccountInputDTO{
+			SolicitorAccountID: solicitorAcc.ID,
+			AccountToVerifyID:  accToVerify.ID,
+			Verification:       verification,
+		}
+
+		err = s.accountUseCase.VerifyAccountUseCase(input)
+		s.NoError(err)
+
+		newVerifiedAcc, err := s.accountRepository.FindByID(accToVerify.ID)
+		s.NoError(err)
+		s.Equal(verification, newVerifiedAcc.Verification.IsValid)
+		s.True(newVerifiedAcc.Verification.Verified)
+	})
+
+	s.Run("it should be not able to verify an account when solicitor account id is invalid", func() {
+		accToVerify, err := factory.MakeAccount(
+			s.accountRepository,
+			factory.MakeAccountInput{
+				GithubDisplayName: accountToVerifyDisplayName,
+				Email:             accountToVerifyEmail,
+				Password:          accountToVerifyPassword,
+				Role:              account_entity.ACCOUNT_ROLE_MANAGER,
+			},
+		)
+		s.NoError(err)
+
+		verification := true
+		input := account_dto.VerifyAccountInputDTO{
+			SolicitorAccountID: "invalid id",
+			AccountToVerifyID:  accToVerify.ID,
+			Verification:       verification,
+		}
+
+		err = s.accountUseCase.VerifyAccountUseCase(input)
+		s.Error(err)
+		s.Equal(core.NewNotFoundErr("account").Error(), err.Error())
+	})
+
+	s.Run("it should be not able to verify an account when solicitor don't have needed permissions", func() {
+		isVerified := true
+		isValid := true
+
+		solicitorAcc, err := factory.MakeAccount(
+			s.accountRepository,
+			factory.MakeAccountInput{
+				GithubDisplayName: solicitorGhDisplayName,
+				Email:             solicitorEmail,
+				Password:          solicitorPassword,
+				IsValid:           &isValid,
+				Verified:          &isVerified,
+				Role:              account_entity.ACCOUNT_ROLE_DEVELOPER,
+			},
+		)
+		s.NoError(err)
+
+		accToVerify, err := factory.MakeAccount(
+			s.accountRepository,
+			factory.MakeAccountInput{
+				GithubDisplayName: accountToVerifyDisplayName,
+				Email:             accountToVerifyEmail,
+				Password:          accountToVerifyPassword,
+				Role:              account_entity.ACCOUNT_ROLE_DEVELOPER,
+			},
+		)
+		s.NoError(err)
+
+		verification := true
+		input := account_dto.VerifyAccountInputDTO{
+			SolicitorAccountID: solicitorAcc.ID,
+			AccountToVerifyID:  accToVerify.ID,
+			Verification:       verification,
+		}
+
+		err = s.accountUseCase.VerifyAccountUseCase(input)
+		s.Error(err)
+		s.Equal(core.NewUnauthorizedErr().Error(), err.Error())
+	})
+
+	s.Run("it should be not able to verify an account when account to verify id is invalid", func() {
+		isVerified := true
+		isValid := true
+
+		solicitorAcc, err := factory.MakeAccount(
+			s.accountRepository,
+			factory.MakeAccountInput{
+				GithubDisplayName: solicitorGhDisplayName,
+				Email:             solicitorEmail,
+				Password:          solicitorPassword,
+				IsValid:           &isValid,
+				Verified:          &isVerified,
+				Role:              account_entity.ACCOUNT_ROLE_MANAGER,
+			},
+		)
+		s.NoError(err)
+
+		verification := true
+		input := account_dto.VerifyAccountInputDTO{
+			SolicitorAccountID: solicitorAcc.ID,
+			AccountToVerifyID:  "invalid id",
+			Verification:       verification,
+		}
+
+		err = s.accountUseCase.VerifyAccountUseCase(input)
+		s.Error(err)
+		s.Equal(core.NewNotFoundErr("account to verify").Error(), err.Error())
+	})
+
+	s.Run("it should be not able to verify an account when account to verify is has already that verification value", func() {
+		isVerified := true
+		isValid := true
+
+		solicitorAcc, err := factory.MakeAccount(
+			s.accountRepository,
+			factory.MakeAccountInput{
+				GithubDisplayName: solicitorGhDisplayName,
+				Email:             solicitorEmail,
+				Password:          solicitorPassword,
+				IsValid:           &isValid,
+				Verified:          &isVerified,
+				Role:              account_entity.ACCOUNT_ROLE_MANAGER,
+			},
+		)
+		s.NoError(err)
+
+		accToVerify, err := factory.MakeAccount(
+			s.accountRepository,
+			factory.MakeAccountInput{
+				GithubDisplayName: accountToVerifyDisplayName,
+				Email:             accountToVerifyEmail,
+				Password:          accountToVerifyPassword,
+				Role:              account_entity.ACCOUNT_ROLE_MANAGER,
+				IsValid:           &isValid,
+				Verified:          &isVerified,
+			},
+		)
+		s.NoError(err)
+
+		verification := true
+		input := account_dto.VerifyAccountInputDTO{
+			SolicitorAccountID: solicitorAcc.ID,
+			AccountToVerifyID:  accToVerify.ID,
+			Verification:       verification,
+		}
+
+		err = s.accountUseCase.VerifyAccountUseCase(input)
+		s.Error(err)
+		s.Equal(core.NewValidationErr("nothing to change").Error(), err.Error())
+	})
 }

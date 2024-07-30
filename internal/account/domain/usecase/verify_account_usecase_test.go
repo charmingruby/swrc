@@ -127,7 +127,7 @@ func (s *Suite) Test_VerifyAccountUseCase() {
 
 		err = s.accountUseCase.VerifyAccountUseCase(input)
 		s.Error(err)
-		s.Equal(core.NewNotFoundErr("account").Error(), err.Error())
+		s.Equal(core.NewNotFoundErr("solicitor account").Error(), err.Error())
 	})
 
 	s.Run("it should be not able to verify an account when solicitor don't have needed permissions", func() {

@@ -28,9 +28,8 @@ func (s *Suite) Test_hasPermission() {
 		s.NoError(err)
 		s.Equal(1, len(s.accountRepository.Items))
 
-		hasPermissions, err := s.accountUseCase.hasPermission(acc.ID, entity.ACCOUNT_ROLE_MANAGER)
+		err = s.accountUseCase.hasPermission(acc.ID, "account", entity.ACCOUNT_ROLE_MANAGER)
 		s.NoError(err)
-		s.True(hasPermissions)
 	})
 
 	s.Run("it should be able to validate a user without a role", func() {
@@ -50,16 +49,15 @@ func (s *Suite) Test_hasPermission() {
 		s.NoError(err)
 		s.Equal(1, len(s.accountRepository.Items))
 
-		hasPermissions, err := s.accountUseCase.hasPermission(acc.ID, entity.ACCOUNT_ROLE_MANAGER)
-		s.NoError(err)
-		s.False(hasPermissions)
+		err = s.accountUseCase.hasPermission(acc.ID, "account", entity.ACCOUNT_ROLE_MANAGER)
+		s.Error(err)
+		s.Equal(core.NewUnauthorizedErr().Error(), err.Error())
 	})
 
 	s.Run("it should be not able to validate a user that don't exists", func() {
-		hasPermissions, err := s.accountUseCase.hasPermission("invalid id", entity.ACCOUNT_ROLE_MANAGER)
+		err := s.accountUseCase.hasPermission("invalid id", "account", entity.ACCOUNT_ROLE_MANAGER)
 		s.Error(err)
 		s.Equal(core.NewNotFoundErr("account").Error(), err.Error())
-		s.False(hasPermissions)
 	})
 
 	s.Run("it should be not able to validate a user if solicitor is not a valid account", func() {
@@ -79,9 +77,8 @@ func (s *Suite) Test_hasPermission() {
 		s.NoError(err)
 		s.Equal(1, len(s.accountRepository.Items))
 
-		hasPermissions, err := s.accountUseCase.hasPermission(acc.ID, entity.ACCOUNT_ROLE_MANAGER)
+		err = s.accountUseCase.hasPermission(acc.ID, "account", entity.ACCOUNT_ROLE_MANAGER)
 		s.Error(err)
 		s.Equal(core.NewUnauthorizedErr().Error(), err.Error())
-		s.False(hasPermissions)
 	})
 }

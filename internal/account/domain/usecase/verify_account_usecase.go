@@ -12,13 +12,9 @@ const (
 )
 
 func (s *AccountUseCaseRegistry) VerifyAccountUseCase(input dto.VerifyAccountInputDTO) error {
-	solicitorHasPermission, err := s.hasPermission(input.SolicitorAccountID, entity.ACCOUNT_ROLE_MANAGER)
+	err := s.hasPermission(input.SolicitorAccountID, "solicitor account", entity.ACCOUNT_ROLE_MANAGER)
 	if err != nil {
 		return err
-	}
-
-	if !solicitorHasPermission {
-		return core.NewUnauthorizedErr()
 	}
 
 	accToVerify, err := s.AccountRepository.FindByID(input.AccountToVerifyID)

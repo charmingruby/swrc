@@ -21,12 +21,17 @@ build:
 ###################
 # gRPC             #
 ###################
-PROTO_FILES=$(find ./proto -name '*.proto')
-
 .PHONY: gen
 gen:
+	find ./proto/contract -name '${version}_*.proto' -print0 | xargs -0 protoc --proto_path=./proto/contract --go_out=./proto/pb --go_opt=paths=source_relative --go-grpc_out=./proto/pb --go-grpc_opt=paths=source_relative
+
+.PHONY: clear-pb
+clear-pb:
+	rm -f ./proto/pb/${version}_*.go
+
+.PHONY: clear-pbs
+clear-pbs:
 	rm -f ./proto/pb/*.go
-	find ./proto/$(VERSION) -name '*.proto' | xargs protoc --proto_path=proto --go_out=./proto/pb --go_opt=paths=source_relative --go-grpc_out=./proto/pb --go-grpc_opt=paths=source_relative
 
 ###################
 # Utils           #

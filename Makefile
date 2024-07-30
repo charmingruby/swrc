@@ -14,13 +14,9 @@ docker-run:
 ###################
 # App             #
 ###################
-.PHONY: run
-run:
-	go run cmd/api/main.go
-
 .PHONY: build
 build:
-	CGO_ENABLED=0 GOOS=linux go build -o ./bin/swrc ./cmd/api/main.go
+	CGO_ENABLED=0 GOOS=linux go build -o ./bin/swrc ./cmd/gapi/main.go
 
 ###################
 # Utils           #

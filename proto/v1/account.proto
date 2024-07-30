@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package proto;
+
+import "google/protobuf/timestamp.proto";
+
+
+option go_package = "swrc/proto/pb_v1";
+
+message Account {
+    string id = 1;
+    string github_display_name = 2;
+    string email = 3;
+    string password = 4;
+    bool is_valid = 5;
+    bool verified = 6;
+    string role = 7;
+    google.protobuf.Timestamp created_at = 8;
+}

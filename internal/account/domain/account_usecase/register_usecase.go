@@ -4,6 +4,11 @@ import (
 	"github.com/charmingruby/swrc/internal/account/domain/account_dto"
 	"github.com/charmingruby/swrc/internal/account/domain/account_entity"
 	"github.com/charmingruby/swrc/internal/common/core"
+	"github.com/charmingruby/swrc/internal/common/logger"
+)
+
+const (
+	registerUseCase = "Register Use Case"
 )
 
 func (s *AccountUseCaseRegistry) RegisterUseCase(dto account_dto.RegisterInputDTO) (*account_dto.RegisterOutputDTO, error) {
@@ -17,7 +22,8 @@ func (s *AccountUseCaseRegistry) RegisterUseCase(dto account_dto.RegisterInputDT
 
 	passwordHash, err := s.HashAdapter.GenerateHash(dto.Password)
 	if err != nil {
-		return nil, err
+		logger.LogInternalErr(registerUseCase, err)
+		return nil, core.NewInternalErr()
 	}
 
 	account, err := account_entity.NewAccount(
@@ -30,7 +36,8 @@ func (s *AccountUseCaseRegistry) RegisterUseCase(dto account_dto.RegisterInputDT
 	}
 
 	if _, err := s.AccountRepository.Store(account); err != nil {
-		return nil, core.NewInternalErr("register account use case", err.Error())
+		logger.LogInternalErr(registerUseCase, err)
+		return nil, core.NewInternalErr()
 	}
 
 	return &account_dto.RegisterOutputDTO{

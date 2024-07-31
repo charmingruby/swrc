@@ -8,8 +8,8 @@ import (
 	"os"
 
 	"github.com/charmingruby/swrc/config"
-	accountGRPC "github.com/charmingruby/swrc/internal/account/transport/grpc"
-	commonGRPC "github.com/charmingruby/swrc/internal/common/transport/grpc"
+	"github.com/charmingruby/swrc/internal/account"
+	"github.com/charmingruby/swrc/internal/common"
 
 	"github.com/charmingruby/swrc/pkg/mongodb"
 	"github.com/joho/godotenv"
@@ -43,8 +43,8 @@ func main() {
 	}
 
 	server := grpc.NewServer()
-	commonGRPC.NewCommonGRPCHandler(server).Register()
-	accountGRPC.NewAccountGRPCHandler(server).Register()
+	common.NewCommonGRPCHandlerSetup(server)
+	account.NewAccountGRPCHandlerSetup(server)
 	reflection.Register(server)
 
 	slog.Info("Starting gRPC server on port " + "9000...")

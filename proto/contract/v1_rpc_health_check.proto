@@ -4,10 +4,7 @@ package proto;
 
 option go_package = "swrc/proto/pb";
 
-message HealthCheckRequest{
-    bool ping = 1;
+message PingMessage{
+    string greeting = 1;
 }
 
-message HealthCheckReply{
-    bool pong = 1;
-}

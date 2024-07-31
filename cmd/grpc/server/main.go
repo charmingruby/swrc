@@ -2,17 +2,27 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"log/slog"
+	"net"
 	"os"
 
 	"github.com/charmingruby/swrc/config"
+	"github.com/charmingruby/swrc/internal/common/transport/grpc"
 	"github.com/charmingruby/swrc/pkg/mongodb"
 	"github.com/joho/godotenv"
+	grpcLib "google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 )
 
 func main() {
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
 	slog.SetDefault(logger)
+
+	lis, err := net.Listen("tcp", "localhost:9000")
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	if err := godotenv.Load(); err != nil {
 		slog.Warn("CONFIGURATION: .env file not found")
@@ -30,7 +40,14 @@ func main() {
 		os.Exit(1)
 	}
 
-	initDependencies()
-}
+	server := grpcLib.NewServer()
+	handler := grpc.NewGRPCHander(server)
+	handler.Register()
+	reflection.Register(server)
 
-func initDependencies() {}
+	slog.Info("Starting gRPC server on port " + "9000...")
+
+	if err := server.Serve(lis); err != nil {
+		log.Fatalf("GRPC SERVER: Failed to start server: %v", err)
+	}
+}

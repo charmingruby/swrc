@@ -20,16 +20,16 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type HealthCheckRequest struct {
+type PingMessage struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Ping bool `protobuf:"varint,1,opt,name=ping,proto3" json:"ping,omitempty"`
+	Greeting string `protobuf:"bytes,1,opt,name=greeting,proto3" json:"greeting,omitempty"`
 }
 
-func (x *HealthCheckRequest) Reset() {
-	*x = HealthCheckRequest{}
+func (x *PingMessage) Reset() {
+	*x = PingMessage{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_v1_rpc_health_check_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -37,13 +37,13 @@ func (x *HealthCheckRequest) Reset() {
 	}
 }
 
-func (x *HealthCheckRequest) String() string {
+func (x *PingMessage) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*HealthCheckRequest) ProtoMessage() {}
+func (*PingMessage) ProtoMessage() {}
 
-func (x *HealthCheckRequest) ProtoReflect() protoreflect.Message {
+func (x *PingMessage) ProtoReflect() protoreflect.Message {
 	mi := &file_v1_rpc_health_check_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -55,63 +55,16 @@ func (x *HealthCheckRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use HealthCheckRequest.ProtoReflect.Descriptor instead.
-func (*HealthCheckRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use PingMessage.ProtoReflect.Descriptor instead.
+func (*PingMessage) Descriptor() ([]byte, []int) {
 	return file_v1_rpc_health_check_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *HealthCheckRequest) GetPing() bool {
+func (x *PingMessage) GetGreeting() string {
 	if x != nil {
-		return x.Ping
+		return x.Greeting
 	}
-	return false
-}
-
-type HealthCheckReply struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Pong bool `protobuf:"varint,1,opt,name=pong,proto3" json:"pong,omitempty"`
-}
-
-func (x *HealthCheckReply) Reset() {
-	*x = HealthCheckReply{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_v1_rpc_health_check_proto_msgTypes[1]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *HealthCheckReply) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*HealthCheckReply) ProtoMessage() {}
-
-func (x *HealthCheckReply) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_rpc_health_check_proto_msgTypes[1]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use HealthCheckReply.ProtoReflect.Descriptor instead.
-func (*HealthCheckReply) Descriptor() ([]byte, []int) {
-	return file_v1_rpc_health_check_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *HealthCheckReply) GetPong() bool {
-	if x != nil {
-		return x.Pong
-	}
-	return false
+	return ""
 }
 
 var File_v1_rpc_health_check_proto protoreflect.FileDescriptor
@@ -119,13 +72,11 @@ var File_v1_rpc_health_check_proto protoreflect.FileDescriptor
 var file_v1_rpc_health_check_proto_rawDesc = []byte{
 	0x0a, 0x19, 0x76, 0x31, 0x5f, 0x72, 0x70, 0x63, 0x5f, 0x68, 0x65, 0x61, 0x6c, 0x74, 0x68, 0x5f,
 	0x63, 0x68, 0x65, 0x63, 0x6b, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x05, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x22, 0x28, 0x0a, 0x12, 0x48, 0x65, 0x61, 0x6c, 0x74, 0x68, 0x43, 0x68, 0x65, 0x63,
-	0x6b, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x70, 0x69, 0x6e, 0x67,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x04, 0x70, 0x69, 0x6e, 0x67, 0x22, 0x26, 0x0a, 0x10,
-	0x48, 0x65, 0x61, 0x6c, 0x74, 0x68, 0x43, 0x68, 0x65, 0x63, 0x6b, 0x52, 0x65, 0x70, 0x6c, 0x79,
-	0x12, 0x12, 0x0a, 0x04, 0x70, 0x6f, 0x6e, 0x67, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x04,
-	0x70, 0x6f, 0x6e, 0x67, 0x42, 0x0f, 0x5a, 0x0d, 0x73, 0x77, 0x72, 0x63, 0x2f, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x2f, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x74, 0x6f, 0x22, 0x29, 0x0a, 0x0b, 0x50, 0x69, 0x6e, 0x67, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67,
+	0x65, 0x12, 0x1a, 0x0a, 0x08, 0x67, 0x72, 0x65, 0x65, 0x74, 0x69, 0x6e, 0x67, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x08, 0x67, 0x72, 0x65, 0x65, 0x74, 0x69, 0x6e, 0x67, 0x42, 0x0f, 0x5a,
+	0x0d, 0x73, 0x77, 0x72, 0x63, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x70, 0x62, 0x62, 0x06,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -140,10 +91,9 @@ func file_v1_rpc_health_check_proto_rawDescGZIP() []byte {
 	return file_v1_rpc_health_check_proto_rawDescData
 }
 
-var file_v1_rpc_health_check_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_v1_rpc_health_check_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_v1_rpc_health_check_proto_goTypes = []interface{}{
-	(*HealthCheckRequest)(nil), // 0: proto.HealthCheckRequest
-	(*HealthCheckReply)(nil),   // 1: proto.HealthCheckReply
+	(*PingMessage)(nil), // 0: proto.PingMessage
 }
 var file_v1_rpc_health_check_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -160,19 +110,7 @@ func file_v1_rpc_health_check_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_v1_rpc_health_check_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*HealthCheckRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_v1_rpc_health_check_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*HealthCheckReply); i {
+			switch v := v.(*PingMessage); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -190,7 +128,7 @@ func file_v1_rpc_health_check_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_v1_rpc_health_check_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

@@ -6,6 +6,6 @@ import "v1_rpc_health_check.proto";
 
 option go_package = "swrc/proto/pb";
 
-service Common{
-    rpc HealthCheck(HealthCheckRequest) returns (HealthCheckReply){}
+service HealthService{
+    rpc HealthCheck(PingMessage) returns (PingMessage){}
 }

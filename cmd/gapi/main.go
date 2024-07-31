@@ -36,7 +36,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	_, err = mongodb.NewMongoConnection(cfg.MongoConfig.URL, cfg.MongoConfig.Database)
+	_, err = mongodb.NewMongoConnection(cfg.ServerConfig.MongoConfig.URL, cfg.ServerConfig.MongoConfig.Database)
 	if err != nil {
 		slog.Error(fmt.Sprintf("MONGO CONNECTION: %s", err.Error()))
 		os.Exit(1)

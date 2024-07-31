@@ -7,9 +7,11 @@ import (
 )
 
 type environment struct {
+	ServerPort    string `env:"SERVER_PORT,required"`
 	MongoURL      string `env:"MONGO_URL,required"`
 	MongoDatabase string `env:"MONGO_DB,required"`
-	ServerPort    string `env:"SERVER_PORT,required"`
+	ClientHost    string `env:"CLIENT_HOST,required"`
+	ClientPort    string `env:"CLIENT_PORT,required"`
 }
 
 func NewConfig() (*Config, error) {
@@ -22,12 +24,16 @@ func NewConfig() (*Config, error) {
 	slog.Info("Environment loaded successfully!")
 
 	cfg := Config{
-		MongoConfig: &mongoConfig{
-			URL:      environment.MongoURL,
-			Database: environment.MongoDatabase,
+		ClientConfig: &clientConfig{
+			Host: environment.ClientHost,
+			Port: environment.ClientPort,
 		},
 		ServerConfig: &serverConfig{
 			Port: environment.ServerPort,
+			MongoConfig: &mongoConfig{
+				URL:      environment.MongoURL,
+				Database: environment.MongoDatabase,
+			},
 		},
 	}
 
@@ -35,8 +41,13 @@ func NewConfig() (*Config, error) {
 }
 
 type Config struct {
-	MongoConfig  *mongoConfig
+	ClientConfig *clientConfig
 	ServerConfig *serverConfig
+}
+
+type serverConfig struct {
+	Port        string
+	MongoConfig *mongoConfig
 }
 
 type mongoConfig struct {
@@ -44,6 +55,7 @@ type mongoConfig struct {
 	Database string
 }
 
-type serverConfig struct {
+type clientConfig struct {
+	Host string
 	Port string
 }

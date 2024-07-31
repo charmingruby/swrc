@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "swrc/proto/pb";
+
+message AuthenticateRequest{
+    string email = 1;
+    string password = 2;
+}
+
+message AuthenticateReply{
+    string access_token = 1;
+}

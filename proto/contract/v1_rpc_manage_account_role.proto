@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "swrc/proto/pb";
+
+message ManageAccountRoleRequest{
+    string manager_account_id = 1; 
+	string account_id = 2;        
+	string new_role = 3;          
+}

@@ -1,4 +1,4 @@
-package grpc
+package server
 
 import (
 	"context"
@@ -7,15 +7,15 @@ import (
 	"github.com/charmingruby/swrc/proto/pb"
 )
 
-func newGRPCHealthServiceHandler() *gRPCHealthServiceHandler {
-	return &gRPCHealthServiceHandler{}
+func NewGRPCHealthServiceHandler() *GRPCHealthServiceHandler {
+	return &GRPCHealthServiceHandler{}
 }
 
-type gRPCHealthServiceHandler struct {
+type GRPCHealthServiceHandler struct {
 	pb.UnimplementedHealthServiceServer
 }
 
-func (h *gRPCHealthServiceHandler) HealthCheck(ctx context.Context, r *pb.PingMessage) (*pb.PingMessage, error) {
+func (h *GRPCHealthServiceHandler) HealthCheck(ctx context.Context, r *pb.PingMessage) (*pb.PingMessage, error) {
 	msg := mapper.PingPongRequestGRPCToObj(r)
 	msg.Greeting = msg.Greeting + " received"
 	res := mapper.PingPongReplyObjToGRPC(msg)

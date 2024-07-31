@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "swrc/proto/pb";
+
+message VerifyAccountRequest{
+	string solicito_account_id = 1; 
+	string account_to_verify_id = 2;
+	string verification = 3;          
+}

@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "swrc/proto/pb";
+
+message RegisterRequest{
+    string github_display_name = 1;
+	string email             = 2;
+	string password          = 3;
+}
+
+message RegisterReply{
+    string access_token = 1;
+}

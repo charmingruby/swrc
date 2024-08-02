@@ -2,11 +2,15 @@ package cli
 
 import (
 	"github.com/charmingruby/swrc/internal/common/infra/cli/command"
+	"github.com/charmingruby/swrc/internal/common/infra/transport/grpc/client"
 	"github.com/spf13/cobra"
 )
 
-func NewCLI(rootCommand *cobra.Command) *CLI {
-	command := command.NewCommand(rootCommand)
+func NewCLI(
+	rootCommand *cobra.Command,
+	client *client.CommonClientHandler,
+) *CLI {
+	command := command.NewCommand(rootCommand, client)
 
 	return &CLI{
 		rootCommand: rootCommand,

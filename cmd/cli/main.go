@@ -39,7 +39,7 @@ func main() {
 
 	// health check
 	grpcClient := client.NewCommonClientHandler(conn)
-	hcRes, err := grpcClient.HealthCheck(
+	_, err = grpcClient.HealthCheck(
 		context.Background(),
 		contract.PingMessage{Greeting: "health check"})
 	if err != nil {
@@ -47,10 +47,8 @@ func main() {
 		os.Exit(1)
 	}
 
-	slog.Info(hcRes.Greeting)
-
 	var rootCommand = &cobra.Command{}
-	cli := cli.NewCLI(rootCommand)
+	cli := cli.NewCLI(rootCommand, grpcClient)
 	cli.Register()
 	cli.Start()
 }

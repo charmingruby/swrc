@@ -1,8 +1,6 @@
 package config
 
 import (
-	"log/slog"
-
 	env "github.com/caarlos0/env/v6"
 )
 
@@ -16,13 +14,10 @@ type environment struct {
 }
 
 func NewConfig() (*Config, error) {
-	slog.Info("Loading environment...")
 	environment := environment{}
 	if err := env.Parse(&environment); err != nil {
 		return nil, err
 	}
-
-	slog.Info("Environment loaded successfully!")
 
 	cfg := Config{
 		ClientConfig: &clientConfig{

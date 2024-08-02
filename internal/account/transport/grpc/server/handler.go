@@ -1,12 +1,11 @@
-package grpc
+package server
 
 import (
-	"github.com/charmingruby/swrc/internal/account/transport/grpc/server"
 	"github.com/charmingruby/swrc/proto/pb"
 	grpcLib "google.golang.org/grpc"
 )
 
-func NewAccountGRPCHandler(server *grpcLib.Server) *AccountGRPCHandler {
+func NewAccountGRPCServerHandler(server *grpcLib.Server) *AccountGRPCHandler {
 	return &AccountGRPCHandler{
 		server: server,
 	}
@@ -17,7 +16,7 @@ type AccountGRPCHandler struct {
 }
 
 func (h *AccountGRPCHandler) Register() {
-	accountSvc := server.NewGRPCAccountServiceHandler()
+	accountSvc := NewGRPCAccountServiceHandler()
 
 	pb.RegisterAccountServiceServer(h.server, accountSvc)
 }

@@ -1,10 +1,10 @@
 package common
 
 import (
-	commonGRPC "github.com/charmingruby/swrc/internal/common/transport/grpc"
+	"github.com/charmingruby/swrc/internal/common/transport/grpc/server"
 	"google.golang.org/grpc"
 )
 
-func NewCommonGRPCHandlerSetup(server *grpc.Server) {
-	commonGRPC.NewCommonGRPCHandler(server).Register()
+func NewCommonGRPCHandlerSetup(srv *grpc.Server) {
+	server.NewCommonGRPCServerHandler(srv).Register()
 }

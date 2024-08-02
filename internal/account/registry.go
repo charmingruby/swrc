@@ -1,10 +1,10 @@
 package account
 
 import (
-	accountGRPC "github.com/charmingruby/swrc/internal/account/transport/grpc"
+	"github.com/charmingruby/swrc/internal/account/transport/grpc/server"
 	"google.golang.org/grpc"
 )
 
-func NewAccountGRPCHandlerSetup(server *grpc.Server) {
-	accountGRPC.NewAccountGRPCHandler(server).Register()
+func NewAccountGRPCHandlerSetup(srv *grpc.Server) {
+	server.NewAccountGRPCServerHandler(srv).Register()
 }

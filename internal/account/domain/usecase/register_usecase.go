@@ -41,6 +41,9 @@ func (s *AccountUseCaseRegistry) RegisterUseCase(input dto.RegisterInputDTO) (*d
 	}
 
 	return &dto.RegisterOutputDTO{
-		ID: account.ID,
+		ID:       account.ID,
+		Role:     account.Role,
+		IsValid:  account.Verification.IsValid,
+		Verified: account.Verification.Verified,
 	}, nil
 }

@@ -7,5 +7,8 @@ type RegisterInputDTO struct {
 }
 
 type RegisterOutputDTO struct {
-	ID string
+	ID       string
+	Role     string
+	IsValid  bool
+	Verified bool
 }

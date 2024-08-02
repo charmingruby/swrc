@@ -14,6 +14,7 @@ import (
 	"github.com/charmingruby/swrc/test/fake"
 	"github.com/charmingruby/swrc/test/inmemory_repository"
 
+	"github.com/charmingruby/swrc/pkg/jwt"
 	"github.com/charmingruby/swrc/pkg/mongodb"
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
@@ -51,9 +52,11 @@ func main() {
 		fake.NewFakeHashService(),
 	)
 
+	jwtSvc := jwt.NewJWTService(cfg.JWTConfig.Issuer, cfg.JWTConfig.SecretKey)
+
 	server := grpc.NewServer()
 	common.NewCommonGRPCHandlerSetup(server)
-	account.NewAccountGRPCHandlerSetup(server, accountSvc)
+	account.NewAccountGRPCHandlerSetup(server, accountSvc, jwtSvc)
 	reflection.Register(server)
 
 	slog.Info("Starting gRPC server on port " + cfg.ServerConfig.Port + "...")

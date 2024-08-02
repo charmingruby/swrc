@@ -28,11 +28,11 @@ type Payload struct {
 }
 
 type JWTClaim struct {
-	Payload security.Payload
+	Payload security.TokenPayload
 	jwt.StandardClaims
 }
 
-func (s *JWTService) GenerateToken(p security.Payload) (string, error) {
+func (s *JWTService) GenerateToken(p security.TokenPayload) (string, error) {
 	tokenDuration := time.Duration(time.Minute * 60 * 24 * 7) //7 days
 
 	claims := &JWTClaim{

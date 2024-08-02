@@ -5,17 +5,17 @@ import (
 	grpcLib "google.golang.org/grpc"
 )
 
-func NewAccountGRPCServerHandler(server *grpcLib.Server) *AccountGRPCHandler {
-	return &AccountGRPCHandler{
+func NewAccountGRPCServerHandler(server *grpcLib.Server) *AccountGRPCServerHandler {
+	return &AccountGRPCServerHandler{
 		server: server,
 	}
 }
 
-type AccountGRPCHandler struct {
+type AccountGRPCServerHandler struct {
 	server *grpcLib.Server
 }
 
-func (h *AccountGRPCHandler) Register() {
+func (h *AccountGRPCServerHandler) Register() {
 	accountSvc := NewGRPCAccountServiceHandler()
 
 	pb.RegisterAccountServiceServer(h.server, accountSvc)

@@ -2,7 +2,7 @@ package account
 
 import (
 	"github.com/charmingruby/swrc/internal/account/domain/usecase"
-	"github.com/charmingruby/swrc/internal/account/transport/grpc/server"
+	"github.com/charmingruby/swrc/internal/account/infra/transport/grpc/server"
 	"google.golang.org/grpc"
 )
 

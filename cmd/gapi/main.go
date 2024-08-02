@@ -21,11 +21,6 @@ func main() {
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
 	slog.SetDefault(logger)
 
-	lis, err := net.Listen("tcp", "localhost:9000")
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	if err := godotenv.Load(); err != nil {
 		slog.Warn("CONFIGURATION: .env file not found")
 	}
@@ -36,7 +31,13 @@ func main() {
 		os.Exit(1)
 	}
 
-	_, err = mongodb.NewMongoConnection(cfg.ServerConfig.MongoConfig.URL, cfg.ServerConfig.MongoConfig.Database)
+	grpcAddr := fmt.Sprintf("%s:%s", cfg.ServerConfig.Host, cfg.ServerConfig.Port)
+	lis, err := net.Listen("tcp", grpcAddr)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	_, err = mongodb.NewMongoConnection(cfg.MongoConfig.URL, cfg.MongoConfig.Database)
 	if err != nil {
 		slog.Error(fmt.Sprintf("MONGO CONNECTION: %s", err.Error()))
 		os.Exit(1)
@@ -47,7 +48,7 @@ func main() {
 	account.NewAccountGRPCHandlerSetup(server)
 	reflection.Register(server)
 
-	slog.Info("Starting gRPC server on port " + "9000...")
+	slog.Info("Starting gRPC server on port " + cfg.ServerConfig.Port + "...")
 
 	if err := server.Serve(lis); err != nil {
 		log.Fatalf("GRPC SERVER: Failed to start server: %v", err)

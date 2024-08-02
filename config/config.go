@@ -7,6 +7,7 @@ import (
 )
 
 type environment struct {
+	ServerHost    string `env:"SERVER_HOST,required"`
 	ServerPort    string `env:"SERVER_PORT,required"`
 	MongoURL      string `env:"MONGO_URL,required"`
 	MongoDatabase string `env:"MONGO_DB,required"`
@@ -29,11 +30,12 @@ func NewConfig() (*Config, error) {
 			Port: environment.ClientPort,
 		},
 		ServerConfig: &serverConfig{
+			Host: environment.ServerHost,
 			Port: environment.ServerPort,
-			MongoConfig: &mongoConfig{
-				URL:      environment.MongoURL,
-				Database: environment.MongoDatabase,
-			},
+		},
+		MongoConfig: &mongoConfig{
+			URL:      environment.MongoURL,
+			Database: environment.MongoDatabase,
 		},
 	}
 
@@ -43,11 +45,12 @@ func NewConfig() (*Config, error) {
 type Config struct {
 	ClientConfig *clientConfig
 	ServerConfig *serverConfig
+	MongoConfig  *mongoConfig
 }
 
 type serverConfig struct {
-	Port        string
-	MongoConfig *mongoConfig
+	Host string
+	Port string
 }
 
 type mongoConfig struct {

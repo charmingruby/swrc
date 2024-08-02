@@ -11,6 +11,8 @@ type environment struct {
 	MongoDatabase string `env:"MONGO_DB,required"`
 	ClientHost    string `env:"CLIENT_HOST,required"`
 	ClientPort    string `env:"CLIENT_PORT,required"`
+	JWTIssuer     string `env:"JWT_ISSUER,required"`
+	JWTSecretKey  string `env:"JWT_SECRET_KEY,required"`
 }
 
 func NewConfig() (*Config, error) {
@@ -32,6 +34,10 @@ func NewConfig() (*Config, error) {
 			URL:      environment.MongoURL,
 			Database: environment.MongoDatabase,
 		},
+		JWTConfig: &jwtConfig{
+			SecretKey: environment.JWTSecretKey,
+			Issuer:    environment.JWTIssuer,
+		},
 	}
 
 	return &cfg, nil
@@ -41,6 +47,7 @@ type Config struct {
 	ClientConfig *clientConfig
 	ServerConfig *serverConfig
 	MongoConfig  *mongoConfig
+	JWTConfig    *jwtConfig
 }
 
 type serverConfig struct {
@@ -56,4 +63,9 @@ type mongoConfig struct {
 type clientConfig struct {
 	Host string
 	Port string
+}
+
+type jwtConfig struct {
+	SecretKey string
+	Issuer    string
 }

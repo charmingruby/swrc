@@ -1,8 +1,8 @@
 package command
 
 import (
-	"github.com/charmingruby/swrc/internal/common/infra/transport/grpc/contract"
 	"github.com/charmingruby/swrc/pkg/cli/statement"
+	"github.com/charmingruby/swrc/proto/pb"
 	"github.com/spf13/cobra"
 )
 
@@ -18,7 +18,7 @@ func (cmd *Command) newHealthCheckCommand() *cobra.Command {
 				return
 			}
 
-			_, err := cmd.client.HealthCheck(c.Context(), contract.PingMessage{Greeting: greeting})
+			_, err := cmd.client.HealthCheck(c.Context(), &pb.PingMessage{Greeting: greeting})
 			if err != nil {
 				statement.BreakLineStatement("Unhealthy server.")
 				return

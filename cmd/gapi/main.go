@@ -9,7 +9,10 @@ import (
 
 	"github.com/charmingruby/swrc/config"
 	"github.com/charmingruby/swrc/internal/account"
+	"github.com/charmingruby/swrc/internal/account/domain/usecase"
 	"github.com/charmingruby/swrc/internal/common"
+	"github.com/charmingruby/swrc/test/fake"
+	"github.com/charmingruby/swrc/test/inmemory_repository"
 
 	"github.com/charmingruby/swrc/pkg/mongodb"
 	"github.com/joho/godotenv"
@@ -43,9 +46,14 @@ func main() {
 		os.Exit(1)
 	}
 
+	accountSvc := usecase.NewAccountUseCaseRegistry(
+		inmemory_repository.NewInMemoryAccountRepository(),
+		fake.NewFakeHashService(),
+	)
+
 	server := grpc.NewServer()
 	common.NewCommonGRPCHandlerSetup(server)
-	account.NewAccountGRPCHandlerSetup(server)
+	account.NewAccountGRPCHandlerSetup(server, accountSvc)
 	reflection.Register(server)
 
 	slog.Info("Starting gRPC server on port " + cfg.ServerConfig.Port + "...")

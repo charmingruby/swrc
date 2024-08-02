@@ -1,22 +1,26 @@
 package server
 
 import (
+	"github.com/charmingruby/swrc/internal/account/domain/usecase"
 	"github.com/charmingruby/swrc/proto/pb"
-	grpcLib "google.golang.org/grpc"
+	"google.golang.org/grpc"
 )
 
-func NewAccountGRPCServerHandler(server *grpcLib.Server) *AccountGRPCServerHandler {
+func NewAccountGRPCServerHandler(
+	accountSvc usecase.AccountUseCase,
+	server *grpc.Server) *AccountGRPCServerHandler {
 	return &AccountGRPCServerHandler{
-		server: server,
+		server:         server,
+		accountService: accountSvc,
 	}
 }
 
 type AccountGRPCServerHandler struct {
-	server *grpcLib.Server
+	server         *grpc.Server
+	accountService usecase.AccountUseCase
 }
 
 func (h *AccountGRPCServerHandler) Register() {
-	accountSvc := newAccountServiceGRPCServerHandler()
-
+	accountSvc := newAccountServiceGRPCServerHandler(h.accountService)
 	pb.RegisterAccountServiceServer(h.server, accountSvc)
 }

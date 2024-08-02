@@ -3,18 +3,14 @@ package client
 import (
 	"context"
 
-	"github.com/charmingruby/swrc/internal/common/infra/transport/grpc/contract"
+	"github.com/charmingruby/swrc/proto/pb"
 )
 
-func (c *CommonClientHandler) HealthCheck(ctx context.Context, in contract.PingMessage) (contract.PingMessage, error) {
-	greq := contract.PingMessageObjToGRPC(in)
-
-	gres, err := c.healthServiceClient.HealthCheck(ctx, &greq)
+func (c *CommonClientHandler) HealthCheck(ctx context.Context, req *pb.PingMessage) (*pb.PingMessage, error) {
+	res, err := c.healthServiceClient.HealthCheck(ctx, req)
 	if err != nil {
-		return contract.PingMessage{}, err
+		return &pb.PingMessage{}, err
 	}
-
-	res := contract.PingMessageGRPCToObj(gres)
 
 	return res, nil
 }

@@ -9,7 +9,7 @@ import (
 	"github.com/charmingruby/swrc/config"
 	"github.com/charmingruby/swrc/internal/common/infra/cli"
 	"github.com/charmingruby/swrc/internal/common/infra/transport/grpc/client"
-	"github.com/charmingruby/swrc/internal/common/infra/transport/grpc/contract"
+	"github.com/charmingruby/swrc/proto/pb"
 	"github.com/joho/godotenv"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
@@ -41,7 +41,7 @@ func main() {
 	grpcClient := client.NewCommonClientHandler(conn)
 	_, err = grpcClient.HealthCheck(
 		context.Background(),
-		contract.PingMessage{Greeting: "health check"})
+		&pb.PingMessage{Greeting: "health check"})
 	if err != nil {
 		slog.Error(fmt.Sprintf("GRPC SERVER HEALTH CHECK: %s", err.Error()))
 		os.Exit(1)

@@ -3,7 +3,6 @@ package server
 import (
 	"context"
 
-	"github.com/charmingruby/swrc/internal/common/infra/transport/grpc/contract"
 	"github.com/charmingruby/swrc/proto/pb"
 )
 
@@ -16,8 +15,8 @@ type HealthServiceServerHandler struct {
 }
 
 func (h *HealthServiceServerHandler) HealthCheck(ctx context.Context, r *pb.PingMessage) (*pb.PingMessage, error) {
-	msg := contract.PingMessageGRPCToObj(r)
-	msg.Greeting = msg.Greeting + " received"
-	res := contract.PingMessageObjToGRPC(msg)
+	res := pb.PingMessage{
+		Greeting: r.Greeting,
+	}
 	return &res, nil
 }

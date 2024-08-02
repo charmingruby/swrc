@@ -3,7 +3,9 @@ package server
 import (
 	"context"
 
+	"github.com/charmingruby/swrc/internal/account/domain/dto"
 	"github.com/charmingruby/swrc/internal/account/domain/usecase"
+	"github.com/charmingruby/swrc/internal/common/core"
 	"github.com/charmingruby/swrc/proto/pb"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -26,8 +28,32 @@ func (h *AccountServiceGRPCServerHandler) Authenticate(context.Context, *pb.Auth
 	return nil, status.Errorf(codes.Unimplemented, "method Authenticate not implemented")
 }
 
-func (h *AccountServiceGRPCServerHandler) Register(ctx context.Context, pb *pb.RegisterRequest) (*pb.RegisterReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
+func (h *AccountServiceGRPCServerHandler) Register(ctx context.Context, req *pb.RegisterRequest) (*pb.RegisterReply, error) {
+	input := dto.RegisterInputDTO{
+		GithubDisplayName: req.GithubDisplayName,
+		Email:             req.Email,
+		Password:          req.Password,
+	}
+
+	output, err := h.accountService.RegisterUseCase(input)
+
+	if err != nil {
+		conflictErr, ok := err.(*core.ErrConflict)
+		if ok {
+			return nil, status.Errorf(codes.AlreadyExists, conflictErr.Error())
+		}
+
+		validationErr, ok := err.(*core.ErrValidation)
+		if ok {
+			return nil, status.Errorf(codes.InvalidArgument, validationErr.Error())
+		}
+
+		return nil, status.Errorf(codes.Internal, err.Error())
+	}
+
+	rep := pb.RegisterReply{AccessToken: output.ID}
+
+	return &rep, nil
 }
 
 func (h *AccountServiceGRPCServerHandler) ManageAccountRole(context.Context, *pb.ManageAccountRoleRequest) (*emptypb.Empty, error) {

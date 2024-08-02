@@ -7,10 +7,10 @@ import (
 )
 
 func (c *CommonClientHandler) HealthCheck(ctx context.Context, req *pb.PingMessage) (*pb.PingMessage, error) {
-	res, err := c.healthServiceClient.HealthCheck(ctx, req)
+	rep, err := c.healthServiceClient.HealthCheck(ctx, req)
 	if err != nil {
-		return &pb.PingMessage{}, err
+		return nil, err
 	}
 
-	return res, nil
+	return rep, nil
 }

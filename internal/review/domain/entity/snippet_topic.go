@@ -19,7 +19,6 @@ func NewSnippetTopic(title, description, accountID string) (*SnippetTopic, error
 		Status:         SNIPPET_TOPIC_STATUS_OPEN,
 		BestAnswerID:   "",
 		CurrentVersion: 1,
-		Reactions:      0,
 		Comments:       0,
 		Votes:          0,
 		AccountID:      accountID,

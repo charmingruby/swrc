@@ -28,12 +28,6 @@ type ReviewUseCase interface {
 	// RemoveVoteFromRootCommentUseCase()
 
 	// # -
-	// REACTIONS
-	// # -
-	// ReactOnSnippetUseCase()
-	// RemoveReactionFromSnippetUseCase()
-
-	// # -
 	// LIST
 	// # -
 	// FetchOpenSnippetsUseCase()

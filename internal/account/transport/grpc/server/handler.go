@@ -16,7 +16,7 @@ type AccountGRPCServerHandler struct {
 }
 
 func (h *AccountGRPCServerHandler) Register() {
-	accountSvc := NewGRPCAccountServiceHandler()
+	accountSvc := newAccountServiceGRPCServerHandler()
 
 	pb.RegisterAccountServiceServer(h.server, accountSvc)
 }

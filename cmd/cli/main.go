@@ -7,8 +7,9 @@ import (
 	"os"
 
 	"github.com/charmingruby/swrc/config"
-	"github.com/charmingruby/swrc/internal/common/cli"
-	"github.com/charmingruby/swrc/proto/pb"
+	"github.com/charmingruby/swrc/internal/common/infra/cli"
+	"github.com/charmingruby/swrc/internal/common/infra/transport/grpc/client"
+	"github.com/charmingruby/swrc/internal/common/infra/transport/grpc/contract"
 	"github.com/joho/godotenv"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
@@ -36,17 +37,17 @@ func main() {
 		os.Exit(1)
 	}
 
-	client := pb.NewHealthServiceClient(conn)
-	req := &pb.PingMessage{
-		Greeting: "Health check",
-	}
-	res, err := client.HealthCheck(context.Background(), req)
-	if err != err {
+	// health check
+	grpcClient := client.NewCommonClientHandler(conn)
+	hcRes, err := grpcClient.HealthCheck(
+		context.Background(),
+		contract.PingMessage{Greeting: "health check"})
+	if err != nil {
 		slog.Error(fmt.Sprintf("GRPC SERVER HEALTH CHECK: %s", err.Error()))
 		os.Exit(1)
 	}
 
-	slog.Info(res.Greeting)
+	slog.Info(hcRes.Greeting)
 
 	var rootCommand = &cobra.Command{}
 	cli := cli.NewCLI(rootCommand)

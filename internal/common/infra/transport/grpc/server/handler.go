@@ -16,7 +16,6 @@ type CommonGRPCHandler struct {
 }
 
 func (h *CommonGRPCHandler) Register() {
-	healthSvc := NewGRPCHealthServiceHandler()
-
+	healthSvc := newHealthServiceServerHandler()
 	pb.RegisterHealthServiceServer(h.server, healthSvc)
 }

@@ -4,7 +4,7 @@ import (
 	"github.com/charmingruby/swrc/internal/account/domain/dto"
 	"github.com/charmingruby/swrc/internal/account/domain/entity"
 	"github.com/charmingruby/swrc/internal/common/core"
-	"github.com/charmingruby/swrc/internal/common/logger"
+	"github.com/charmingruby/swrc/internal/common/core/logger"
 )
 
 const (

@@ -1,5 +1,5 @@
 package mongo_repository
 
 const (
-	accountCollection = "accounts"
+	ACCOUNT_COLLECTION = "accounts"
 )

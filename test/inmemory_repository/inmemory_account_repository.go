@@ -49,12 +49,12 @@ func (r *InMemoryAccountRepository) FindByGithubDisplayName(githubDisplayName st
 	return entity.Account{}, ErrNotFound
 }
 
-func (r *InMemoryAccountRepository) Store(acc *entity.Account) error {
-	r.Items = append(r.Items, *acc)
+func (r *InMemoryAccountRepository) Store(acc entity.Account) error {
+	r.Items = append(r.Items, acc)
 	return nil
 }
 
-func (r *InMemoryAccountRepository) SaveVerification(acc *entity.Account) error {
+func (r *InMemoryAccountRepository) SaveVerification(acc entity.Account) error {
 	for idx, repoAcc := range r.Items {
 		if repoAcc.ID == acc.ID {
 			r.Items[idx].Verification.IsValid = acc.Verification.IsValid
@@ -66,7 +66,7 @@ func (r *InMemoryAccountRepository) SaveVerification(acc *entity.Account) error 
 	return ErrNotFound
 }
 
-func (r *InMemoryAccountRepository) SaveRole(acc *entity.Account) error {
+func (r *InMemoryAccountRepository) SaveRole(acc entity.Account) error {
 	for idx, repoAcc := range r.Items {
 		if repoAcc.ID == acc.ID {
 			r.Items[idx].Role = acc.Role

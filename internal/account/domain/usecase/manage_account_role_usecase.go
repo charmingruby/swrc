@@ -26,7 +26,7 @@ func (s *AccountUseCaseRegistry) ManageAccountRoleUseCase(input dto.ManageAccoun
 		return err
 	}
 
-	if err := s.AccountRepository.SaveRole(&accToModify); err != nil {
+	if err := s.AccountRepository.SaveRole(accToModify); err != nil {
 		logger.LogInternalErr(manageAccountRoleUseCase, err)
 		return core.NewInternalErr()
 	}

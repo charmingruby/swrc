@@ -20,8 +20,8 @@ type AccountMongoRepository struct {
 	db *mongo.Database
 }
 
-func (r *AccountMongoRepository) FindByID(id string) (entity.Account, error) {
-	collection := r.db.Collection(accountCollection)
+func (r AccountMongoRepository) FindByID(id string) (entity.Account, error) {
+	collection := r.db.Collection(ACCOUNT_COLLECTION)
 
 	filter := bson.D{{Key: "_id", Value: id}}
 
@@ -40,8 +40,8 @@ func (r *AccountMongoRepository) FindByID(id string) (entity.Account, error) {
 	return acc, nil
 }
 
-func (r *AccountMongoRepository) FindByEmail(email string) (entity.Account, error) {
-	collection := r.db.Collection(accountCollection)
+func (r AccountMongoRepository) FindByEmail(email string) (entity.Account, error) {
+	collection := r.db.Collection(ACCOUNT_COLLECTION)
 
 	filter := bson.D{{Key: "email", Value: email}}
 
@@ -60,8 +60,8 @@ func (r *AccountMongoRepository) FindByEmail(email string) (entity.Account, erro
 	return acc, nil
 }
 
-func (r *AccountMongoRepository) FindByGithubDisplayName(githubDisplayName string) (entity.Account, error) {
-	collection := r.db.Collection(accountCollection)
+func (r AccountMongoRepository) FindByGithubDisplayName(githubDisplayName string) (entity.Account, error) {
+	collection := r.db.Collection(ACCOUNT_COLLECTION)
 
 	filter := bson.D{{Key: "github_display_name", Value: githubDisplayName}}
 
@@ -80,14 +80,44 @@ func (r *AccountMongoRepository) FindByGithubDisplayName(githubDisplayName strin
 	return acc, nil
 }
 
-func (r *AccountMongoRepository) Store(acc *entity.Account) error {
+func (r AccountMongoRepository) Store(acc entity.Account) error {
+	collection := r.db.Collection(ACCOUNT_COLLECTION)
+
+	mongoAcc := mapper.DomainAccountToMongo(acc)
+
+	if _, err := collection.InsertOne(context.Background(), mongoAcc); err != nil {
+		return err
+	}
+
 	return nil
 }
 
-func (r *AccountMongoRepository) SaveVerification(acc *entity.Account) error {
+func (r AccountMongoRepository) SaveVerification(acc entity.Account) error {
+	collection := r.db.Collection(ACCOUNT_COLLECTION)
+
+	filter := bson.D{{Key: "_id", Value: acc.ID}}
+
+	update := bson.M{"$set": bson.M{"is_valid": acc.Verification.IsValid, "verified": acc.Verification.Verified}}
+
+	_, err := collection.UpdateOne(context.Background(), filter, update)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
-func (r *AccountMongoRepository) SaveRole(acc *entity.Account) error {
+func (r AccountMongoRepository) SaveRole(acc entity.Account) error {
+	collection := r.db.Collection(ACCOUNT_COLLECTION)
+
+	filter := bson.D{{Key: "_id", Value: acc.ID}}
+
+	update := bson.M{"$set": bson.M{"role": acc.Role}}
+
+	_, err := collection.UpdateOne(context.Background(), filter, update)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }

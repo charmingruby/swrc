@@ -10,9 +10,10 @@ import (
 	"github.com/charmingruby/swrc/config"
 	"github.com/charmingruby/swrc/internal/account"
 	"github.com/charmingruby/swrc/internal/account/domain/usecase"
+	"github.com/charmingruby/swrc/internal/account/infra/database/mongo_repository"
 	"github.com/charmingruby/swrc/internal/common"
 	"github.com/charmingruby/swrc/test/fake"
-	"github.com/charmingruby/swrc/test/inmemory_repository"
+	"go.mongodb.org/mongo-driver/mongo"
 
 	"github.com/charmingruby/swrc/pkg/jwt"
 	"github.com/charmingruby/swrc/pkg/mongodb"
@@ -41,27 +42,32 @@ func main() {
 		log.Fatal(err)
 	}
 
-	_, err = mongodb.NewMongoConnection(cfg.MongoConfig.URL, cfg.MongoConfig.Database)
+	db, err := mongodb.NewMongoConnection(cfg.MongoConfig.URL, cfg.MongoConfig.Database)
 	if err != nil {
 		slog.Error(fmt.Sprintf("MONGO CONNECTION: %s", err.Error()))
 		os.Exit(1)
 	}
 
-	accountSvc := usecase.NewAccountUseCaseRegistry(
-		inmemory_repository.NewInMemoryAccountRepository(),
-		fake.NewFakeHashService(),
-	)
-
-	jwtSvc := jwt.NewJWTService(cfg.JWTConfig.Issuer, cfg.JWTConfig.SecretKey)
-
 	server := grpc.NewServer()
-	common.NewCommonGRPCHandlerSetup(server)
-	account.NewAccountGRPCHandlerSetup(server, accountSvc, jwtSvc)
 	reflection.Register(server)
+
+	initDependencies(*cfg, server, *db)
 
 	slog.Info("Starting gRPC server on port " + cfg.ServerConfig.Port + "...")
 
 	if err := server.Serve(lis); err != nil {
 		log.Fatalf("GRPC SERVER: Failed to start server: %v", err)
 	}
+}
+
+func initDependencies(cfg config.Config, server *grpc.Server, db mongo.Database) {
+	accountSvc := usecase.NewAccountUseCaseRegistry(
+		mongo_repository.NewAccountMongoRepository(&db),
+		fake.NewFakeHashService(),
+	)
+
+	jwtSvc := jwt.NewJWTService(cfg.JWTConfig.Issuer, cfg.JWTConfig.SecretKey)
+
+	common.NewCommonGRPCHandlerSetup(server)
+	account.NewAccountGRPCHandlerSetup(server, accountSvc, jwtSvc)
 }

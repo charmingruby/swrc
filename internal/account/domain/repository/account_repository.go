@@ -6,7 +6,7 @@ type AccountRepository interface {
 	FindByID(id string) (entity.Account, error)
 	FindByEmail(email string) (entity.Account, error)
 	FindByGithubDisplayName(githubDisplayName string) (entity.Account, error)
-	Store(acc *entity.Account) error
-	SaveVerification(acc *entity.Account) error
-	SaveRole(acc *entity.Account) error
+	Store(acc entity.Account) error
+	SaveVerification(acc entity.Account) error
+	SaveRole(acc entity.Account) error
 }

@@ -35,7 +35,7 @@ func (s *AccountUseCaseRegistry) RegisterUseCase(input dto.RegisterInputDTO) (*d
 		return nil, err
 	}
 
-	if err := s.AccountRepository.Store(account); err != nil {
+	if err := s.AccountRepository.Store(*account); err != nil {
 		logger.LogInternalErr(registerUseCase, err)
 		return nil, core.NewInternalErr()
 	}

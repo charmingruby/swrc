@@ -12,9 +12,9 @@ import (
 	"github.com/charmingruby/swrc/internal/account/domain/usecase"
 	"github.com/charmingruby/swrc/internal/account/infra/database/mongo_repository"
 	"github.com/charmingruby/swrc/internal/common"
-	"github.com/charmingruby/swrc/test/fake"
 	"go.mongodb.org/mongo-driver/mongo"
 
+	"github.com/charmingruby/swrc/pkg/bcrypt"
 	"github.com/charmingruby/swrc/pkg/jwt"
 	"github.com/charmingruby/swrc/pkg/mongodb"
 	"github.com/joho/godotenv"
@@ -49,9 +49,8 @@ func main() {
 	}
 
 	server := grpc.NewServer()
-	reflection.Register(server)
-
 	initDependencies(*cfg, server, *db)
+	reflection.Register(server)
 
 	slog.Info("Starting gRPC server on port " + cfg.ServerConfig.Port + "...")
 
@@ -63,7 +62,7 @@ func main() {
 func initDependencies(cfg config.Config, server *grpc.Server, db mongo.Database) {
 	accountSvc := usecase.NewAccountUseCaseRegistry(
 		mongo_repository.NewAccountMongoRepository(&db),
-		fake.NewFakeHashService(),
+		bcrypt.NewBcryptService(),
 	)
 
 	jwtSvc := jwt.NewJWTService(cfg.JWTConfig.Issuer, cfg.JWTConfig.SecretKey)

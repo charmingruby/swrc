@@ -39,22 +39,6 @@ func Test_NewAccount(t *testing.T) {
 		assert.Nil(t, account)
 		assert.Equal(t, core.NewValidationErr(core.ErrRequired("githubdisplayname")).Error(), err.Error())
 	})
-
-	t.Run("it should be not able to create an account with less than minimum password required characters", func(t *testing.T) {
-		account, err := NewAccount(ghDisplayName, email, "1234")
-
-		assert.Error(t, err)
-		assert.Nil(t, account)
-		assert.Equal(t, core.NewValidationErr(core.ErrMinLength("password", "8")).Error(), err.Error())
-	})
-
-	t.Run("it should be not able to create an account with greater than maximum password required characters", func(t *testing.T) {
-		account, err := NewAccount(ghDisplayName, email, "12345678123456781")
-
-		assert.Error(t, err)
-		assert.Nil(t, account)
-		assert.Equal(t, core.NewValidationErr(core.ErrMaxLength("password", "16")).Error(), err.Error())
-	})
 }
 
 func Test_AccountVerify(t *testing.T) {

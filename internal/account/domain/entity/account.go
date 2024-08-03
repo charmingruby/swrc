@@ -34,7 +34,7 @@ type Account struct {
 	ID                string `json:"id" validate:"required"`
 	GithubDisplayName string `json:"github_display_name" validate:"required"`
 	Email             string `json:"email" validate:"required,email"`
-	Password          string `json:"password" validate:"required,min=8,max=16"`
+	Password          string `json:"password" validate:"required"`
 	Verification      *account_valueobj.Verification
 	Role              string    `json:"role" validate:"required"`
 	CreatedAt         time.Time `json:"created_at" validate:"required"`

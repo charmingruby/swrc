@@ -19,39 +19,39 @@ type InMemoryAccountRepository struct {
 	Items []entity.Account
 }
 
-func (r *InMemoryAccountRepository) FindByID(id string) (*entity.Account, error) {
+func (r *InMemoryAccountRepository) FindByID(id string) (entity.Account, error) {
 	for _, acc := range r.Items {
 		if acc.ID == id {
-			return &acc, nil
+			return acc, nil
 		}
 	}
 
-	return nil, ErrNotFound
+	return entity.Account{}, ErrNotFound
 }
 
-func (r *InMemoryAccountRepository) FindByEmail(email string) (*entity.Account, error) {
+func (r *InMemoryAccountRepository) FindByEmail(email string) (entity.Account, error) {
 	for _, acc := range r.Items {
 		if acc.Email == email {
-			return &acc, nil
+			return acc, nil
 		}
 	}
 
-	return nil, ErrNotFound
+	return entity.Account{}, ErrNotFound
 }
 
-func (r *InMemoryAccountRepository) FindByGithubDisplayName(githubDisplayName string) (*entity.Account, error) {
+func (r *InMemoryAccountRepository) FindByGithubDisplayName(githubDisplayName string) (entity.Account, error) {
 	for _, acc := range r.Items {
 		if acc.GithubDisplayName == githubDisplayName {
-			return &acc, nil
+			return acc, nil
 		}
 	}
 
-	return nil, ErrNotFound
+	return entity.Account{}, ErrNotFound
 }
 
-func (r *InMemoryAccountRepository) Store(acc *entity.Account) (string, error) {
+func (r *InMemoryAccountRepository) Store(acc *entity.Account) error {
 	r.Items = append(r.Items, *acc)
-	return acc.ID, nil
+	return nil
 }
 
 func (r *InMemoryAccountRepository) SaveVerification(acc *entity.Account) error {

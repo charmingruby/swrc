@@ -12,11 +12,11 @@ const (
 )
 
 func (s *AccountUseCaseRegistry) RegisterUseCase(input dto.RegisterInputDTO) (*dto.RegisterOutputDTO, error) {
-	if accFoundByEmail, _ := s.AccountRepository.FindByEmail(input.Email); accFoundByEmail != nil {
+	if _, err := s.AccountRepository.FindByEmail(input.Email); err == nil {
 		return nil, core.NewConflictErr("account", "email")
 	}
 
-	if accFoundByGithubDisplayName, _ := s.AccountRepository.FindByGithubDisplayName(input.GithubDisplayName); accFoundByGithubDisplayName != nil {
+	if _, err := s.AccountRepository.FindByGithubDisplayName(input.GithubDisplayName); err == nil {
 		return nil, core.NewConflictErr("account", "github_display_name")
 	}
 
@@ -35,7 +35,7 @@ func (s *AccountUseCaseRegistry) RegisterUseCase(input dto.RegisterInputDTO) (*d
 		return nil, err
 	}
 
-	if _, err := s.AccountRepository.Store(account); err != nil {
+	if err := s.AccountRepository.Store(account); err != nil {
 		logger.LogInternalErr(registerUseCase, err)
 		return nil, core.NewInternalErr()
 	}

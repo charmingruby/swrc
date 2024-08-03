@@ -26,7 +26,7 @@ func (s *AccountUseCaseRegistry) VerifyAccountUseCase(input dto.VerifyAccountInp
 		return err
 	}
 
-	if err := s.AccountRepository.SaveVerification(accToVerify); err != nil {
+	if err := s.AccountRepository.SaveVerification(&accToVerify); err != nil {
 		logger.LogInternalErr(verifyAccountUseCase, err)
 		return core.NewInternalErr()
 	}

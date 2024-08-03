@@ -41,7 +41,7 @@ func MakeAccount(
 		acc.Role = in.Role
 	}
 
-	if _, err := repo.Store(acc); err != nil {
+	if err := repo.Store(acc); err != nil {
 		return nil, err
 	}
 

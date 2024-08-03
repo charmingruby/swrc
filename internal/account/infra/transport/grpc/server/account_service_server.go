@@ -27,8 +27,35 @@ type AccountServiceGRPCServerHandler struct {
 	tokenService   security.TokenService
 }
 
-func (h *AccountServiceGRPCServerHandler) Authenticate(context.Context, *pb.AuthenticateRequest) (*pb.AuthenticateReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Authenticate not implemented")
+func (h *AccountServiceGRPCServerHandler) Authenticate(ctx context.Context, req *pb.AuthenticateRequest) (*pb.AuthenticateReply, error) {
+	input := dto.AuthenticateInputDTO{
+		Email:    req.Email,
+		Password: req.Password,
+	}
+
+	output, err := h.accountService.AuthenticateUseCase(input)
+	if err != nil {
+		invalidCredentialsErr, ok := err.(*core.ErrInvalidCredentials)
+		if ok {
+			return nil, status.Errorf(codes.InvalidArgument, invalidCredentialsErr.Message)
+		}
+
+		return nil, status.Errorf(codes.Internal, err.Error())
+	}
+
+	accessToken, err := h.tokenService.GenerateToken(security.TokenPayload{
+		AccountID: output.ID,
+		Role:      output.Role,
+		IsValid:   output.IsValid,
+		Verified:  output.Verified,
+	})
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, err.Error())
+	}
+
+	rep := pb.AuthenticateReply{AccessToken: accessToken}
+
+	return &rep, nil
 }
 
 func (h *AccountServiceGRPCServerHandler) Register(ctx context.Context, req *pb.RegisterRequest) (*pb.RegisterReply, error) {

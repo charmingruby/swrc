@@ -13,6 +13,7 @@ func NewGRPCInterceptor(tokenSvc jwt.JWTService, authBypassMethods map[string]bo
 }
 
 type GRPCInterceptor struct {
-	tokenService      auth.TokenService
-	authBypassMethods map[string]bool
+	tokenService       auth.TokenService
+	authBypassMethods  map[string]bool
+	rbacEnsuredMethods map[string][]string
 }

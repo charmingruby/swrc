@@ -62,16 +62,20 @@ func (j *JWTService) ValidateToken(token string) (auth.TokenPayload, error) {
 	}
 
 	claims, ok := jwtToken.Claims.(jwt.MapClaims)
-
 	if !ok {
 		return auth.TokenPayload{}, fmt.Errorf("unable to parse jwt claims")
 	}
 
+	payloadClaims, ok := claims["Payload"].(map[string]interface{})
+	if !ok {
+		return auth.TokenPayload{}, fmt.Errorf("payload is missing or not a map")
+	}
+
 	payload := auth.TokenPayload{
-		AccountID: claims["account_id"].(string),
-		Role:      claims["role"].(string),
-		IsValid:   claims["role"].(bool),
-		Verified:  claims["verified"].(bool),
+		AccountID: payloadClaims["account_id"].(string),
+		Role:      payloadClaims["role"].(string),
+		IsValid:   payloadClaims["is_valid"].(bool),
+		Verified:  payloadClaims["verified"].(bool),
 	}
 
 	return payload, err

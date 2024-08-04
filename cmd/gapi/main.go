@@ -11,7 +11,11 @@ import (
 	"github.com/charmingruby/swrc/internal/account"
 	"github.com/charmingruby/swrc/internal/account/domain/usecase"
 	"github.com/charmingruby/swrc/internal/account/infra/database/mongo_repository"
+	accountInterceptor "github.com/charmingruby/swrc/internal/account/infra/transport/grpc/auth"
 	"github.com/charmingruby/swrc/internal/common"
+	"github.com/charmingruby/swrc/internal/common/infra/auth"
+	"github.com/charmingruby/swrc/internal/common/infra/auth/interceptor"
+
 	"go.mongodb.org/mongo-driver/mongo"
 
 	"github.com/charmingruby/swrc/pkg/bcrypt"
@@ -48,8 +52,14 @@ func main() {
 		os.Exit(1)
 	}
 
-	server := grpc.NewServer()
-	initDependencies(*cfg, server, *db)
+	jwtSvc := jwt.NewJWTService(cfg.JWTConfig.Issuer, cfg.JWTConfig.SecretKey)
+	interceptor := interceptor.NewGRPCInterceptor(
+		*jwtSvc,
+		accountInterceptor.AccountMethodsToBypass,
+	)
+
+	server := grpc.NewServer(grpc.UnaryInterceptor(interceptor.AuthInterceptor))
+	initDependencies(server, *db, jwtSvc)
 	reflection.Register(server)
 
 	slog.Info("Starting gRPC server on port " + cfg.ServerConfig.Port + "...")
@@ -59,14 +69,12 @@ func main() {
 	}
 }
 
-func initDependencies(cfg config.Config, server *grpc.Server, db mongo.Database) {
+func initDependencies(server *grpc.Server, db mongo.Database, authSvc auth.TokenService) {
 	accountSvc := usecase.NewAccountUseCaseRegistry(
 		mongo_repository.NewAccountMongoRepository(&db),
 		bcrypt.NewBcryptService(),
 	)
 
-	jwtSvc := jwt.NewJWTService(cfg.JWTConfig.Issuer, cfg.JWTConfig.SecretKey)
-
 	common.NewCommonGRPCHandlerSetup(server)
-	account.NewAccountGRPCHandlerSetup(server, accountSvc, jwtSvc)
+	account.NewAccountGRPCHandlerSetup(server, accountSvc, authSvc)
 }

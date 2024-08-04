@@ -2,14 +2,14 @@ package server
 
 import (
 	"github.com/charmingruby/swrc/internal/account/domain/usecase"
-	"github.com/charmingruby/swrc/internal/account/infra/security"
+	"github.com/charmingruby/swrc/internal/common/infra/auth"
 	"github.com/charmingruby/swrc/proto/pb"
 	"google.golang.org/grpc"
 )
 
 func NewAccountGRPCServerHandler(
 	accountSvc usecase.AccountUseCase,
-	tokenSvc security.TokenService,
+	tokenSvc auth.TokenService,
 	server *grpc.Server) *AccountGRPCServerHandler {
 	return &AccountGRPCServerHandler{
 		server:         server,
@@ -21,7 +21,7 @@ func NewAccountGRPCServerHandler(
 type AccountGRPCServerHandler struct {
 	server         *grpc.Server
 	accountService usecase.AccountUseCase
-	tokenService   security.TokenService
+	tokenService   auth.TokenService
 }
 
 func (h *AccountGRPCServerHandler) Register() {

@@ -1,4 +1,4 @@
-package security
+package auth
 
 type TokenPayload struct {
 	AccountID string `json:"account_id"`
@@ -9,5 +9,5 @@ type TokenPayload struct {
 
 type TokenService interface {
 	GenerateToken(p TokenPayload) (string, error)
-	ValidateToken(token string) bool
+	ValidateToken(token string) (TokenPayload, error)
 }

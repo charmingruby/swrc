@@ -5,8 +5,8 @@ import (
 
 	"github.com/charmingruby/swrc/internal/account/domain/dto"
 	"github.com/charmingruby/swrc/internal/account/domain/usecase"
-	"github.com/charmingruby/swrc/internal/account/infra/security"
 	"github.com/charmingruby/swrc/internal/common/core"
+	"github.com/charmingruby/swrc/internal/common/infra/auth"
 	"github.com/charmingruby/swrc/proto/pb"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -24,7 +24,7 @@ type AccountServiceGRPCServerHandler struct {
 	pb.UnimplementedAccountServiceServer
 
 	accountService usecase.AccountUseCase
-	tokenService   security.TokenService
+	tokenService   auth.TokenService
 }
 
 func (h *AccountServiceGRPCServerHandler) Authenticate(ctx context.Context, req *pb.AuthenticateRequest) (*pb.AuthenticateReply, error) {
@@ -43,7 +43,7 @@ func (h *AccountServiceGRPCServerHandler) Authenticate(ctx context.Context, req 
 		return nil, status.Errorf(codes.Internal, err.Error())
 	}
 
-	accessToken, err := h.tokenService.GenerateToken(security.TokenPayload{
+	accessToken, err := h.tokenService.GenerateToken(auth.TokenPayload{
 		AccountID: output.ID,
 		Role:      output.Role,
 		IsValid:   output.IsValid,
@@ -81,7 +81,7 @@ func (h *AccountServiceGRPCServerHandler) Register(ctx context.Context, req *pb.
 		return nil, status.Errorf(codes.Internal, err.Error())
 	}
 
-	accessToken, err := h.tokenService.GenerateToken(security.TokenPayload{
+	accessToken, err := h.tokenService.GenerateToken(auth.TokenPayload{
 		AccountID: output.ID,
 		Role:      output.Role,
 		IsValid:   output.IsValid,

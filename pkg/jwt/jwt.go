@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/charmingruby/swrc/internal/account/infra/security"
+	"github.com/charmingruby/swrc/internal/common/infra/auth"
 	"github.com/dgrijalva/jwt-go"
 )
 
@@ -20,19 +20,12 @@ type JWTService struct {
 	secretKey string
 }
 
-type Payload struct {
-	AccountID string `json:"account_id"`
-	Role      string `json:"role"`
-	IsValid   bool   `json:"is_valid"`
-	Verified  bool   `json:"verified"`
-}
-
 type JWTClaim struct {
-	Payload security.TokenPayload
+	Payload auth.TokenPayload
 	jwt.StandardClaims
 }
 
-func (s *JWTService) GenerateToken(p security.TokenPayload) (string, error) {
+func (s *JWTService) GenerateToken(p auth.TokenPayload) (string, error) {
 	tokenDuration := time.Duration(time.Minute * 60 * 24 * 7) //7 days
 
 	claims := &JWTClaim{
@@ -62,25 +55,19 @@ func (j *JWTService) isTokenValid(t *jwt.Token) (interface{}, error) {
 	return []byte(j.secretKey), nil
 }
 
-func (j *JWTService) ValidateToken(token string) bool {
-	_, err := jwt.Parse(token, j.isTokenValid)
-
-	return err == nil
-}
-
-func (j *JWTService) RetriveTokenPayload(token string) (*Payload, error) {
-	t, err := jwt.Parse(token, j.isTokenValid)
+func (j *JWTService) ValidateToken(token string) (auth.TokenPayload, error) {
+	jwtToken, err := jwt.Parse(token, j.isTokenValid)
 	if err != nil {
-		return nil, err
+		return auth.TokenPayload{}, err
 	}
 
-	claims, ok := t.Claims.(jwt.MapClaims)
+	claims, ok := jwtToken.Claims.(jwt.MapClaims)
 
 	if !ok {
-		return nil, fmt.Errorf("unable to parse jwt claims")
+		return auth.TokenPayload{}, fmt.Errorf("unable to parse jwt claims")
 	}
 
-	payload := &Payload{
+	payload := auth.TokenPayload{
 		AccountID: claims["account_id"].(string),
 		Role:      claims["role"].(string),
 		IsValid:   claims["role"].(bool),

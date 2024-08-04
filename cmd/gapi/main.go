@@ -56,9 +56,15 @@ func main() {
 	interceptor := interceptor.NewGRPCInterceptor(
 		*jwtSvc,
 		accountInterceptor.AccountMethodsToBypass,
+		accountInterceptor.AccountRBACEnsuredMethods,
 	)
 
-	server := grpc.NewServer(grpc.UnaryInterceptor(interceptor.AuthInterceptor))
+	unaryInterceptor := grpc.ChainUnaryInterceptor(
+		interceptor.AuthInterceptor,
+		interceptor.RBACInterceptor,
+	)
+
+	server := grpc.NewServer(unaryInterceptor)
 	initDependencies(server, *db, jwtSvc)
 	reflection.Register(server)
 

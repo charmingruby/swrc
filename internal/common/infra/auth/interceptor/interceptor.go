@@ -5,10 +5,15 @@ import (
 	"github.com/charmingruby/swrc/pkg/jwt"
 )
 
-func NewGRPCInterceptor(tokenSvc jwt.JWTService, authBypassMethods map[string]bool) GRPCInterceptor {
+func NewGRPCInterceptor(
+	tokenSvc jwt.JWTService,
+	authBypassMethods map[string]bool,
+	rbacEnsuredMethods map[string][]string,
+) GRPCInterceptor {
 	return GRPCInterceptor{
-		tokenService:      &tokenSvc,
-		authBypassMethods: authBypassMethods,
+		tokenService:       &tokenSvc,
+		authBypassMethods:  authBypassMethods,
+		rbacEnsuredMethods: rbacEnsuredMethods,
 	}
 }
 

@@ -238,6 +238,6 @@ func (s *Suite) Test_VerifyAccountUseCase() {
 
 		err = s.accountUseCase.VerifyAccountUseCase(input)
 		s.Error(err)
-		s.Equal(core.NewValidationErr("nothing to change").Error(), err.Error())
+		s.Equal(core.NewNothingToChangeErr().Error(), err.Error())
 	})
 }

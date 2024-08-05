@@ -320,6 +320,6 @@ func (s *Suite) Test_ManageAccountRoleUseCase() {
 
 		err = s.accountUseCase.ManageAccountRoleUseCase(input)
 		s.Error(err)
-		s.Equal(core.NewValidationErr("nothing to change").Error(), err.Error())
+		s.Equal(core.NewNothingToChangeErr().Error(), err.Error())
 	})
 }

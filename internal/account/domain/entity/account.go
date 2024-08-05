@@ -42,7 +42,7 @@ type Account struct {
 
 func (a *Account) Verify(verification bool) error {
 	if a.Verification.IsValid == verification && a.Verification.Verified {
-		return core.NewValidationErr("nothing to change")
+		return core.NewNothingToChangeErr()
 	}
 
 	if !a.Verification.Verified {
@@ -66,7 +66,7 @@ func (a *Account) ModifyRole(role string) error {
 	}
 
 	if newRole == a.Role {
-		return core.NewValidationErr("nothing to change")
+		return core.NewNothingToChangeErr()
 	}
 
 	a.Role = newRole

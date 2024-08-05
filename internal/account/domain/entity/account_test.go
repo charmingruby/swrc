@@ -82,7 +82,7 @@ func Test_AccountVerify(t *testing.T) {
 
 		err = acc.Verify(false)
 		assert.Error(t, err)
-		assert.Equal(t, core.NewValidationErr("nothing to change").Error(), err.Error())
+		assert.Equal(t, core.NewNothingToChangeErr().Error(), err.Error())
 		assert.Equal(t, false, acc.Verification.IsValid)
 		assert.Equal(t, true, acc.Verification.Verified)
 	})
@@ -122,6 +122,6 @@ func Test_AccountModifyRole(t *testing.T) {
 
 		err = acc.ModifyRole(newRole)
 		assert.Error(t, err)
-		assert.Equal(t, core.NewValidationErr("nothing to change").Error(), err.Error())
+		assert.Equal(t, core.NewNothingToChangeErr().Error(), err.Error())
 	})
 }

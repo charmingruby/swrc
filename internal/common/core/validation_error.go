@@ -8,6 +8,12 @@ func NewValidationErr(msg string) error {
 	}
 }
 
+func NewNothingToChangeErr() error {
+	return &ErrValidation{
+		Message: "nothing to change",
+	}
+}
+
 type ErrValidation struct {
 	Message string `json:"message"`
 }

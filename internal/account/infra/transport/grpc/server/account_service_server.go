@@ -100,6 +100,7 @@ func (h *AccountServiceGRPCServerHandler) ManageAccountRole(context.Context, *pb
 	return nil, status.Errorf(codes.Unimplemented, "method ManageAccountRole not implemented")
 }
 
-func (h *AccountServiceGRPCServerHandler) VerifyAccount(context.Context, *pb.VerifyAccountRequest) (*emptypb.Empty, error) {
+func (h *AccountServiceGRPCServerHandler) VerifyAccount(ctx context.Context, req *pb.VerifyAccountRequest) (*emptypb.Empty, error) {
+
 	return nil, status.Errorf(codes.Unimplemented, "method VerifyAccount not implemented")
 }

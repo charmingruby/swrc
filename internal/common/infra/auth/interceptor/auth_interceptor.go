@@ -8,15 +8,6 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-type contextKey string
-
-const (
-	accountIDKey contextKey = "accountID"
-	roleKey      contextKey = "role"
-	isValidKey   contextKey = "isValid"
-	verifiedKey  contextKey = "verified"
-)
-
 func (i *GRPCInterceptor) AuthInterceptor(
 	ctx context.Context,
 	req any,

@@ -9,6 +9,15 @@ import (
 	"google.golang.org/grpc/metadata"
 )
 
+type contextKey string
+
+const (
+	AccountIDKey contextKey = "accountID"
+	RoleKey      contextKey = "role"
+	IsValidKey   contextKey = "isValid"
+	VerifiedKey  contextKey = "verified"
+)
+
 func (i *GRPCInterceptor) retrieveTokenFromMetadata(
 	ctx context.Context,
 ) (auth.TokenPayload, context.Context, error) {
@@ -33,10 +42,10 @@ func (i *GRPCInterceptor) retrieveTokenFromMetadata(
 }
 
 func (i *GRPCInterceptor) savePayloadAtCtx(ctx context.Context, payload auth.TokenPayload) context.Context {
-	ctx = context.WithValue(ctx, accountIDKey, payload.AccountID)
-	ctx = context.WithValue(ctx, roleKey, payload.Role)
-	ctx = context.WithValue(ctx, isValidKey, payload.IsValid)
-	ctx = context.WithValue(ctx, verifiedKey, payload.Verified)
+	ctx = context.WithValue(ctx, AccountIDKey, payload.AccountID)
+	ctx = context.WithValue(ctx, RoleKey, payload.Role)
+	ctx = context.WithValue(ctx, IsValidKey, payload.IsValid)
+	ctx = context.WithValue(ctx, VerifiedKey, payload.Verified)
 
 	return ctx
 }

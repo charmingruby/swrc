@@ -1,6 +1,7 @@
 package server
 
 import (
+	"github.com/charmingruby/swrc/internal/common/infra/transport/grpc/server/health_service"
 	"github.com/charmingruby/swrc/proto/pb"
 	grpcLib "google.golang.org/grpc"
 )
@@ -16,6 +17,6 @@ type CommonGRPCHandler struct {
 }
 
 func (h *CommonGRPCHandler) Register() {
-	healthSvc := newHealthServiceServerHandler()
+	healthSvc := health_service.NewHealthGRPCService()
 	pb.RegisterHealthServiceServer(h.server, healthSvc)
 }

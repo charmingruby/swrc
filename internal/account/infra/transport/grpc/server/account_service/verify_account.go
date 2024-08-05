@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/charmingruby/swrc/internal/account/domain/dto"
+	"github.com/charmingruby/swrc/internal/common/core"
 	"github.com/charmingruby/swrc/internal/common/infra/auth/interceptor"
 	"github.com/charmingruby/swrc/proto/pb"
 	"google.golang.org/grpc/codes"
@@ -24,7 +25,22 @@ func (h *AccountGRPCService) VerifyAccount(ctx context.Context, req *pb.VerifyAc
 	}
 
 	if err := h.accountService.VerifyAccountUseCase(input); err != nil {
+		notFoundErr, ok := err.(*core.ErrNotFound)
+		if ok {
+			return nil, status.Errorf(codes.NotFound, notFoundErr.Error())
+		}
 
+		validationErr, ok := err.(*core.ErrValidation)
+		if ok {
+			return nil, status.Errorf(codes.InvalidArgument, validationErr.Error())
+		}
+
+		unauthorizedErr, ok := err.(*core.ErrUnauthorized)
+		if ok {
+			return nil, status.Errorf(codes.Unauthenticated, unauthorizedErr.Error())
+		}
+
+		return nil, status.Errorf(codes.Internal, err.Error())
 	}
 
 	return nil, nil

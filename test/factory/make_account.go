@@ -3,6 +3,7 @@ package factory
 import (
 	"github.com/charmingruby/swrc/internal/account/domain/entity"
 	"github.com/charmingruby/swrc/internal/account/domain/repository"
+	"github.com/charmingruby/swrc/internal/common/util"
 	"github.com/charmingruby/swrc/test/fake"
 )
 
@@ -18,11 +19,16 @@ type MakeAccountInput struct {
 func MakeAccount(
 	repo repository.AccountRepository,
 	in MakeAccountInput) (*entity.Account, error) {
-	hashedPassword, _ := fake.NewFakeHashService().GenerateHash(in.Password)
+
+	ghDisplayName := util.Ternary[string](in.GithubDisplayName == "", "charmingruby", in.GithubDisplayName)
+	email := util.Ternary[string](in.Email == "", "dummy@example.com", in.Email)
+	password := util.Ternary[string](in.Password == "", "password123", in.Password)
+
+	hashedPassword, _ := fake.NewFakeHashService().GenerateHash(password)
 	acc, err := entity.NewAccount(
-		in.GithubDisplayName,
-		in.Email,
-		in.Password,
+		ghDisplayName,
+		email,
+		password,
 	)
 	if err != nil {
 		return nil, err

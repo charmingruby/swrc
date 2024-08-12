@@ -19,17 +19,11 @@ type MakeAccountInput struct {
 func MakeAccount(
 	repo repository.AccountRepository,
 	in MakeAccountInput) (*entity.Account, error) {
-	println("1")
 	ghDisplayName := util.Ternary[string](in.GithubDisplayName == "", "charmingruby", in.GithubDisplayName)
-	println("2")
 	email := util.Ternary[string](in.Email == "", "dummy@example.com", in.Email)
-	println("3")
 	password := util.Ternary[string](in.Password == "", "password123", in.Password)
-	println("4")
 	isValid := in.IsValid
-	println("5")
 	verified := in.Verified
-	println("6")
 	role := util.Ternary[string](in.Role == "", entity.ACCOUNT_ROLE_DEVELOPER, in.Role)
 
 	hashedPassword, _ := fake.NewFakeHashService().GenerateHash(password)

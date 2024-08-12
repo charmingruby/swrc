@@ -12,9 +12,6 @@ func (s *Suite) Test_hasPermission() {
 	password := "password123"
 
 	s.Run("it should be able to validate a user with a role", func() {
-		isValid := true
-		verified := true
-
 		acc, err := factory.MakeAccount(
 			s.accountRepository,
 			factory.MakeAccountInput{
@@ -22,8 +19,8 @@ func (s *Suite) Test_hasPermission() {
 				Email:             email,
 				Password:          password,
 				Role:              entity.ACCOUNT_ROLE_MANAGER,
-				IsValid:           &isValid,
-				Verified:          &verified,
+				IsValid:           true,
+				Verified:          true,
 			})
 		s.NoError(err)
 		s.Equal(1, len(s.accountRepository.Items))
@@ -33,9 +30,6 @@ func (s *Suite) Test_hasPermission() {
 	})
 
 	s.Run("it should be able to validate a user without a role", func() {
-		isValid := true
-		verified := true
-
 		acc, err := factory.MakeAccount(
 			s.accountRepository,
 			factory.MakeAccountInput{
@@ -43,8 +37,8 @@ func (s *Suite) Test_hasPermission() {
 				Email:             email,
 				Password:          password,
 				Role:              entity.ACCOUNT_ROLE_DEVELOPER,
-				IsValid:           &isValid,
-				Verified:          &verified,
+				IsValid:           true,
+				Verified:          true,
 			})
 		s.NoError(err)
 		s.Equal(1, len(s.accountRepository.Items))
@@ -61,9 +55,6 @@ func (s *Suite) Test_hasPermission() {
 	})
 
 	s.Run("it should be not able to validate a user if solicitor is not a valid account", func() {
-		isValid := false
-		verified := true
-
 		acc, err := factory.MakeAccount(
 			s.accountRepository,
 			factory.MakeAccountInput{
@@ -71,8 +62,8 @@ func (s *Suite) Test_hasPermission() {
 				Email:             email,
 				Password:          password,
 				Role:              entity.ACCOUNT_ROLE_MANAGER,
-				IsValid:           &isValid,
-				Verified:          &verified,
+				IsValid:           false,
+				Verified:          true,
 			})
 		s.NoError(err)
 		s.Equal(1, len(s.accountRepository.Items))

@@ -17,17 +17,14 @@ func (s *Suite) Test_VerifyAccountUseCase() {
 	solicitorPassword := accountToVerifyPassword + "-solic"
 
 	s.Run("it should be able to verify an account", func() {
-		isVerified := true
-		isValid := true
-
 		solicitorAcc, err := factory.MakeAccount(
 			s.accountRepository,
 			factory.MakeAccountInput{
 				GithubDisplayName: solicitorGhDisplayName,
 				Email:             solicitorEmail,
 				Password:          solicitorPassword,
-				IsValid:           &isValid,
-				Verified:          &isVerified,
+				IsValid:           true,
+				Verified:          true,
 				Role:              entity.ACCOUNT_ROLE_MANAGER,
 			},
 		)
@@ -61,17 +58,14 @@ func (s *Suite) Test_VerifyAccountUseCase() {
 	})
 
 	s.Run("it should be able to verify an account even if already have verification values", func() {
-		isVerified := true
-		isValid := true
-
 		solicitorAcc, err := factory.MakeAccount(
 			s.accountRepository,
 			factory.MakeAccountInput{
 				GithubDisplayName: solicitorGhDisplayName,
 				Email:             solicitorEmail,
 				Password:          solicitorPassword,
-				IsValid:           &isValid,
-				Verified:          &isVerified,
+				IsValid:           true,
+				Verified:          true,
 				Role:              entity.ACCOUNT_ROLE_MANAGER,
 			},
 		)
@@ -84,8 +78,8 @@ func (s *Suite) Test_VerifyAccountUseCase() {
 				Email:             accountToVerifyEmail,
 				Password:          accountToVerifyPassword,
 				Role:              entity.ACCOUNT_ROLE_MANAGER,
-				IsValid:           &isValid,
-				Verified:          &isVerified,
+				IsValid:           true,
+				Verified:          true,
 			},
 		)
 		s.NoError(err)
@@ -131,17 +125,14 @@ func (s *Suite) Test_VerifyAccountUseCase() {
 	})
 
 	s.Run("it should be not able to verify an account when solicitor don't have needed permissions", func() {
-		isVerified := true
-		isValid := true
-
 		solicitorAcc, err := factory.MakeAccount(
 			s.accountRepository,
 			factory.MakeAccountInput{
 				GithubDisplayName: solicitorGhDisplayName,
 				Email:             solicitorEmail,
 				Password:          solicitorPassword,
-				IsValid:           &isValid,
-				Verified:          &isVerified,
+				IsValid:           true,
+				Verified:          true,
 				Role:              entity.ACCOUNT_ROLE_DEVELOPER,
 			},
 		)
@@ -171,17 +162,14 @@ func (s *Suite) Test_VerifyAccountUseCase() {
 	})
 
 	s.Run("it should be not able to verify an account when account to verify id is invalid", func() {
-		isVerified := true
-		isValid := true
-
 		solicitorAcc, err := factory.MakeAccount(
 			s.accountRepository,
 			factory.MakeAccountInput{
 				GithubDisplayName: solicitorGhDisplayName,
 				Email:             solicitorEmail,
 				Password:          solicitorPassword,
-				IsValid:           &isValid,
-				Verified:          &isVerified,
+				IsValid:           true,
+				Verified:          true,
 				Role:              entity.ACCOUNT_ROLE_MANAGER,
 			},
 		)
@@ -200,17 +188,14 @@ func (s *Suite) Test_VerifyAccountUseCase() {
 	})
 
 	s.Run("it should be not able to verify an account when account to verify is has already that verification value", func() {
-		isVerified := true
-		isValid := true
-
 		solicitorAcc, err := factory.MakeAccount(
 			s.accountRepository,
 			factory.MakeAccountInput{
 				GithubDisplayName: solicitorGhDisplayName,
 				Email:             solicitorEmail,
 				Password:          solicitorPassword,
-				IsValid:           &isValid,
-				Verified:          &isVerified,
+				IsValid:           true,
+				Verified:          true,
 				Role:              entity.ACCOUNT_ROLE_MANAGER,
 			},
 		)
@@ -223,8 +208,8 @@ func (s *Suite) Test_VerifyAccountUseCase() {
 				Email:             accountToVerifyEmail,
 				Password:          accountToVerifyPassword,
 				Role:              entity.ACCOUNT_ROLE_MANAGER,
-				IsValid:           &isValid,
-				Verified:          &isVerified,
+				IsValid:           true,
+				Verified:          true,
 			},
 		)
 		s.NoError(err)

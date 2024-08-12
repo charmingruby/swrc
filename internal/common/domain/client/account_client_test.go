@@ -29,15 +29,12 @@ func (s *Suite) Test_AccountClient_AccountExists() {
 
 func (s *Suite) Test_AccountClient_ValidAccountExists() {
 	s.Run("it should receive no error if found an account", func() {
-		isValid := true
-		verified := true
-
 		acc, err := factory.MakeAccount(s.accountRepository, factory.MakeAccountInput{
 			GithubDisplayName: "charmingruby",
 			Email:             "dummy@email.com",
 			Password:          "password123",
-			IsValid:           &isValid,
-			Verified:          &verified,
+			IsValid:           true,
+			Verified:          true,
 		})
 		s.NoError(err)
 
@@ -52,15 +49,12 @@ func (s *Suite) Test_AccountClient_ValidAccountExists() {
 	})
 
 	s.Run("it should receive an error if account is not valid", func() {
-		isValid := false
-		verified := false
-
 		acc, err := factory.MakeAccount(s.accountRepository, factory.MakeAccountInput{
 			GithubDisplayName: "charmingruby",
 			Email:             "dummy@email.com",
 			Password:          "password123",
-			IsValid:           &isValid,
-			Verified:          &verified,
+			IsValid:           false,
+			Verified:          false,
 		})
 		s.NoError(err)
 
@@ -72,16 +66,13 @@ func (s *Suite) Test_AccountClient_ValidAccountExists() {
 
 func (s *Suite) Test_AccountClient_ValidAccountExistsAndMatchRole() {
 	s.Run("it should receive no error if found an account and match role", func() {
-		isValid := true
-		verified := true
-
 		acc, err := factory.MakeAccount(s.accountRepository, factory.MakeAccountInput{
 			GithubDisplayName: "charmingruby",
 			Email:             "dummy@email.com",
 			Password:          "password123",
 			Role:              entity.ACCOUNT_ROLE_MANAGER,
-			IsValid:           &isValid,
-			Verified:          &verified,
+			IsValid:           true,
+			Verified:          true,
 		})
 		s.NoError(err)
 
@@ -95,16 +86,13 @@ func (s *Suite) Test_AccountClient_ValidAccountExistsAndMatchRole() {
 	})
 
 	s.Run("it should receive an error if account is invalid", func() {
-		isValid := false
-		verified := false
-
 		acc, err := factory.MakeAccount(s.accountRepository, factory.MakeAccountInput{
 			GithubDisplayName: "charmingruby",
 			Email:             "dummy@email.com",
 			Password:          "password123",
 			Role:              entity.ACCOUNT_ROLE_MANAGER,
-			IsValid:           &isValid,
-			Verified:          &verified,
+			IsValid:           false,
+			Verified:          false,
 		})
 		s.NoError(err)
 
@@ -114,16 +102,13 @@ func (s *Suite) Test_AccountClient_ValidAccountExistsAndMatchRole() {
 	})
 
 	s.Run("it should receive an error if account role doesn't match", func() {
-		isValid := true
-		verified := true
-
 		acc, err := factory.MakeAccount(s.accountRepository, factory.MakeAccountInput{
 			GithubDisplayName: "charmingruby",
 			Email:             "dummy@email.com",
 			Password:          "password123",
 			Role:              entity.ACCOUNT_ROLE_DEVELOPER,
-			IsValid:           &isValid,
-			Verified:          &verified,
+			IsValid:           false,
+			Verified:          false,
 		})
 		s.NoError(err)
 

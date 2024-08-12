@@ -11,8 +11,6 @@ func (s *Suite) Test_ManageAccountRoleUseCase() {
 	githubDisplayName := "charmingruby"
 	email := "dummy@email.com"
 	password := "password123"
-	isValid := true
-	verified := true
 	baseRole := entity.ACCOUNT_ROLE_DEVELOPER
 	managerRole := entity.ACCOUNT_ROLE_MANAGER
 
@@ -23,8 +21,8 @@ func (s *Suite) Test_ManageAccountRoleUseCase() {
 				GithubDisplayName: githubDisplayName,
 				Email:             email,
 				Password:          password,
-				IsValid:           &isValid,
-				Verified:          &verified,
+				IsValid:           true,
+				Verified:          true,
 				Role:              managerRole,
 			},
 		)
@@ -36,8 +34,8 @@ func (s *Suite) Test_ManageAccountRoleUseCase() {
 				GithubDisplayName: githubDisplayName,
 				Email:             email,
 				Password:          password,
-				IsValid:           &isValid,
-				Verified:          &verified,
+				IsValid:           true,
+				Verified:          true,
 				Role:              baseRole,
 			},
 		)
@@ -67,8 +65,8 @@ func (s *Suite) Test_ManageAccountRoleUseCase() {
 				GithubDisplayName: githubDisplayName,
 				Email:             email,
 				Password:          password,
-				IsValid:           &isValid,
-				Verified:          &verified,
+				IsValid:           true,
+				Verified:          true,
 				Role:              baseRole,
 			},
 		)
@@ -89,16 +87,14 @@ func (s *Suite) Test_ManageAccountRoleUseCase() {
 	})
 
 	s.Run("it should be not able to change an account role if actor is not a valid account", func() {
-		invalidManagerAccount := false
-
 		managerAcc, err := factory.MakeAccount(
 			s.accountRepository,
 			factory.MakeAccountInput{
 				GithubDisplayName: githubDisplayName,
 				Email:             email,
 				Password:          password,
-				IsValid:           &invalidManagerAccount,
-				Verified:          &verified,
+				IsValid:           false,
+				Verified:          true,
 				Role:              managerRole,
 			},
 		)
@@ -110,8 +106,8 @@ func (s *Suite) Test_ManageAccountRoleUseCase() {
 				GithubDisplayName: githubDisplayName,
 				Email:             email,
 				Password:          password,
-				IsValid:           &isValid,
-				Verified:          &verified,
+				IsValid:           true,
+				Verified:          true,
 				Role:              baseRole,
 			},
 		)
@@ -138,8 +134,8 @@ func (s *Suite) Test_ManageAccountRoleUseCase() {
 				GithubDisplayName: githubDisplayName,
 				Email:             email,
 				Password:          password,
-				IsValid:           &isValid,
-				Verified:          &verified,
+				IsValid:           true,
+				Verified:          true,
 				Role:              baseRole,
 			},
 		)
@@ -151,8 +147,8 @@ func (s *Suite) Test_ManageAccountRoleUseCase() {
 				GithubDisplayName: githubDisplayName,
 				Email:             email,
 				Password:          password,
-				IsValid:           &isValid,
-				Verified:          &verified,
+				IsValid:           true,
+				Verified:          true,
 				Role:              baseRole,
 			},
 		)
@@ -179,8 +175,8 @@ func (s *Suite) Test_ManageAccountRoleUseCase() {
 				GithubDisplayName: githubDisplayName,
 				Email:             email,
 				Password:          password,
-				IsValid:           &isValid,
-				Verified:          &verified,
+				IsValid:           true,
+				Verified:          true,
 				Role:              managerRole,
 			},
 		)
@@ -201,16 +197,14 @@ func (s *Suite) Test_ManageAccountRoleUseCase() {
 	})
 
 	s.Run("it should be not able to change an account role if actor is not a valid account", func() {
-		invalidManagerAcc := false
-
 		managerAcc, err := factory.MakeAccount(
 			s.accountRepository,
 			factory.MakeAccountInput{
 				GithubDisplayName: githubDisplayName,
 				Email:             email,
 				Password:          password,
-				IsValid:           &invalidManagerAcc,
-				Verified:          &verified,
+				IsValid:           false,
+				Verified:          true,
 				Role:              managerRole,
 			},
 		)
@@ -222,8 +216,8 @@ func (s *Suite) Test_ManageAccountRoleUseCase() {
 				GithubDisplayName: githubDisplayName,
 				Email:             email,
 				Password:          password,
-				IsValid:           &isValid,
-				Verified:          &verified,
+				IsValid:           true,
+				Verified:          true,
 				Role:              baseRole,
 			},
 		)
@@ -250,8 +244,8 @@ func (s *Suite) Test_ManageAccountRoleUseCase() {
 				GithubDisplayName: githubDisplayName,
 				Email:             email,
 				Password:          password,
-				IsValid:           &isValid,
-				Verified:          &verified,
+				IsValid:           true,
+				Verified:          true,
 				Role:              managerRole,
 			},
 		)
@@ -263,8 +257,8 @@ func (s *Suite) Test_ManageAccountRoleUseCase() {
 				GithubDisplayName: githubDisplayName,
 				Email:             email,
 				Password:          password,
-				IsValid:           &isValid,
-				Verified:          &verified,
+				IsValid:           true,
+				Verified:          true,
 				Role:              baseRole,
 			},
 		)
@@ -290,8 +284,8 @@ func (s *Suite) Test_ManageAccountRoleUseCase() {
 				GithubDisplayName: githubDisplayName,
 				Email:             email,
 				Password:          password,
-				IsValid:           &isValid,
-				Verified:          &verified,
+				IsValid:           true,
+				Verified:          true,
 				Role:              managerRole,
 			},
 		)
@@ -303,8 +297,8 @@ func (s *Suite) Test_ManageAccountRoleUseCase() {
 				GithubDisplayName: githubDisplayName,
 				Email:             email,
 				Password:          password,
-				IsValid:           &isValid,
-				Verified:          &verified,
+				IsValid:           true,
+				Verified:          true,
 				Role:              baseRole,
 			},
 		)

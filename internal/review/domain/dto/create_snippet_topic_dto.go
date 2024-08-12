@@ -5,7 +5,3 @@ type CreateSnippetTopicInputDTO struct {
 	Description string
 	AccountID   string
 }
-
-type CreateSnippetTopicOutputDTO struct {
-	ID string
-}

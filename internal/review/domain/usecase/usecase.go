@@ -10,7 +10,7 @@ type ReviewUseCase interface {
 	// # -
 	// SNIPPETS
 	// # -
-	CreateSnippetTopicUseCase(dto dto.CreateSnippetTopicInputDTO) (*dto.CreateSnippetTopicOutputDTO, error)
+	CreateSnippetTopicUseCase(dto dto.CreateSnippetTopicInputDTO) error
 	SubmitNewSnippetVersionUseCase(dto dto.SubmitNewSnippetVersionInputDTO) error
 	ChooseSnippetTopicSolutionUseCase(dto dto.ChooseSnippetTopicSolutionDTO) error
 	GetSnippetTopicUseCase(dto dto.GetSnippetTopicInputDTO) (*dto.GetSnippetTopicOutputDTO, error)
@@ -24,8 +24,8 @@ type ReviewUseCase interface {
 	// # -
 	// ChooseSnippetTopicBestAnswerUseCase()
 	// CommentOnSnippetUseCase()
-	// VoteOnRootCommentUseCase()
-	// RemoveVoteFromRootCommentUseCase()
+	// VoteCommentUseCase()
+	// RemoveVoteFromCommentUseCase()
 
 	// # -
 	// LIST

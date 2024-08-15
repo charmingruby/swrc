@@ -14,8 +14,7 @@ func (s *Suite) Test_SubmitNewSnippetVersionUseCase() {
 				<h1>hello world</div>
 			</div>
 		)
-	}
-	`
+	}`
 	message := "Renders successfully a home component"
 
 	s.Run("it should be able to submit a new snippet version to a topic", func() {

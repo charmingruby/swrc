@@ -30,21 +30,25 @@ func (s *Suite) SetupSuite() {
 
 func (s *Suite) SetupTest() {
 	s.snippetTopicRepo.Items = []entity.SnippetTopic{}
+	s.snippetRepo.Items = []entity.Snippet{}
 	s.accountRepo.Items = []accountEntity.Account{}
 }
 
 func (s *Suite) TearDownTest() {
 	s.snippetTopicRepo.Items = []entity.SnippetTopic{}
+	s.snippetRepo.Items = []entity.Snippet{}
 	s.accountRepo.Items = []accountEntity.Account{}
 }
 
 func (s *Suite) SetupSubTest() {
 	s.snippetTopicRepo.Items = []entity.SnippetTopic{}
+	s.snippetRepo.Items = []entity.Snippet{}
 	s.accountRepo.Items = []accountEntity.Account{}
 }
 
 func (s *Suite) TearDownSubTest() {
 	s.snippetTopicRepo.Items = []entity.SnippetTopic{}
+	s.snippetRepo.Items = []entity.Snippet{}
 	s.accountRepo.Items = []accountEntity.Account{}
 }
 

@@ -14,16 +14,18 @@ type Suite struct {
 	suite.Suite
 	reviewUseCase    *ReviewUseCaseRegistry
 	snippetTopicRepo *inmemory_repository.InMemorySnippetTopicRepository
+	snippetRepo      *inmemory_repository.InMemorySnippetRepository
 	accountRepo      *inmemory_repository.InMemoryAccountRepository
 }
 
 func (s *Suite) SetupSuite() {
 	s.snippetTopicRepo = inmemory_repository.NewInMemorySnippetTopicRepository()
+	s.snippetRepo = inmemory_repository.NewInMemorySnippetRepository()
 	s.accountRepo = inmemory_repository.NewInMemoryAccountRepository()
 
 	accountClient := client.NewAccountClient(s.accountRepo)
 
-	s.reviewUseCase = NewReviewUseCaseRegistry(s.snippetTopicRepo, accountClient)
+	s.reviewUseCase = NewReviewUseCaseRegistry(s.snippetRepo, s.snippetTopicRepo, accountClient)
 }
 
 func (s *Suite) SetupTest() {

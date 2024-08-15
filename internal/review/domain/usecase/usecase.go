@@ -36,19 +36,19 @@ type ReviewUseCase interface {
 }
 
 func NewReviewUseCaseRegistry(
-	//snippetRepository repository.SnippetRepository,
+	snippetRepository repository.SnippetRepository,
 	snippetTopicRepository repository.SnippetTopicRepository,
 	accountClient adapter.AccountClient,
 ) *ReviewUseCaseRegistry {
 	return &ReviewUseCaseRegistry{
-		//SnippetRepository:      snippetRepository,
+		SnippetRepository:      snippetRepository,
 		SnippetTopicRepository: snippetTopicRepository,
 		AccountClient:          accountClient,
 	}
 }
 
 type ReviewUseCaseRegistry struct {
-	//SnippetRepository      repository.SnippetRepository
+	SnippetRepository      repository.SnippetRepository
 	SnippetTopicRepository repository.SnippetTopicRepository
 	AccountClient          adapter.AccountClient
 }

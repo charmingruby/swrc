@@ -22,7 +22,7 @@ func (r *InMemorySnippetTopicRepository) Store(topic entity.SnippetTopic) error 
 
 func (r *InMemorySnippetTopicRepository) FindByID(ID string) (entity.SnippetTopic, error) {
 	for _, tpc := range r.Items {
-		if tpc.ID == "ID" {
+		if tpc.ID == ID {
 			return tpc, nil
 		}
 	}

@@ -25,7 +25,7 @@ func (s *Suite) Test_hasPermission() {
 		s.NoError(err)
 		s.Equal(1, len(s.accountRepository.Items))
 
-		err = s.accountUseCase.hasPermission(acc.ID, "account", entity.ACCOUNT_ROLE_MANAGER)
+		err = s.useCase.hasPermission(acc.ID, "account", entity.ACCOUNT_ROLE_MANAGER)
 		s.NoError(err)
 	})
 
@@ -43,13 +43,13 @@ func (s *Suite) Test_hasPermission() {
 		s.NoError(err)
 		s.Equal(1, len(s.accountRepository.Items))
 
-		err = s.accountUseCase.hasPermission(acc.ID, "account", entity.ACCOUNT_ROLE_MANAGER)
+		err = s.useCase.hasPermission(acc.ID, "account", entity.ACCOUNT_ROLE_MANAGER)
 		s.Error(err)
 		s.Equal(core.NewUnauthorizedErr().Error(), err.Error())
 	})
 
 	s.Run("it should be not able to validate a user that don't exists", func() {
-		err := s.accountUseCase.hasPermission("invalid id", "account", entity.ACCOUNT_ROLE_MANAGER)
+		err := s.useCase.hasPermission("invalid id", "account", entity.ACCOUNT_ROLE_MANAGER)
 		s.Error(err)
 		s.Equal(core.NewNotFoundErr("account").Error(), err.Error())
 	})
@@ -68,7 +68,7 @@ func (s *Suite) Test_hasPermission() {
 		s.NoError(err)
 		s.Equal(1, len(s.accountRepository.Items))
 
-		err = s.accountUseCase.hasPermission(acc.ID, "account", entity.ACCOUNT_ROLE_MANAGER)
+		err = s.useCase.hasPermission(acc.ID, "account", entity.ACCOUNT_ROLE_MANAGER)
 		s.Error(err)
 		s.Equal(core.NewUnauthorizedErr().Error(), err.Error())
 	})

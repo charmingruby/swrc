@@ -50,7 +50,7 @@ func (s *Suite) Test_ManageAccountRoleUseCase() {
 			NewRole:          newRole,
 		}
 
-		err = s.accountUseCase.ManageAccountRoleUseCase(input)
+		err = s.useCase.ManageAccountRoleUseCase(input)
 		s.NoError(err)
 
 		modifiedAcc, err := s.accountRepository.FindByID(accToManage.ID)
@@ -81,7 +81,7 @@ func (s *Suite) Test_ManageAccountRoleUseCase() {
 			NewRole:          newRole,
 		}
 
-		err = s.accountUseCase.ManageAccountRoleUseCase(input)
+		err = s.useCase.ManageAccountRoleUseCase(input)
 		s.Error(err)
 		s.Equal(core.NewNotFoundErr("manager account").Error(), err.Error())
 	})
@@ -122,7 +122,7 @@ func (s *Suite) Test_ManageAccountRoleUseCase() {
 			NewRole:          newRole,
 		}
 
-		err = s.accountUseCase.ManageAccountRoleUseCase(input)
+		err = s.useCase.ManageAccountRoleUseCase(input)
 		s.Error(err)
 		s.Equal(core.NewUnauthorizedErr().Error(), err.Error())
 	})
@@ -163,7 +163,7 @@ func (s *Suite) Test_ManageAccountRoleUseCase() {
 			NewRole:          newRole,
 		}
 
-		err = s.accountUseCase.ManageAccountRoleUseCase(input)
+		err = s.useCase.ManageAccountRoleUseCase(input)
 		s.Error(err)
 		s.Equal(core.NewUnauthorizedErr().Error(), err.Error())
 	})
@@ -191,7 +191,7 @@ func (s *Suite) Test_ManageAccountRoleUseCase() {
 			NewRole:          newRole,
 		}
 
-		err = s.accountUseCase.ManageAccountRoleUseCase(input)
+		err = s.useCase.ManageAccountRoleUseCase(input)
 		s.Error(err)
 		s.Equal(core.NewNotFoundErr("account").Error(), err.Error())
 	})
@@ -232,7 +232,7 @@ func (s *Suite) Test_ManageAccountRoleUseCase() {
 			NewRole:          newRole,
 		}
 
-		err = s.accountUseCase.ManageAccountRoleUseCase(input)
+		err = s.useCase.ManageAccountRoleUseCase(input)
 		s.Error(err)
 		s.Equal(core.NewUnauthorizedErr().Error(), err.Error())
 	})
@@ -272,7 +272,7 @@ func (s *Suite) Test_ManageAccountRoleUseCase() {
 			NewRole:          "invalid role",
 		}
 
-		err = s.accountUseCase.ManageAccountRoleUseCase(input)
+		err = s.useCase.ManageAccountRoleUseCase(input)
 		s.Error(err)
 		s.Equal(core.NewValidationErr("invalid role").Error(), err.Error())
 	})
@@ -312,7 +312,7 @@ func (s *Suite) Test_ManageAccountRoleUseCase() {
 			NewRole:          baseRole,
 		}
 
-		err = s.accountUseCase.ManageAccountRoleUseCase(input)
+		err = s.useCase.ManageAccountRoleUseCase(input)
 		s.Error(err)
 		s.Equal(core.NewNothingToChangeErr().Error(), err.Error())
 	})

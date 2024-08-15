@@ -27,7 +27,7 @@ func (s *Suite) Test_AuthenticateUseCase() {
 			Password: password,
 		}
 
-		output, err := s.accountUseCase.AuthenticateUseCase(input)
+		output, err := s.useCase.AuthenticateUseCase(input)
 
 		s.NoError(err)
 		s.Equal(acc.ID, output.ID)
@@ -41,7 +41,7 @@ func (s *Suite) Test_AuthenticateUseCase() {
 			Password: password,
 		}
 
-		output, err := s.accountUseCase.AuthenticateUseCase(input)
+		output, err := s.useCase.AuthenticateUseCase(input)
 
 		s.Error(err)
 		s.Nil(output)
@@ -64,7 +64,7 @@ func (s *Suite) Test_AuthenticateUseCase() {
 			Password: password + "1",
 		}
 
-		output, err := s.accountUseCase.AuthenticateUseCase(input)
+		output, err := s.useCase.AuthenticateUseCase(input)
 
 		s.Error(err)
 		s.Nil(output)

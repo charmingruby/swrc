@@ -23,7 +23,7 @@ func (s *Suite) Test_CreateSnippetTopicUseCase() {
 			AccountID:   acc.ID,
 		}
 
-		err = s.reviewUseCase.CreateSnippetTopicUseCase(input)
+		err = s.useCase.CreateSnippetTopicUseCase(input)
 		s.NoError(err)
 
 		s.Equal(title, s.snippetTopicRepo.Items[0].Title)
@@ -38,7 +38,7 @@ func (s *Suite) Test_CreateSnippetTopicUseCase() {
 			AccountID:   "invalid id",
 		}
 
-		err := s.reviewUseCase.CreateSnippetTopicUseCase(input)
+		err := s.useCase.CreateSnippetTopicUseCase(input)
 		s.Error(err)
 		s.Equal(core.NewNotFoundErr("account").Error(), err.Error())
 	})
@@ -56,7 +56,7 @@ func (s *Suite) Test_CreateSnippetTopicUseCase() {
 			AccountID:   acc.ID,
 		}
 
-		err = s.reviewUseCase.CreateSnippetTopicUseCase(input)
+		err = s.useCase.CreateSnippetTopicUseCase(input)
 		s.Error(err)
 		s.Equal(core.NewUnauthorizedErr().Error(), err.Error())
 	})
@@ -74,7 +74,7 @@ func (s *Suite) Test_CreateSnippetTopicUseCase() {
 			AccountID:   acc.ID,
 		}
 
-		err = s.reviewUseCase.CreateSnippetTopicUseCase(input)
+		err = s.useCase.CreateSnippetTopicUseCase(input)
 		s.Error(err)
 		s.Equal(core.NewValidationErr(core.ErrRequired("title")).Error(), err.Error())
 	})

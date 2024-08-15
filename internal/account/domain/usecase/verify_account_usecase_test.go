@@ -48,7 +48,7 @@ func (s *Suite) Test_VerifyAccountUseCase() {
 			Verification:       verification,
 		}
 
-		err = s.accountUseCase.VerifyAccountUseCase(input)
+		err = s.useCase.VerifyAccountUseCase(input)
 		s.NoError(err)
 
 		newVerifiedAcc, err := s.accountRepository.FindByID(accToVerify.ID)
@@ -91,7 +91,7 @@ func (s *Suite) Test_VerifyAccountUseCase() {
 			Verification:       verification,
 		}
 
-		err = s.accountUseCase.VerifyAccountUseCase(input)
+		err = s.useCase.VerifyAccountUseCase(input)
 		s.NoError(err)
 
 		newVerifiedAcc, err := s.accountRepository.FindByID(accToVerify.ID)
@@ -119,7 +119,7 @@ func (s *Suite) Test_VerifyAccountUseCase() {
 			Verification:       verification,
 		}
 
-		err = s.accountUseCase.VerifyAccountUseCase(input)
+		err = s.useCase.VerifyAccountUseCase(input)
 		s.Error(err)
 		s.Equal(core.NewNotFoundErr("solicitor account").Error(), err.Error())
 	})
@@ -156,7 +156,7 @@ func (s *Suite) Test_VerifyAccountUseCase() {
 			Verification:       verification,
 		}
 
-		err = s.accountUseCase.VerifyAccountUseCase(input)
+		err = s.useCase.VerifyAccountUseCase(input)
 		s.Error(err)
 		s.Equal(core.NewUnauthorizedErr().Error(), err.Error())
 	})
@@ -182,7 +182,7 @@ func (s *Suite) Test_VerifyAccountUseCase() {
 			Verification:       verification,
 		}
 
-		err = s.accountUseCase.VerifyAccountUseCase(input)
+		err = s.useCase.VerifyAccountUseCase(input)
 		s.Error(err)
 		s.Equal(core.NewNotFoundErr("account to verify").Error(), err.Error())
 	})
@@ -221,7 +221,7 @@ func (s *Suite) Test_VerifyAccountUseCase() {
 			Verification:       verification,
 		}
 
-		err = s.accountUseCase.VerifyAccountUseCase(input)
+		err = s.useCase.VerifyAccountUseCase(input)
 		s.Error(err)
 		s.Equal(core.NewNothingToChangeErr().Error(), err.Error())
 	})

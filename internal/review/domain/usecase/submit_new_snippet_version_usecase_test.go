@@ -37,7 +37,7 @@ func (s *Suite) Test_SubmitNewSnippetVersionUseCase() {
 			AccountID:   acc.ID,
 		}
 
-		err = s.reviewUseCase.SubmitNewSnippetVersionUseCase(input)
+		err = s.useCase.SubmitNewSnippetVersionUseCase(input)
 
 		s.NoError(err)
 
@@ -63,7 +63,7 @@ func (s *Suite) Test_SubmitNewSnippetVersionUseCase() {
 			AccountID:   invalidAccountID,
 		}
 
-		err = s.reviewUseCase.SubmitNewSnippetVersionUseCase(input)
+		err = s.useCase.SubmitNewSnippetVersionUseCase(input)
 
 		s.Error(err)
 		s.Equal(core.NewNotFoundErr("account").Error(), err.Error())
@@ -88,7 +88,7 @@ func (s *Suite) Test_SubmitNewSnippetVersionUseCase() {
 			AccountID:   acc.ID,
 		}
 
-		err = s.reviewUseCase.SubmitNewSnippetVersionUseCase(input)
+		err = s.useCase.SubmitNewSnippetVersionUseCase(input)
 
 		s.Error(err)
 		s.Equal(core.NewUnauthorizedErr().Error(), err.Error())
@@ -108,7 +108,7 @@ func (s *Suite) Test_SubmitNewSnippetVersionUseCase() {
 			AccountID:   acc.ID,
 		}
 
-		err = s.reviewUseCase.SubmitNewSnippetVersionUseCase(input)
+		err = s.useCase.SubmitNewSnippetVersionUseCase(input)
 
 		s.Error(err)
 		s.Equal(core.NewNotFoundErr("snippet topic").Error(), err.Error())
@@ -133,7 +133,7 @@ func (s *Suite) Test_SubmitNewSnippetVersionUseCase() {
 			AccountID:   acc.ID,
 		}
 
-		err = s.reviewUseCase.SubmitNewSnippetVersionUseCase(input)
+		err = s.useCase.SubmitNewSnippetVersionUseCase(input)
 
 		s.Error(err)
 		s.Equal(core.NewUnauthorizedErr().Error(), err.Error())
@@ -158,7 +158,7 @@ func (s *Suite) Test_SubmitNewSnippetVersionUseCase() {
 			AccountID:   acc.ID,
 		}
 
-		err = s.reviewUseCase.SubmitNewSnippetVersionUseCase(input)
+		err = s.useCase.SubmitNewSnippetVersionUseCase(input)
 
 		s.Error(err)
 		s.Equal(core.NewValidationErr(core.ErrRequired("codesnippet")).Error(), err.Error())

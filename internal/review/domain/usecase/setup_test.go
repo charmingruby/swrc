@@ -12,7 +12,7 @@ import (
 
 type Suite struct {
 	suite.Suite
-	reviewUseCase    *ReviewUseCaseRegistry
+	useCase          *ReviewUseCaseRegistry
 	snippetTopicRepo *inmemory_repository.InMemorySnippetTopicRepository
 	snippetRepo      *inmemory_repository.InMemorySnippetRepository
 	accountRepo      *inmemory_repository.InMemoryAccountRepository
@@ -25,7 +25,7 @@ func (s *Suite) SetupSuite() {
 
 	accountClient := client.NewAccountClient(s.accountRepo)
 
-	s.reviewUseCase = NewReviewUseCaseRegistry(s.snippetRepo, s.snippetTopicRepo, accountClient)
+	s.useCase = NewReviewUseCaseRegistry(s.snippetRepo, s.snippetTopicRepo, accountClient)
 }
 
 func (s *Suite) SetupTest() {

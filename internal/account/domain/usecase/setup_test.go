@@ -13,13 +13,13 @@ type Suite struct {
 	suite.Suite
 	accountRepository *inmemory_repository.InMemoryAccountRepository
 	fakeHashService   *fake.FakeHashService
-	accountUseCase    *AccountUseCaseRegistry
+	useCase           *AccountUseCaseRegistry
 }
 
 func (s *Suite) SetupSuite() {
 	s.accountRepository = inmemory_repository.NewInMemoryAccountRepository()
 	s.fakeHashService = fake.NewFakeHashService()
-	s.accountUseCase = NewAccountUseCaseRegistry(s.accountRepository, s.fakeHashService)
+	s.useCase = NewAccountUseCaseRegistry(s.accountRepository, s.fakeHashService)
 }
 
 func (s *Suite) SetupTest() {

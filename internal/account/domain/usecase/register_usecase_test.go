@@ -18,7 +18,7 @@ func (s *Suite) Test_RegisterUseCase() {
 			Password:          password,
 		}
 
-		output, err := s.accountUseCase.RegisterUseCase(input)
+		output, err := s.useCase.RegisterUseCase(input)
 		s.NoError(err)
 
 		repoAcc, err := s.accountRepository.FindByID(output.ID)
@@ -48,7 +48,7 @@ func (s *Suite) Test_RegisterUseCase() {
 			Password:          password,
 		}
 
-		output, err := s.accountUseCase.RegisterUseCase(input)
+		output, err := s.useCase.RegisterUseCase(input)
 
 		s.Error(err)
 		s.Nil(output)
@@ -72,7 +72,7 @@ func (s *Suite) Test_RegisterUseCase() {
 			Password:          password,
 		}
 
-		output, err := s.accountUseCase.RegisterUseCase(input)
+		output, err := s.useCase.RegisterUseCase(input)
 
 		s.Error(err)
 		s.Nil(output)
@@ -86,7 +86,7 @@ func (s *Suite) Test_RegisterUseCase() {
 			Password:          password,
 		}
 
-		output, err := s.accountUseCase.RegisterUseCase(input)
+		output, err := s.useCase.RegisterUseCase(input)
 
 		s.Error(err)
 		s.Nil(output)

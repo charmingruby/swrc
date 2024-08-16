@@ -45,6 +45,7 @@ func (s *Suite) Test_SubmitNewSnippetVersionUseCase() {
 		s.Equal(codeSnippet, snippet.CodeSnippet)
 		s.Equal(message, snippet.Message)
 		s.Equal(topic.ID, snippet.TopicID)
+		s.Equal(topic.CurrentVersion+1, snippet.Version)
 	})
 
 	s.Run("it should be not able to submit a new snippet version to a topic if account doesn't exists", func() {

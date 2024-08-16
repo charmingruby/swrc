@@ -35,26 +35,6 @@ services:
     networks:
       - local-network
 
-  prometheus:
-    image: prom/prometheus
-    volumes:
-      - ./ops/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-    ports:
-      - "9090:9090"
-    networks:
-      - local-network
-
-  grafana:
-    image: grafana/grafana
-    volumes:
-      - ./ops/grafana/provisioning:/etc/grafana/provisioning
-    ports:
-      - 3000:3000
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-    networks:
-      - local-network
-
 networks:
   local-network:
     driver: bridge

@@ -1,6 +1,6 @@
 package dto
 
-type ChooseSnippetTopicSolutionInputDTO struct {
+type ChooseSnippetTopicBestAnswerInputDTO struct {
 	SnippetTopicID string
 	SnippetID      string
 	AccountID      string

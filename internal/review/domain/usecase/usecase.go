@@ -14,18 +14,16 @@ type ReviewUseCase interface {
 	SubmitNewSnippetVersionUseCase(dto dto.SubmitNewSnippetVersionInputDTO) error
 
 	ChooseSnippetTopicSolutionUseCase(dto dto.ChooseSnippetTopicSolutionInputDTO) error
-	ChooseSnippetTopicBestAnswerUseCase(dto dto.ChooseSnippetTopicBestAnswerInputDTO) error
 
 	GetSnippetTopicUseCase(dto dto.GetSnippetTopicInputDTO) (dto.GetSnippetTopicOutputDTO, error)
 	GetSnippetUseCase(dto dto.GetSnippetInputDTO) (dto.GetSnippetOutputDTO, error)
-	CompareSnippetVersionsModificationsUseCase(dto dto.CompareSnippetVersionsModificationsInputDTO) (dto.CompareSnippetVersionsModificationsOutputDTO, error)
 	ModifySnippetTopicStatusUseCase(dto dto.ModifySnippetTopicStatusInputDTO) error
 	DeleteSnippetTopicUseCase(dto dto.DeleteSnippetTopicInputDTO) error
 
 	// # -
 	// COMMENTS AND VOTES
 	// # -
-	// ChooseSnippetTopicBestAnswerUseCase()
+	ChooseSnippetTopicBestAnswerUseCase(dto dto.ChooseSnippetTopicBestAnswerInputDTO) error
 	// CommentOnSnippetUseCase()
 	// VoteCommentUseCase()
 	// RemoveVoteFromCommentUseCase()

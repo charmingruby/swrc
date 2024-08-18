@@ -47,6 +47,22 @@ type SnippetTopic struct {
 	CreatedAt         time.Time `json:"created_at" validate:"required"`
 }
 
+func (snp *SnippetTopic) SetStatus(sts string) error {
+	status := map[string]string{
+		SNIPPET_TOPIC_STATUS_OPEN:   SNIPPET_TOPIC_STATUS_OPEN,
+		SNIPPET_TOPIC_STATUS_CLOSED: SNIPPET_TOPIC_STATUS_CLOSED,
+	}
+
+	validStatus, ok := status[sts]
+	if !ok {
+		return core.NewValidationErr("invalid status")
+	}
+
+	snp.Status = validStatus
+
+	return nil
+}
+
 func (snp *SnippetTopic) Close() {
 	snp.Status = SNIPPET_TOPIC_STATUS_CLOSED
 }

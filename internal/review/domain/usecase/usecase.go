@@ -17,7 +17,7 @@ type ReviewUseCase interface {
 
 	GetSnippetTopicUseCase(dto dto.GetSnippetTopicInputDTO) (dto.GetSnippetTopicOutputDTO, error)
 	GetSnippetUseCase(dto dto.GetSnippetInputDTO) (dto.GetSnippetOutputDTO, error)
-	ModifySnippetTopicStatusUseCase(dto dto.ModifySnippetTopicStatusInputDTO) error
+	ModifySnippetTopicUseCase(dto dto.ModifySnippetTopicInputDTO) error
 	DeleteSnippetTopicUseCase(dto dto.DeleteSnippetTopicInputDTO) error
 
 	// # -

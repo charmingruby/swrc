@@ -37,5 +37,12 @@ func (s *ReviewUseCaseRegistry) SubmitNewSnippetVersionUseCase(input dto.SubmitN
 		return core.NewInternalErr()
 	}
 
+	topic.CurrentVersion = newVersion
+
+	if err := s.SnippetTopicRepository.Save(topic); err != nil {
+		logger.LogInternalErr(submitNewSnippetVersionUseCase, err)
+		return core.NewInternalErr()
+	}
+
 	return nil
 }

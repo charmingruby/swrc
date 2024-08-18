@@ -18,7 +18,7 @@ func Test_NewSnippetTopic(t *testing.T) {
 		assert.NoError(t, err)
 		assert.Equal(t, title, snp.Title)
 		assert.Equal(t, description, snp.Description)
-		assert.Equal(t, 1, snp.CurrentVersion)
+		assert.Equal(t, 0, snp.CurrentVersion)
 		assert.Equal(t, "", snp.BestAnswerID)
 		assert.Equal(t, SNIPPET_TOPIC_STATUS_OPEN, snp.Status)
 		assert.Equal(t, 0, snp.Reactions)

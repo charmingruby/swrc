@@ -32,6 +32,17 @@ func (r *InMemorySnippetTopicRepository) Save(topic entity.SnippetTopic) error {
 
 }
 
+func (r *InMemorySnippetTopicRepository) Delete(id string) error {
+	for idx, tpc := range r.Items {
+		if tpc.ID == id {
+			r.Items = append(r.Items[:idx], r.Items[idx+1:]...)
+			return nil
+		}
+	}
+
+	return core.NewNotFoundErr("snippet topic")
+}
+
 func (r *InMemorySnippetTopicRepository) FindByID(ID string) (entity.SnippetTopic, error) {
 	for _, tpc := range r.Items {
 		if tpc.ID == ID {

@@ -12,12 +12,11 @@ type ReviewUseCase interface {
 	// # -
 	CreateSnippetTopicUseCase(dto dto.CreateSnippetTopicInputDTO) error
 	SubmitNewSnippetVersionUseCase(dto dto.SubmitNewSnippetVersionInputDTO) error
-
 	ChooseSnippetTopicSolutionUseCase(dto dto.ChooseSnippetTopicSolutionInputDTO) error
-
 	GetSnippetTopicUseCase(dto dto.GetSnippetTopicInputDTO) (dto.GetSnippetTopicOutputDTO, error)
 	GetSnippetUseCase(dto dto.GetSnippetInputDTO) (dto.GetSnippetOutputDTO, error)
 	ModifySnippetTopicUseCase(dto dto.ModifySnippetTopicInputDTO) error
+	ModifySnippetUseCase(dto dto.ModifySnippetInputDTO) error
 	DeleteSnippetTopicUseCase(dto dto.DeleteSnippetTopicInputDTO) error
 
 	// # -

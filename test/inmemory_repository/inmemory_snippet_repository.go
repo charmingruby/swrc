@@ -20,6 +20,17 @@ func (r *InMemorySnippetRepository) Store(snippet entity.Snippet) error {
 	return nil
 }
 
+func (r *InMemorySnippetRepository) Save(snippet entity.Snippet) error {
+	for idx, snp := range r.Items {
+		if snp.ID == snippet.ID {
+			r.Items[idx] = snippet
+			return nil
+		}
+	}
+
+	return core.NewNotFoundErr("snippet")
+}
+
 func (r *InMemorySnippetRepository) FindByID(id string) (entity.Snippet, error) {
 	for _, snp := range r.Items {
 		if snp.ID == id {

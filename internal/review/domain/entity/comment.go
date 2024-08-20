@@ -6,14 +6,14 @@ import (
 	"github.com/charmingruby/swrc/internal/common/core"
 )
 
-func NewComment(content, accountID, snippetID, parentCommentID string) (*Comment, error) {
+func NewComment(content, accountID, snippetTopicID, parentCommentID string) (*Comment, error) {
 	c := Comment{
 		ID:              core.NewID(),
 		Content:         content,
 		Votes:           0,
 		AccountID:       accountID,
 		ParentCommentID: parentCommentID,
-		SnippetID:       snippetID,
+		SnippetTopicID:  snippetTopicID,
 		CreatedAt:       time.Now(),
 	}
 
@@ -30,6 +30,6 @@ type Comment struct {
 	Votes           int       `json:"votes"`
 	AccountID       string    `json:"account_id" validate:"required"`
 	ParentCommentID string    `json:"parent_comment_id"`
-	SnippetID       string    `json:"snippet_id" validate:"required"`
+	SnippetTopicID  string    `json:"snippet_topic_id" validate:"required"`
 	CreatedAt       time.Time `json:"created_at" validate:"required"`
 }

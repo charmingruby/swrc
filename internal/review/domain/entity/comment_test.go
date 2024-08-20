@@ -21,7 +21,7 @@ func Test_NewComment(t *testing.T) {
 		assert.Equal(t, content, c.Content)
 		assert.Equal(t, accountID, c.AccountID)
 		assert.Equal(t, parentCommentID, c.ParentCommentID)
-		assert.Equal(t, snippetID, c.SnippetID)
+		assert.Equal(t, snippetID, c.SnippetTopicID)
 		assert.Equal(t, 0, c.Votes)
 	})
 
@@ -33,7 +33,7 @@ func Test_NewComment(t *testing.T) {
 		assert.Equal(t, content, c.Content)
 		assert.Equal(t, accountID, c.AccountID)
 		assert.Equal(t, "", c.ParentCommentID)
-		assert.Equal(t, snippetID, c.SnippetID)
+		assert.Equal(t, snippetID, c.SnippetTopicID)
 		assert.Equal(t, 0, c.Votes)
 	})
 

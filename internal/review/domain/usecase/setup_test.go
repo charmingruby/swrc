@@ -15,41 +15,47 @@ type Suite struct {
 	useCase          *ReviewUseCaseRegistry
 	snippetTopicRepo *inmemory_repository.InMemorySnippetTopicRepository
 	snippetRepo      *inmemory_repository.InMemorySnippetRepository
+	commentRepo      *inmemory_repository.InMemoryCommentRepository
 	accountRepo      *inmemory_repository.InMemoryAccountRepository
 }
 
 func (s *Suite) SetupSuite() {
 	s.snippetTopicRepo = inmemory_repository.NewInMemorySnippetTopicRepository()
 	s.snippetRepo = inmemory_repository.NewInMemorySnippetRepository()
+	s.commentRepo = inmemory_repository.NewInMemoryCommentRepository()
 	s.accountRepo = inmemory_repository.NewInMemoryAccountRepository()
 
 	accountClient := client.NewAccountClient(s.accountRepo)
 
-	s.useCase = NewReviewUseCaseRegistry(s.snippetRepo, s.snippetTopicRepo, accountClient)
+	s.useCase = NewReviewUseCaseRegistry(s.snippetRepo, s.snippetTopicRepo, s.commentRepo, accountClient)
 }
 
 func (s *Suite) SetupTest() {
 	s.snippetTopicRepo.Items = []entity.SnippetTopic{}
 	s.snippetRepo.Items = []entity.Snippet{}
 	s.accountRepo.Items = []accountEntity.Account{}
+	s.commentRepo.Items = []entity.Comment{}
 }
 
 func (s *Suite) TearDownTest() {
 	s.snippetTopicRepo.Items = []entity.SnippetTopic{}
 	s.snippetRepo.Items = []entity.Snippet{}
 	s.accountRepo.Items = []accountEntity.Account{}
+	s.commentRepo.Items = []entity.Comment{}
 }
 
 func (s *Suite) SetupSubTest() {
 	s.snippetTopicRepo.Items = []entity.SnippetTopic{}
 	s.snippetRepo.Items = []entity.Snippet{}
 	s.accountRepo.Items = []accountEntity.Account{}
+	s.commentRepo.Items = []entity.Comment{}
 }
 
 func (s *Suite) TearDownSubTest() {
 	s.snippetTopicRepo.Items = []entity.SnippetTopic{}
 	s.snippetRepo.Items = []entity.Snippet{}
 	s.accountRepo.Items = []accountEntity.Account{}
+	s.commentRepo.Items = []entity.Comment{}
 }
 
 func TestSuite(t *testing.T) {

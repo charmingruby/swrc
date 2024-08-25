@@ -24,6 +24,7 @@ type ReviewUseCase interface {
 	// # -
 	ChooseSnippetTopicBestAnswerUseCase(dto dto.ChooseSnippetTopicBestAnswerInputDTO) error
 	CommentOnSnippetTopicUseCase(dto dto.CommentOnSnippetTopicInputDTO) error
+	RemoveCommentFromSnippetTopicUseCase(dto dto.RemoveCommentFromSnippetTopicInputDTO) error
 	// VoteCommentUseCase()
 	// RemoveVoteFromCommentUseCase()
 

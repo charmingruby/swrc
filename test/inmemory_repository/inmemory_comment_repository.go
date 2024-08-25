@@ -1,6 +1,7 @@
 package inmemory_repository
 
 import (
+	"github.com/charmingruby/swrc/internal/common/core"
 	"github.com/charmingruby/swrc/internal/review/domain/entity"
 )
 
@@ -26,5 +27,53 @@ func (r *InMemoryCommentRepository) FindByID(id string) (entity.Comment, error) 
 
 func (r *InMemoryCommentRepository) Store(comment entity.Comment) error {
 	r.Items = append(r.Items, comment)
+	return nil
+}
+
+func (r *InMemoryCommentRepository) Delete(comment entity.Comment) error {
+	for idx, tpc := range r.Items {
+		if tpc.ID == comment.ID {
+			r.Items = append(r.Items[:idx], r.Items[idx+1:]...)
+			return nil
+		}
+	}
+
+	return core.NewNotFoundErr("comment")
+}
+
+func (r *InMemoryCommentRepository) DeleteManyByParentCommentID(parentCommentID string) error {
+	var collectCommentsToDelete func(parentID string) []string
+
+	collectCommentsToDelete = func(parentID string) []string {
+		idsToDelete := []string{parentID}
+
+		for _, c := range r.Items {
+			if c.ParentCommentID == parentID {
+				idsToDelete = append(idsToDelete, collectCommentsToDelete(c.ID)...)
+			}
+		}
+
+		return idsToDelete
+	}
+
+	idsToDelete := collectCommentsToDelete(parentCommentID)
+
+	remainingComments := []entity.Comment{}
+	for _, c := range r.Items {
+		shouldDelete := false
+		for _, id := range idsToDelete {
+			if c.ID == id {
+				shouldDelete = true
+				break
+			}
+		}
+
+		if !shouldDelete {
+			remainingComments = append(remainingComments, c)
+		}
+	}
+
+	r.Items = remainingComments
+
 	return nil
 }

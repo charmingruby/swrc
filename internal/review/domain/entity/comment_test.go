@@ -58,6 +58,6 @@ func Test_NewComment(t *testing.T) {
 
 		assert.Error(t, err)
 		assert.Nil(t, c)
-		assert.Equal(t, core.NewValidationErr(core.ErrRequired("snippetid")).Error(), err.Error())
+		assert.Equal(t, core.NewValidationErr(core.ErrRequired("snippettopicid")).Error(), err.Error())
 	})
 }

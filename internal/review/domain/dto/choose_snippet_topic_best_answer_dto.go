@@ -2,6 +2,6 @@ package dto
 
 type ChooseSnippetTopicBestAnswerInputDTO struct {
 	SnippetTopicID string
-	SnippetID      string
+	CommentID      string
 	AccountID      string
 }

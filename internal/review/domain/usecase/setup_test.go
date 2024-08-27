@@ -15,6 +15,7 @@ type Suite struct {
 	useCase          *ReviewUseCaseRegistry
 	snippetTopicRepo *inmemory_repository.InMemorySnippetTopicRepository
 	snippetRepo      *inmemory_repository.InMemorySnippetRepository
+	commentVoteRepo  *inmemory_repository.InMemoryCommentVoteRepository
 	commentRepo      *inmemory_repository.InMemoryCommentRepository
 	accountRepo      *inmemory_repository.InMemoryAccountRepository
 }
@@ -24,10 +25,11 @@ func (s *Suite) SetupSuite() {
 	s.snippetRepo = inmemory_repository.NewInMemorySnippetRepository()
 	s.commentRepo = inmemory_repository.NewInMemoryCommentRepository()
 	s.accountRepo = inmemory_repository.NewInMemoryAccountRepository()
+	s.commentVoteRepo = inmemory_repository.NewInMemoryCommentVoteRepository()
 
 	accountClient := client.NewAccountClient(s.accountRepo)
 
-	s.useCase = NewReviewUseCaseRegistry(s.snippetRepo, s.snippetTopicRepo, s.commentRepo, accountClient)
+	s.useCase = NewReviewUseCaseRegistry(s.snippetRepo, s.snippetTopicRepo, s.commentRepo, s.commentVoteRepo, accountClient)
 }
 
 func (s *Suite) SetupTest() {
@@ -35,6 +37,7 @@ func (s *Suite) SetupTest() {
 	s.snippetRepo.Items = []entity.Snippet{}
 	s.accountRepo.Items = []accountEntity.Account{}
 	s.commentRepo.Items = []entity.Comment{}
+	s.commentVoteRepo.Items = []entity.CommentVote{}
 }
 
 func (s *Suite) TearDownTest() {
@@ -42,6 +45,7 @@ func (s *Suite) TearDownTest() {
 	s.snippetRepo.Items = []entity.Snippet{}
 	s.accountRepo.Items = []accountEntity.Account{}
 	s.commentRepo.Items = []entity.Comment{}
+	s.commentVoteRepo.Items = []entity.CommentVote{}
 }
 
 func (s *Suite) SetupSubTest() {
@@ -49,6 +53,7 @@ func (s *Suite) SetupSubTest() {
 	s.snippetRepo.Items = []entity.Snippet{}
 	s.accountRepo.Items = []accountEntity.Account{}
 	s.commentRepo.Items = []entity.Comment{}
+	s.commentVoteRepo.Items = []entity.CommentVote{}
 }
 
 func (s *Suite) TearDownSubTest() {
@@ -56,6 +61,7 @@ func (s *Suite) TearDownSubTest() {
 	s.snippetRepo.Items = []entity.Snippet{}
 	s.accountRepo.Items = []accountEntity.Account{}
 	s.commentRepo.Items = []entity.Comment{}
+	s.commentVoteRepo.Items = []entity.CommentVote{}
 }
 
 func TestSuite(t *testing.T) {

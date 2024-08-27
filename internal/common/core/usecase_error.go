@@ -16,6 +16,20 @@ func (e *ErrInternal) Error() string {
 	return e.Message
 }
 
+func NewAlreadyExistsErr(entity string) error {
+	return &ErrAlreadyExists{
+		Message: fmt.Sprintf("%s already exists error", entity),
+	}
+}
+
+type ErrAlreadyExists struct {
+	Message string `json:"message"`
+}
+
+func (e *ErrAlreadyExists) Error() string {
+	return e.Message
+}
+
 func NewConflictErr(entity, field string) error {
 	return &ErrConflict{
 		Message: fmt.Sprintf("%s %s is already taken", entity, field),

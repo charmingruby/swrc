@@ -25,27 +25,22 @@ type ReviewUseCase interface {
 	ChooseSnippetTopicBestAnswerUseCase(dto dto.ChooseSnippetTopicBestAnswerInputDTO) error
 	CommentOnSnippetTopicUseCase(dto dto.CommentOnSnippetTopicInputDTO) error
 	RemoveCommentFromSnippetTopicUseCase(dto dto.RemoveCommentFromSnippetTopicInputDTO) error
-	// VoteCommentUseCase()
+	VoteOnCommentUseCase(dto dto.VoteOnCommentInputDTO) error
 	// RemoveVoteFromCommentUseCase()
-
-	// # -
-	// LIST
-	// # -
-	// FetchOpenSnippetsUseCase()
-	// FetchAccountSnippetsUseCase()
-	// FetchClosedSnippetsUseCase()
 }
 
 func NewReviewUseCaseRegistry(
 	snippetRepository repository.SnippetRepository,
 	snippetTopicRepository repository.SnippetTopicRepository,
 	commentRepository repository.CommentRepository,
+	commentVoteRepository repository.CommentVoteRepository,
 	accountClient adapter.AccountClient,
 ) *ReviewUseCaseRegistry {
 	return &ReviewUseCaseRegistry{
 		SnippetRepository:      snippetRepository,
 		SnippetTopicRepository: snippetTopicRepository,
 		CommentRepository:      commentRepository,
+		CommentVoteRepository:  commentVoteRepository,
 		AccountClient:          accountClient,
 	}
 }
@@ -54,5 +49,6 @@ type ReviewUseCaseRegistry struct {
 	SnippetRepository      repository.SnippetRepository
 	SnippetTopicRepository repository.SnippetTopicRepository
 	CommentRepository      repository.CommentRepository
+	CommentVoteRepository  repository.CommentVoteRepository
 	AccountClient          adapter.AccountClient
 }

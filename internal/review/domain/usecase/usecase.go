@@ -26,7 +26,7 @@ type ReviewUseCase interface {
 	CommentOnSnippetTopicUseCase(dto dto.CommentOnSnippetTopicInputDTO) error
 	RemoveCommentFromSnippetTopicUseCase(dto dto.RemoveCommentFromSnippetTopicInputDTO) error
 	VoteOnCommentUseCase(dto dto.VoteOnCommentInputDTO) error
-	// RemoveVoteFromCommentUseCase()
+	RemoveVoteFromCommentUseCase(dto dto.RemoveVoteFromCommentInputDTO) error
 }
 
 func NewReviewUseCaseRegistry(

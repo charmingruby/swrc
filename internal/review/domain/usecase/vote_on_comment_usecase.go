@@ -29,17 +29,6 @@ func (r *ReviewUseCaseRegistry) VoteOnCommentUseCase(input dto.VoteOnCommentInpu
 		return err
 	}
 
-	topic, err := r.SnippetTopicRepository.FindByID(comment.SnippetTopicID)
-	if err != nil {
-		return core.NewNotFoundErr("snippet topic")
-	}
-
-	topic.Votes += 1
-	if err := r.SnippetTopicRepository.Save(topic); err != nil {
-		logger.LogInternalErr(voteOnCommentUseCase, err)
-		return core.NewInternalErr()
-	}
-
 	comment.Votes += 1
 	if err := r.CommentRepository.Save(comment); err != nil {
 		logger.LogInternalErr(voteOnCommentUseCase, err)

@@ -38,7 +38,6 @@ func (s *Suite) Test_VoteOnCommentUseCase() {
 
 		modifiedTopic := s.snippetTopicRepo.Items[0]
 		s.Equal(topic.ID, modifiedTopic.ID)
-		s.Equal(topic.Votes+1, modifiedTopic.Votes)
 
 		modifiedComment := s.commentRepo.Items[0]
 		s.Equal(comment.ID, modifiedComment.ID)
@@ -162,30 +161,5 @@ func (s *Suite) Test_VoteOnCommentUseCase() {
 		err = s.useCase.VoteOnCommentUseCase(input)
 		s.Error(err)
 		s.Equal(core.NewAlreadyExistsErr("comment vote").Error(), err.Error())
-	})
-
-	s.Run("it should be not able to vote on comment if topic doesn't exists", func() {
-		acc, err := factory.MakeAccount(s.accountRepo, factory.MakeAccountInput{
-			IsValid:  true,
-			Verified: true,
-		})
-		s.NoError(err)
-
-		comment, err := factory.MakeComment(s.commentRepo, factory.MakeCommentInput{
-			AccountID: acc.ID,
-		})
-		s.NoError(err)
-
-		isUp := true
-
-		input := dto.VoteOnCommentInputDTO{
-			CommentID: comment.ID,
-			AccountID: acc.ID,
-			IsUp:      isUp,
-		}
-
-		err = s.useCase.VoteOnCommentUseCase(input)
-		s.Error(err)
-		s.Equal(core.NewNotFoundErr("snippet topic").Error(), err.Error())
 	})
 }

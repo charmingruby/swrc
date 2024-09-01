@@ -3,7 +3,6 @@ package usecase
 import (
 	"github.com/charmingruby/swrc/internal/review/domain/adapter"
 	"github.com/charmingruby/swrc/internal/review/domain/dto"
-	"github.com/charmingruby/swrc/internal/review/domain/entity"
 	"github.com/charmingruby/swrc/internal/review/domain/repository"
 )
 
@@ -22,8 +21,8 @@ type ReviewUseCase interface {
 	VoteOnCommentUseCase(dto dto.VoteOnCommentInputDTO) error
 	RemoveVoteFromCommentUseCase(dto dto.RemoveVoteFromCommentInputDTO) error
 	FetchSnippetTopics(dto dto.FetchSnippetTopicsInputDTO) (dto.FetchSnippetTopicsOutputDTO, error)
-	FetchSnippets() ([]entity.Snippet, error)
-	FetchComments() ([]entity.Comment, error)
+	FetchSnippets(dto dto.FetchSnippetInputDTO) (dto.FetchSnippetOutputDTO, error)
+	FetchComments(dto dto.FetchCommentsInputDTO) (dto.FetchCommentsOutputDTO, error)
 }
 
 func NewReviewUseCaseRegistry(

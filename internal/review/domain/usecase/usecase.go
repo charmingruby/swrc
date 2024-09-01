@@ -3,13 +3,11 @@ package usecase
 import (
 	"github.com/charmingruby/swrc/internal/review/domain/adapter"
 	"github.com/charmingruby/swrc/internal/review/domain/dto"
+	"github.com/charmingruby/swrc/internal/review/domain/entity"
 	"github.com/charmingruby/swrc/internal/review/domain/repository"
 )
 
 type ReviewUseCase interface {
-	// # -
-	// SNIPPETS
-	// # -
 	CreateSnippetTopicUseCase(dto dto.CreateSnippetTopicInputDTO) error
 	SubmitNewSnippetVersionUseCase(dto dto.SubmitNewSnippetVersionInputDTO) error
 	ChooseSnippetTopicSolutionUseCase(dto dto.ChooseSnippetTopicSolutionInputDTO) error
@@ -18,15 +16,14 @@ type ReviewUseCase interface {
 	ModifySnippetTopicUseCase(dto dto.ModifySnippetTopicInputDTO) error
 	ModifySnippetUseCase(dto dto.ModifySnippetInputDTO) error
 	DeleteSnippetTopicUseCase(dto dto.DeleteSnippetTopicInputDTO) error
-
-	// # -
-	// COMMENTS AND VOTES
-	// # -
 	ChooseSnippetTopicBestAnswerUseCase(dto dto.ChooseSnippetTopicBestAnswerInputDTO) error
 	CommentOnSnippetTopicUseCase(dto dto.CommentOnSnippetTopicInputDTO) error
 	RemoveCommentFromSnippetTopicUseCase(dto dto.RemoveCommentFromSnippetTopicInputDTO) error
 	VoteOnCommentUseCase(dto dto.VoteOnCommentInputDTO) error
 	RemoveVoteFromCommentUseCase(dto dto.RemoveVoteFromCommentInputDTO) error
+	FetchSnippetTopics(dto dto.FetchSnippetTopicsInputDTO) (dto.FetchSnippetTopicsOutputDTO, error)
+	FetchSnippets() ([]entity.Snippet, error)
+	FetchComments() ([]entity.Comment, error)
 }
 
 func NewReviewUseCaseRegistry(

@@ -16,7 +16,8 @@ func (s *ReviewUseCaseRegistry) CommentOnSnippetTopicUseCase(input dto.CommentOn
 		return err
 	}
 
-	if _, err := s.SnippetTopicRepository.FindByID(input.SnippetTopicID); err != nil {
+	_, err := s.SnippetTopicRepository.FindByID(input.SnippetTopicID)
+	if err != nil {
 		return core.NewNotFoundErr("snippet topic")
 	}
 

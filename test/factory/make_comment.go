@@ -19,7 +19,6 @@ func MakeComment(
 	in MakeCommentInput,
 ) (entity.Comment, error) {
 	content := util.Ternary[string](in.Content == "", "dummy content", in.Content)
-	votes := util.Ternary[int](in.Votes == 0, 0, in.Votes)
 	accountID := util.Ternary[string](in.AccountID == "", "invalid id", in.AccountID)
 	parentCommentID := util.Ternary[string](in.ParentCommentID == "", "invalid id", in.ParentCommentID)
 	snippetTopicID := util.Ternary[string](in.SnippetTopicID == "", "invalid id", in.SnippetTopicID)
@@ -28,8 +27,6 @@ func MakeComment(
 	if err != nil {
 		return entity.Comment{}, err
 	}
-
-	comment.Votes = votes
 
 	if err := repo.Store(*comment); err != nil {
 		return entity.Comment{}, err

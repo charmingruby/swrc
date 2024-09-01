@@ -19,7 +19,6 @@ func NewSnippetTopic(title, description, accountID string) (*SnippetTopic, error
 		Status:         SNIPPET_TOPIC_STATUS_OPEN,
 		BestAnswerID:   "",
 		CurrentVersion: 0,
-		Comments:       0,
 		AccountID:      accountID,
 		CreatedAt:      time.Now(),
 	}
@@ -39,8 +38,6 @@ type SnippetTopic struct {
 	CurrentVersion    int       `json:"current_version"`
 	BestAnswerID      string    `json:"best_answer_id"`
 	SnippetSolutionID string    `json:"snippet_solution_id"`
-	Reactions         int       `json:"reactions"`
-	Comments          int       `json:"comments"`
 	AccountID         string    `json:"account_id" validate:"required"`
 	CreatedAt         time.Time `json:"created_at" validate:"required"`
 }

@@ -41,7 +41,6 @@ func (s *Suite) Test_VoteOnCommentUseCase() {
 
 		modifiedComment := s.commentRepo.Items[0]
 		s.Equal(comment.ID, modifiedComment.ID)
-		s.Equal(comment.Votes+1, modifiedComment.Votes)
 	})
 
 	s.Run("it should be not able to vote on comment if account doesn't exists", func() {

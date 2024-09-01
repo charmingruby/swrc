@@ -22,7 +22,6 @@ func Test_NewComment(t *testing.T) {
 		assert.Equal(t, accountID, c.AccountID)
 		assert.Equal(t, parentCommentID, c.ParentCommentID)
 		assert.Equal(t, snippetID, c.SnippetTopicID)
-		assert.Equal(t, 0, c.Votes)
 	})
 
 	t.Run("it should be able to create a new comment withou a parent comment id", func(t *testing.T) {
@@ -34,7 +33,6 @@ func Test_NewComment(t *testing.T) {
 		assert.Equal(t, accountID, c.AccountID)
 		assert.Equal(t, "", c.ParentCommentID)
 		assert.Equal(t, snippetID, c.SnippetTopicID)
-		assert.Equal(t, 0, c.Votes)
 	})
 
 	t.Run("it should be not able to create a comment with blank content", func(t *testing.T) {

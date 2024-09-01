@@ -10,7 +10,6 @@ func NewComment(content, accountID, snippetTopicID, parentCommentID string) (*Co
 	c := Comment{
 		ID:              core.NewID(),
 		Content:         content,
-		Votes:           0,
 		AccountID:       accountID,
 		ParentCommentID: parentCommentID,
 		SnippetTopicID:  snippetTopicID,
@@ -27,7 +26,6 @@ func NewComment(content, accountID, snippetTopicID, parentCommentID string) (*Co
 type Comment struct {
 	ID              string    `json:"id" validate:"required"`
 	Content         string    `json:"content" validate:"required"`
-	Votes           int       `json:"votes"`
 	AccountID       string    `json:"account_id" validate:"required"`
 	ParentCommentID string    `json:"parent_comment_id"`
 	SnippetTopicID  string    `json:"snippet_topic_id" validate:"required"`

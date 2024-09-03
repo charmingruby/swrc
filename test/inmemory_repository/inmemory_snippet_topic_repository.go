@@ -1,8 +1,6 @@
 package inmemory_repository
 
 import (
-	"errors"
-
 	"github.com/charmingruby/swrc/internal/common/core"
 	"github.com/charmingruby/swrc/internal/review/domain/entity"
 )
@@ -71,7 +69,7 @@ func (r *InMemorySnippetTopicRepository) FindMany(id, status, accountID string) 
 	}
 
 	if len(results) == 0 {
-		return nil, errors.New("no items found matching the criteria")
+		return nil, core.NewNotFoundErr("snippet topics")
 	}
 
 	return results, nil

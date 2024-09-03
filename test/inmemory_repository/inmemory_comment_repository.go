@@ -25,6 +25,30 @@ func (r *InMemoryCommentRepository) FindByID(id string) (entity.Comment, error) 
 	return entity.Comment{}, ErrNotFound
 }
 
+func (r *InMemoryCommentRepository) FindMany(id string, accountID string, snippetTopicID string, parentCommentID string) ([]entity.Comment, error) {
+	var results []entity.Comment
+
+	for _, item := range r.Items {
+		idMatch := id == "" || item.ID == id
+
+		statusMatch := accountID == "" || item.AccountID == accountID
+
+		snippetTopicIDMatch := snippetTopicID == "" || item.SnippetTopicID == snippetTopicID
+
+		parentCommentIDMatch := parentCommentID == "" || item.ParentCommentID == parentCommentID
+
+		if idMatch && statusMatch && snippetTopicIDMatch && parentCommentIDMatch {
+			results = append(results, item)
+		}
+	}
+
+	if len(results) == 0 {
+		return nil, core.NewNotFoundErr("comments")
+	}
+
+	return results, nil
+}
+
 func (r *InMemoryCommentRepository) Store(comment entity.Comment) error {
 	r.Items = append(r.Items, comment)
 	return nil

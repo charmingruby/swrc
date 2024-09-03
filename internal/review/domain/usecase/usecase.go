@@ -20,9 +20,9 @@ type ReviewUseCase interface {
 	RemoveCommentFromSnippetTopicUseCase(dto dto.RemoveCommentFromSnippetTopicInputDTO) error
 	VoteOnCommentUseCase(dto dto.VoteOnCommentInputDTO) error
 	RemoveVoteFromCommentUseCase(dto dto.RemoveVoteFromCommentInputDTO) error
-	FetchSnippetTopics(dto dto.FetchSnippetTopicsInputDTO) (dto.FetchSnippetTopicsOutputDTO, error)
-	FetchSnippets(dto dto.FetchSnippetInputDTO) (dto.FetchSnippetOutputDTO, error)
-	FetchComments(dto dto.FetchCommentsInputDTO) (dto.FetchCommentsOutputDTO, error)
+	FetchSnippetTopicsUseCase(dto dto.FetchSnippetTopicsInputDTO) (dto.FetchSnippetTopicsOutputDTO, error)
+	FetchSnippetsUseCase(dto dto.FetchSnippetInputDTO) (dto.FetchSnippetOutputDTO, error)
+	FetchCommentsUseCase(dto dto.FetchCommentsInputDTO) (dto.FetchCommentsOutputDTO, error)
 }
 
 func NewReviewUseCaseRegistry(

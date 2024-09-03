@@ -10,6 +10,7 @@ type MakeSnippetTopicInput struct {
 	Title       string
 	Description string
 	AccountID   string
+	Status      string
 }
 
 func MakeSnippetTopic(
@@ -23,6 +24,12 @@ func MakeSnippetTopic(
 	snippetTopic, err := entity.NewSnippetTopic(title, description, accountID)
 	if err != nil {
 		return entity.SnippetTopic{}, err
+	}
+
+	if in.Status != "" {
+		if err := snippetTopic.SetStatus(in.Status); err != nil {
+			return entity.SnippetTopic{}, err
+		}
 	}
 
 	if err := repo.Store(*snippetTopic); err != nil {

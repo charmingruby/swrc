@@ -1,12 +1,21 @@
 package account
 
 import (
+	"github.com/charmingruby/swrc/internal/account/domain/adapter"
+	"github.com/charmingruby/swrc/internal/account/domain/repository"
 	"github.com/charmingruby/swrc/internal/account/domain/usecase"
 	"github.com/charmingruby/swrc/internal/account/infra/transport/grpc/server"
 	"github.com/charmingruby/swrc/internal/common/infra/auth"
 	"google.golang.org/grpc"
 )
 
-func NewAccountGRPCHandlerSetup(srv *grpc.Server, accountSvc usecase.AccountUseCase, tokenSvc auth.TokenService) {
+func NewService(
+	accountRepository repository.AccountRepository,
+	hashAdapter adapter.HashAdapter,
+) usecase.AccountUseCase {
+	return usecase.NewAccountUseCaseRegistry(accountRepository, hashAdapter)
+}
+
+func NewGRPCHandler(srv *grpc.Server, accountSvc usecase.AccountUseCase, tokenSvc auth.TokenService) {
 	server.NewAccountGRPCServerHandler(accountSvc, tokenSvc, srv).Register()
 }

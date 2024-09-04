@@ -9,10 +9,14 @@ import (
 
 	"github.com/charmingruby/swrc/config"
 	"github.com/charmingruby/swrc/internal/account"
-	"github.com/charmingruby/swrc/internal/account/domain/usecase"
-	"github.com/charmingruby/swrc/internal/account/infra/database/mongo_repository"
+	accountModuleMongoRepo "github.com/charmingruby/swrc/internal/account/infra/database/mongo_repository"
+	"github.com/charmingruby/swrc/internal/review"
+	reviewModuleMongoRepo "github.com/charmingruby/swrc/internal/review/infra/database/mongo_repository"
+	"github.com/charmingruby/swrc/test/inmemory_repository"
+
 	accountInterceptor "github.com/charmingruby/swrc/internal/account/infra/transport/grpc/auth"
 	"github.com/charmingruby/swrc/internal/common"
+	"github.com/charmingruby/swrc/internal/common/domain/client"
 	"github.com/charmingruby/swrc/internal/common/infra/auth"
 	"github.com/charmingruby/swrc/internal/common/infra/auth/interceptor"
 
@@ -68,7 +72,7 @@ func main() {
 	initDependencies(server, *db, jwtSvc)
 	reflection.Register(server)
 
-	slog.Info("Starting gRPC server on port " + cfg.ServerConfig.Port + "...")
+	slog.Info("gRPC server running on port " + cfg.ServerConfig.Port + "...")
 
 	if err := server.Serve(lis); err != nil {
 		log.Fatalf("GRPC SERVER: Failed to start server: %v", err)
@@ -76,11 +80,22 @@ func main() {
 }
 
 func initDependencies(server *grpc.Server, db mongo.Database, authSvc auth.TokenService) {
-	accountSvc := usecase.NewAccountUseCaseRegistry(
-		mongo_repository.NewAccountMongoRepository(&db),
+	accountRepo := accountModuleMongoRepo.NewAccountMongoRepository(&db)
+	topicRepo := reviewModuleMongoRepo.NewSnippetTopicMongoRepository(&db)
+	commentRepo := inmemory_repository.NewInMemoryCommentRepository()
+	voteRepo := inmemory_repository.NewInMemoryCommentVoteRepository()
+	snippetRepo := inmemory_repository.NewInMemorySnippetRepository()
+
+	accountSvc := account.NewService(
+		accountRepo,
 		bcrypt.NewBcryptService(),
 	)
 
-	common.NewCommonGRPCHandlerSetup(server)
-	account.NewAccountGRPCHandlerSetup(server, accountSvc, authSvc)
+	accountClient := client.NewAccountClient(accountRepo)
+
+	reviewSvc := review.NewService(snippetRepo, topicRepo, commentRepo, voteRepo, accountClient)
+
+	common.NewGRPCHandler(server)
+	account.NewGRPCHandler(server, accountSvc, authSvc)
+	review.NewGRPCHandler(server, reviewSvc)
 }

@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "swrc/proto/pb";
+
+message CreateSnippetTopicRequest{
+    string title = 1;
+	string description = 2;
+	string account_id = 3;
+}
+
+

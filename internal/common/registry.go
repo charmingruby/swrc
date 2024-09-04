@@ -5,6 +5,6 @@ import (
 	"google.golang.org/grpc"
 )
 
-func NewCommonGRPCHandlerSetup(srv *grpc.Server) {
+func NewGRPCHandler(srv *grpc.Server) {
 	server.NewCommonGRPCServerHandler(srv).Register()
 }

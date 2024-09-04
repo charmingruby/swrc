@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "swrc/proto/pb";
+
+import "google/protobuf/empty.proto";
+
+import "v1_rpc_create_snippet_topic.proto";
+
+service ReviewService{
+    rpc CreateSnippetTopic(CreateSnippetTopicRequest) returns (google.protobuf.Empty){}
+}

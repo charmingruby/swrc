@@ -4,6 +4,7 @@ import (
 	"github.com/charmingruby/swrc/internal/common/core"
 	"github.com/charmingruby/swrc/internal/common/core/logger"
 	"github.com/charmingruby/swrc/internal/review/domain/dto"
+	"github.com/charmingruby/swrc/internal/review/domain/entity"
 )
 
 const (
@@ -30,6 +31,7 @@ func (s *ReviewUseCaseRegistry) ChooseSnippetTopicSolutionUseCase(input dto.Choo
 	}
 
 	topic.SnippetSolutionID = snippet.ID
+	topic.SetStatus(entity.SNIPPET_TOPIC_STATUS_CLOSED)
 
 	if err := s.SnippetTopicRepository.Save(topic); err != nil {
 		logger.LogInternalErr(chooseSnippetTopicSolutionUseCase, err)

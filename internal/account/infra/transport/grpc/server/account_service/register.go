@@ -6,9 +6,8 @@ import (
 	"github.com/charmingruby/swrc/internal/account/domain/dto"
 	"github.com/charmingruby/swrc/internal/common/core"
 	"github.com/charmingruby/swrc/internal/common/infra/auth"
+	"github.com/charmingruby/swrc/internal/common/infra/transport/grpc"
 	"github.com/charmingruby/swrc/proto/pb"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 )
 
 func (h *AccountGRPCService) Register(ctx context.Context, req *pb.RegisterRequest) (*pb.RegisterReply, error) {
@@ -21,17 +20,15 @@ func (h *AccountGRPCService) Register(ctx context.Context, req *pb.RegisterReque
 	output, err := h.accountService.RegisterUseCase(input)
 
 	if err != nil {
-		conflictErr, ok := err.(*core.ErrConflict)
-		if ok {
-			return nil, status.Errorf(codes.AlreadyExists, conflictErr.Error())
+		if conflictErr, ok := err.(*core.ErrConflict); ok {
+			return nil, grpc.NewConflictErr(conflictErr)
 		}
 
-		validationErr, ok := err.(*core.ErrValidation)
-		if ok {
-			return nil, status.Errorf(codes.InvalidArgument, validationErr.Error())
+		if validationErr, ok := err.(*core.ErrValidation); ok {
+			return nil, grpc.NewValidationErr(validationErr)
 		}
 
-		return nil, status.Errorf(codes.Internal, err.Error())
+		return nil, grpc.NewInternalErr(err)
 	}
 
 	accessToken, err := h.tokenService.GenerateToken(auth.TokenPayload{
@@ -41,7 +38,7 @@ func (h *AccountGRPCService) Register(ctx context.Context, req *pb.RegisterReque
 		Verified:  output.Verified,
 	})
 	if err != nil {
-		return nil, status.Errorf(codes.Internal, err.Error())
+		return nil, grpc.NewValidationErr(err)
 	}
 
 	rep := pb.RegisterReply{AccessToken: accessToken}

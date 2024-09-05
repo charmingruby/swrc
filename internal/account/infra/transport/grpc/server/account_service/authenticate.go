@@ -6,9 +6,8 @@ import (
 	"github.com/charmingruby/swrc/internal/account/domain/dto"
 	"github.com/charmingruby/swrc/internal/common/core"
 	"github.com/charmingruby/swrc/internal/common/infra/auth"
+	"github.com/charmingruby/swrc/internal/common/infra/transport/grpc"
 	"github.com/charmingruby/swrc/proto/pb"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 )
 
 func (h *AccountGRPCService) Authenticate(ctx context.Context, req *pb.AuthenticateRequest) (*pb.AuthenticateReply, error) {
@@ -21,10 +20,10 @@ func (h *AccountGRPCService) Authenticate(ctx context.Context, req *pb.Authentic
 	if err != nil {
 		invalidCredentialsErr, ok := err.(*core.ErrInvalidCredentials)
 		if ok {
-			return nil, status.Errorf(codes.InvalidArgument, invalidCredentialsErr.Message)
+			return nil, grpc.NewInvalidCredentials(invalidCredentialsErr)
 		}
 
-		return nil, status.Errorf(codes.Internal, err.Error())
+		return nil, grpc.NewInternalErr(err)
 	}
 
 	accessToken, err := h.tokenService.GenerateToken(auth.TokenPayload{
@@ -34,7 +33,7 @@ func (h *AccountGRPCService) Authenticate(ctx context.Context, req *pb.Authentic
 		Verified:  output.Verified,
 	})
 	if err != nil {
-		return nil, status.Errorf(codes.Internal, err.Error())
+		return nil, grpc.NewInternalErr(err)
 	}
 
 	rep := pb.AuthenticateReply{AccessToken: accessToken}

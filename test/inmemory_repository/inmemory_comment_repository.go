@@ -65,17 +65,6 @@ func (r *InMemoryCommentRepository) Delete(comment entity.Comment) error {
 	return core.NewNotFoundErr("comment")
 }
 
-func (r *InMemoryCommentRepository) Save(comment entity.Comment) error {
-	for idx, cm := range r.Items {
-		if cm.ID == comment.ID {
-			r.Items[idx] = comment
-			return nil
-		}
-	}
-
-	return core.NewNotFoundErr("comment")
-}
-
 func (r *InMemoryCommentRepository) DeleteManyByParentCommentID(parentCommentID string) error {
 	var collectCommentsToDelete func(parentID string) []string
 

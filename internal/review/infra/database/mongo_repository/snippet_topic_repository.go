@@ -71,7 +71,7 @@ func (r SnippetTopicMongoRepository) FindMany(id, status, accountID string) ([]e
 		{Key: "$or", Value: bson.A{
 			bson.D{{Key: "_id", Value: id}},
 			bson.D{{Key: "status", Value: status}},
-			bson.D{{Key: "accoun_id", Value: accountID}},
+			bson.D{{Key: "account_id", Value: accountID}},
 		}},
 	}
 

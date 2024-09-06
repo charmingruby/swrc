@@ -6,7 +6,6 @@ type CommentRepository interface {
 	FindByID(id string) (entity.Comment, error)
 	FindMany(id string, accountID string, snippetTopicID string, parentCommentID string) ([]entity.Comment, error)
 	Store(comment entity.Comment) error
-	Save(comment entity.Comment) error
 	Delete(comment entity.Comment) error
 	DeleteManyByParentCommentID(parentCommentID string) error
 }

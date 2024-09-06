@@ -7,6 +7,7 @@ import (
 	"github.com/charmingruby/swrc/internal/review/domain/entity"
 	"github.com/charmingruby/swrc/internal/review/infra/database/mongo_repository/mapper"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -20,7 +21,7 @@ type CommentMongoRepository struct {
 	db *mongo.Database
 }
 
-func (r *CommentMongoRepository) FindByID(id string) (entity.Comment, error) {
+func (r CommentMongoRepository) FindByID(id string) (entity.Comment, error) {
 	collection := r.db.Collection(COMMENT_COLLECTION)
 
 	filter := bson.D{{Key: "_id", Value: id}}
@@ -40,7 +41,7 @@ func (r *CommentMongoRepository) FindByID(id string) (entity.Comment, error) {
 	return comment, nil
 }
 
-func (r *CommentMongoRepository) FindMany(
+func (r CommentMongoRepository) FindMany(
 	id string,
 	accountID string,
 	snippetTopicID string,
@@ -76,7 +77,7 @@ func (r *CommentMongoRepository) FindMany(
 	return comments, nil
 }
 
-func (r *CommentMongoRepository) Store(comment entity.Comment) error {
+func (r CommentMongoRepository) Store(comment entity.Comment) error {
 	collection := r.db.Collection(COMMENT_COLLECTION)
 
 	mongoComment := mapper.DomainCommentToMongo(comment)
@@ -88,7 +89,7 @@ func (r *CommentMongoRepository) Store(comment entity.Comment) error {
 	return nil
 }
 
-func (r *CommentMongoRepository) Delete(comment entity.Comment) error {
+func (r CommentMongoRepository) Delete(comment entity.Comment) error {
 	collection := r.db.Collection(COMMENT_COLLECTION)
 
 	filter := bson.D{{Key: "_id", Value: comment.ID}}
@@ -100,11 +101,53 @@ func (r *CommentMongoRepository) Delete(comment entity.Comment) error {
 	return nil
 }
 
-func (r *CommentMongoRepository) DeleteManyByParentCommentID(parentCommentID string) error {
+func (r CommentMongoRepository) DeleteManyByParentCommentID(parentCommentID string) error {
 	collection := r.db.Collection(COMMENT_COLLECTION)
 
-	filter := bson.D{{Key: "parent_comment_id", Value: parentCommentID}}
+	var collectCommentsToDelete func(parentID string) ([]string, error)
 
+	collectCommentsToDelete = func(parentID string) ([]string, error) {
+		idsToDelete := []string{parentID}
+
+		cursor, err := collection.Find(context.Background(), bson.M{"parent_comment_id": parentID})
+		if err != nil {
+			return nil, err
+		}
+		defer cursor.Close(context.Background())
+
+		for cursor.Next(context.Background()) {
+			var comment bson.M
+			if err := cursor.Decode(&comment); err != nil {
+				return nil, err
+			}
+			if id, ok := comment["_id"].(primitive.ObjectID); ok {
+				childID := id.Hex()
+				childIDs, err := collectCommentsToDelete(childID)
+				if err != nil {
+					return nil, err
+				}
+				idsToDelete = append(idsToDelete, childIDs...)
+			}
+		}
+
+		return idsToDelete, nil
+	}
+
+	idsToDelete, err := collectCommentsToDelete(parentCommentID)
+	if err != nil {
+		return err
+	}
+
+	objectIDs := make([]primitive.ObjectID, len(idsToDelete))
+	for i, id := range idsToDelete {
+		objectID, err := primitive.ObjectIDFromHex(id)
+		if err != nil {
+			return err
+		}
+		objectIDs[i] = objectID
+	}
+
+	filter := bson.M{"_id": bson.M{"$in": objectIDs}}
 	if _, err := collection.DeleteMany(context.Background(), filter); err != nil {
 		return err
 	}

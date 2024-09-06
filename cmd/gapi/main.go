@@ -12,7 +12,6 @@ import (
 	accountModuleMongoRepo "github.com/charmingruby/swrc/internal/account/infra/database/mongo_repository"
 	"github.com/charmingruby/swrc/internal/review"
 	reviewModuleMongoRepo "github.com/charmingruby/swrc/internal/review/infra/database/mongo_repository"
-	"github.com/charmingruby/swrc/test/inmemory_repository"
 
 	accountInterceptor "github.com/charmingruby/swrc/internal/account/infra/transport/grpc/auth"
 	"github.com/charmingruby/swrc/internal/common"
@@ -82,9 +81,9 @@ func main() {
 func initDependencies(server *grpc.Server, db mongo.Database, authSvc auth.TokenService) {
 	accountRepo := accountModuleMongoRepo.NewAccountMongoRepository(&db)
 	topicRepo := reviewModuleMongoRepo.NewSnippetTopicMongoRepository(&db)
-	commentRepo := inmemory_repository.NewInMemoryCommentRepository()
-	voteRepo := inmemory_repository.NewInMemoryCommentVoteRepository()
-	snippetRepo := inmemory_repository.NewInMemorySnippetRepository()
+	commentRepo := reviewModuleMongoRepo.NewCommentMongoRepository(&db)
+	voteRepo := reviewModuleMongoRepo.NewCommentVoteMongoRepository(&db)
+	snippetRepo := reviewModuleMongoRepo.NewSnippetMongoRepository(&db)
 
 	accountSvc := account.NewService(
 		accountRepo,

@@ -20,7 +20,7 @@ type CommentVoteMongoRepository struct {
 	db *mongo.Database
 }
 
-func (r *CommentVoteMongoRepository) FindByID(id string) (entity.CommentVote, error) {
+func (r CommentVoteMongoRepository) FindByID(id string) (entity.CommentVote, error) {
 	collection := r.db.Collection(COMMENT_VOTE_COLLECTION)
 
 	filter := bson.D{{Key: "_id", Value: id}}
@@ -40,7 +40,7 @@ func (r *CommentVoteMongoRepository) FindByID(id string) (entity.CommentVote, er
 	return comment, nil
 }
 
-func (r *CommentVoteMongoRepository) FindByCommentIDAndAccountID(commentID, accountID string) (entity.CommentVote, error) {
+func (r CommentVoteMongoRepository) FindByCommentIDAndAccountID(commentID, accountID string) (entity.CommentVote, error) {
 	collection := r.db.Collection(COMMENT_VOTE_COLLECTION)
 
 	filter := bson.D{
@@ -65,7 +65,7 @@ func (r *CommentVoteMongoRepository) FindByCommentIDAndAccountID(commentID, acco
 	return vote, nil
 }
 
-func (r *CommentVoteMongoRepository) Store(vote entity.CommentVote) error {
+func (r CommentVoteMongoRepository) Store(vote entity.CommentVote) error {
 	collection := r.db.Collection(COMMENT_VOTE_COLLECTION)
 
 	mongoVote := mapper.DomainCommentVoteToMongo(vote)
@@ -77,7 +77,7 @@ func (r *CommentVoteMongoRepository) Store(vote entity.CommentVote) error {
 	return nil
 }
 
-func (r *CommentVoteMongoRepository) Delete(vote entity.CommentVote) error {
+func (r CommentVoteMongoRepository) Delete(vote entity.CommentVote) error {
 	collection := r.db.Collection(COMMENT_VOTE_COLLECTION)
 
 	filter := bson.D{{Key: "_id", Value: vote.ID}}

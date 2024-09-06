@@ -1,4 +1,4 @@
-package auth
+package security
 
 type TokenPayload struct {
 	AccountID string `json:"account_id"`

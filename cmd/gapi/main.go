@@ -16,8 +16,8 @@ import (
 	accountInterceptor "github.com/charmingruby/swrc/internal/account/infra/transport/grpc/auth"
 	"github.com/charmingruby/swrc/internal/common"
 	"github.com/charmingruby/swrc/internal/common/domain/client"
-	"github.com/charmingruby/swrc/internal/common/infra/auth"
-	"github.com/charmingruby/swrc/internal/common/infra/auth/interceptor"
+	"github.com/charmingruby/swrc/internal/common/infra/security"
+	"github.com/charmingruby/swrc/internal/common/infra/transport/grpc/interceptor"
 
 	"go.mongodb.org/mongo-driver/mongo"
 
@@ -78,7 +78,7 @@ func main() {
 	}
 }
 
-func initDependencies(server *grpc.Server, db mongo.Database, authSvc auth.TokenService) {
+func initDependencies(server *grpc.Server, db mongo.Database, tokenSvc security.TokenService) {
 	accountRepo := accountModuleMongoRepo.NewAccountMongoRepository(&db)
 	topicRepo := reviewModuleMongoRepo.NewSnippetTopicMongoRepository(&db)
 	commentRepo := reviewModuleMongoRepo.NewCommentMongoRepository(&db)
@@ -95,6 +95,6 @@ func initDependencies(server *grpc.Server, db mongo.Database, authSvc auth.Token
 	reviewSvc := review.NewService(snippetRepo, topicRepo, commentRepo, voteRepo, accountClient)
 
 	common.NewGRPCHandler(server)
-	account.NewGRPCHandler(server, accountSvc, authSvc)
+	account.NewGRPCHandler(server, accountSvc, tokenSvc)
 	review.NewGRPCHandler(server, reviewSvc)
 }

@@ -5,8 +5,8 @@ import (
 
 	"github.com/charmingruby/swrc/internal/account/domain/dto"
 	"github.com/charmingruby/swrc/internal/common/core"
-	"github.com/charmingruby/swrc/internal/common/infra/auth/interceptor"
 	"github.com/charmingruby/swrc/internal/common/infra/transport/grpc"
+	"github.com/charmingruby/swrc/internal/common/infra/transport/grpc/interceptor"
 	"github.com/charmingruby/swrc/proto/pb"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"

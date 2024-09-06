@@ -5,7 +5,7 @@ import (
 
 	"github.com/charmingruby/swrc/internal/account/domain/dto"
 	"github.com/charmingruby/swrc/internal/common/core"
-	"github.com/charmingruby/swrc/internal/common/infra/auth"
+	"github.com/charmingruby/swrc/internal/common/infra/security"
 	"github.com/charmingruby/swrc/internal/common/infra/transport/grpc"
 	"github.com/charmingruby/swrc/proto/pb"
 )
@@ -26,7 +26,7 @@ func (h *AccountGRPCService) Authenticate(ctx context.Context, req *pb.Authentic
 		return nil, grpc.NewInternalErr(err)
 	}
 
-	accessToken, err := h.tokenService.GenerateToken(auth.TokenPayload{
+	accessToken, err := h.tokenService.GenerateToken(security.TokenPayload{
 		AccountID: output.ID,
 		Role:      output.Role,
 		IsValid:   output.IsValid,

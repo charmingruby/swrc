@@ -1,7 +1,7 @@
 package interceptor
 
 import (
-	"github.com/charmingruby/swrc/internal/common/infra/auth"
+	"github.com/charmingruby/swrc/internal/common/infra/security"
 	"github.com/charmingruby/swrc/pkg/jwt"
 )
 
@@ -18,7 +18,7 @@ func NewGRPCInterceptor(
 }
 
 type GRPCInterceptor struct {
-	tokenService       auth.TokenService
+	tokenService       security.TokenService
 	authBypassMethods  map[string]bool
 	rbacEnsuredMethods map[string][]string
 }

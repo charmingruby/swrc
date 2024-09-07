@@ -74,7 +74,11 @@ func (r SnippetMongoRepository) FindByID(id string) (entity.Snippet, error) {
 func (r SnippetMongoRepository) FindManyByTopicID(topicID string) ([]entity.Snippet, error) {
 	collection := r.db.Collection(SNIPPET_COLLECTION)
 
-	filter := bson.D{{Key: "snippet_topic_id", Value: topicID}}
+	filter := bson.D{{}}
+
+	if topicID != "" {
+		filter = bson.D{{Key: "snippet_topic_id", Value: topicID}}
+	}
 
 	cursor, err := collection.Find(context.Background(), filter)
 	if err != nil {

@@ -33,6 +33,6 @@ type MongoSnippet struct {
 	Version     int       `json:"version" bson:"version"`
 	CodeSnippet string    `json:"code_snippet" bson:"code_snippet"`
 	Message     string    `json:"message" bson:"message"`
-	TopicID     string    `json:"topic_id" bson:"topic_id"`
+	TopicID     string    `json:"topic_id" bson:"snippet_topic_id"`
 	CreatedAt   time.Time `json:"created_at" bson:"created_at"`
 }

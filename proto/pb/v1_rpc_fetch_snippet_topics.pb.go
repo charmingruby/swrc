@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.25.0-devel
 // 	protoc        v3.14.0
-// source: v1_fetch_snippet_topics.proto
+// source: v1_rpc_fetch_snippet_topics.proto
 
 package pb
 
@@ -33,7 +33,7 @@ type FetchSnippetTopicsRequest struct {
 func (x *FetchSnippetTopicsRequest) Reset() {
 	*x = FetchSnippetTopicsRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_v1_fetch_snippet_topics_proto_msgTypes[0]
+		mi := &file_v1_rpc_fetch_snippet_topics_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -46,7 +46,7 @@ func (x *FetchSnippetTopicsRequest) String() string {
 func (*FetchSnippetTopicsRequest) ProtoMessage() {}
 
 func (x *FetchSnippetTopicsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_fetch_snippet_topics_proto_msgTypes[0]
+	mi := &file_v1_rpc_fetch_snippet_topics_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -59,7 +59,7 @@ func (x *FetchSnippetTopicsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FetchSnippetTopicsRequest.ProtoReflect.Descriptor instead.
 func (*FetchSnippetTopicsRequest) Descriptor() ([]byte, []int) {
-	return file_v1_fetch_snippet_topics_proto_rawDescGZIP(), []int{0}
+	return file_v1_rpc_fetch_snippet_topics_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *FetchSnippetTopicsRequest) GetId() string {
@@ -94,7 +94,7 @@ type FetchSnippetTopicsReply struct {
 func (x *FetchSnippetTopicsReply) Reset() {
 	*x = FetchSnippetTopicsReply{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_v1_fetch_snippet_topics_proto_msgTypes[1]
+		mi := &file_v1_rpc_fetch_snippet_topics_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -107,7 +107,7 @@ func (x *FetchSnippetTopicsReply) String() string {
 func (*FetchSnippetTopicsReply) ProtoMessage() {}
 
 func (x *FetchSnippetTopicsReply) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_fetch_snippet_topics_proto_msgTypes[1]
+	mi := &file_v1_rpc_fetch_snippet_topics_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -120,7 +120,7 @@ func (x *FetchSnippetTopicsReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FetchSnippetTopicsReply.ProtoReflect.Descriptor instead.
 func (*FetchSnippetTopicsReply) Descriptor() ([]byte, []int) {
-	return file_v1_fetch_snippet_topics_proto_rawDescGZIP(), []int{1}
+	return file_v1_rpc_fetch_snippet_topics_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *FetchSnippetTopicsReply) GetTopics() []*SnippetTopic {
@@ -130,47 +130,47 @@ func (x *FetchSnippetTopicsReply) GetTopics() []*SnippetTopic {
 	return nil
 }
 
-var File_v1_fetch_snippet_topics_proto protoreflect.FileDescriptor
+var File_v1_rpc_fetch_snippet_topics_proto protoreflect.FileDescriptor
 
-var file_v1_fetch_snippet_topics_proto_rawDesc = []byte{
-	0x0a, 0x1d, 0x76, 0x31, 0x5f, 0x66, 0x65, 0x74, 0x63, 0x68, 0x5f, 0x73, 0x6e, 0x69, 0x70, 0x70,
-	0x65, 0x74, 0x5f, 0x74, 0x6f, 0x70, 0x69, 0x63, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12,
-	0x05, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x16, 0x76, 0x31, 0x5f, 0x73, 0x6e, 0x69, 0x70, 0x70,
-	0x65, 0x74, 0x5f, 0x74, 0x6f, 0x70, 0x69, 0x63, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x62,
-	0x0a, 0x19, 0x46, 0x65, 0x74, 0x63, 0x68, 0x53, 0x6e, 0x69, 0x70, 0x70, 0x65, 0x74, 0x54, 0x6f,
-	0x70, 0x69, 0x63, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69,
-	0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x1d, 0x0a, 0x0a, 0x61,
-	0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x09, 0x61, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x49, 0x64, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x74,
-	0x61, 0x74, 0x75, 0x73, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74,
-	0x75, 0x73, 0x22, 0x46, 0x0a, 0x17, 0x46, 0x65, 0x74, 0x63, 0x68, 0x53, 0x6e, 0x69, 0x70, 0x70,
-	0x65, 0x74, 0x54, 0x6f, 0x70, 0x69, 0x63, 0x73, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x12, 0x2b, 0x0a,
-	0x06, 0x74, 0x6f, 0x70, 0x69, 0x63, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x13, 0x2e,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x53, 0x6e, 0x69, 0x70, 0x70, 0x65, 0x74, 0x54, 0x6f, 0x70,
-	0x69, 0x63, 0x52, 0x06, 0x74, 0x6f, 0x70, 0x69, 0x63, 0x73, 0x42, 0x0f, 0x5a, 0x0d, 0x73, 0x77,
-	0x72, 0x63, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x33,
+var file_v1_rpc_fetch_snippet_topics_proto_rawDesc = []byte{
+	0x0a, 0x21, 0x76, 0x31, 0x5f, 0x72, 0x70, 0x63, 0x5f, 0x66, 0x65, 0x74, 0x63, 0x68, 0x5f, 0x73,
+	0x6e, 0x69, 0x70, 0x70, 0x65, 0x74, 0x5f, 0x74, 0x6f, 0x70, 0x69, 0x63, 0x73, 0x2e, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x12, 0x05, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x16, 0x76, 0x31, 0x5f, 0x73,
+	0x6e, 0x69, 0x70, 0x70, 0x65, 0x74, 0x5f, 0x74, 0x6f, 0x70, 0x69, 0x63, 0x2e, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x22, 0x62, 0x0a, 0x19, 0x46, 0x65, 0x74, 0x63, 0x68, 0x53, 0x6e, 0x69, 0x70, 0x70,
+	0x65, 0x74, 0x54, 0x6f, 0x70, 0x69, 0x63, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
+	0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12,
+	0x1d, 0x0a, 0x0a, 0x61, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x09, 0x61, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x49, 0x64, 0x12, 0x16,
+	0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06,
+	0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x22, 0x46, 0x0a, 0x17, 0x46, 0x65, 0x74, 0x63, 0x68, 0x53,
+	0x6e, 0x69, 0x70, 0x70, 0x65, 0x74, 0x54, 0x6f, 0x70, 0x69, 0x63, 0x73, 0x52, 0x65, 0x70, 0x6c,
+	0x79, 0x12, 0x2b, 0x0a, 0x06, 0x74, 0x6f, 0x70, 0x69, 0x63, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28,
+	0x0b, 0x32, 0x13, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x53, 0x6e, 0x69, 0x70, 0x70, 0x65,
+	0x74, 0x54, 0x6f, 0x70, 0x69, 0x63, 0x52, 0x06, 0x74, 0x6f, 0x70, 0x69, 0x63, 0x73, 0x42, 0x0f,
+	0x5a, 0x0d, 0x73, 0x77, 0x72, 0x63, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x70, 0x62, 0x62,
+	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
-	file_v1_fetch_snippet_topics_proto_rawDescOnce sync.Once
-	file_v1_fetch_snippet_topics_proto_rawDescData = file_v1_fetch_snippet_topics_proto_rawDesc
+	file_v1_rpc_fetch_snippet_topics_proto_rawDescOnce sync.Once
+	file_v1_rpc_fetch_snippet_topics_proto_rawDescData = file_v1_rpc_fetch_snippet_topics_proto_rawDesc
 )
 
-func file_v1_fetch_snippet_topics_proto_rawDescGZIP() []byte {
-	file_v1_fetch_snippet_topics_proto_rawDescOnce.Do(func() {
-		file_v1_fetch_snippet_topics_proto_rawDescData = protoimpl.X.CompressGZIP(file_v1_fetch_snippet_topics_proto_rawDescData)
+func file_v1_rpc_fetch_snippet_topics_proto_rawDescGZIP() []byte {
+	file_v1_rpc_fetch_snippet_topics_proto_rawDescOnce.Do(func() {
+		file_v1_rpc_fetch_snippet_topics_proto_rawDescData = protoimpl.X.CompressGZIP(file_v1_rpc_fetch_snippet_topics_proto_rawDescData)
 	})
-	return file_v1_fetch_snippet_topics_proto_rawDescData
+	return file_v1_rpc_fetch_snippet_topics_proto_rawDescData
 }
 
-var file_v1_fetch_snippet_topics_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
-var file_v1_fetch_snippet_topics_proto_goTypes = []interface{}{
+var file_v1_rpc_fetch_snippet_topics_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_v1_rpc_fetch_snippet_topics_proto_goTypes = []interface{}{
 	(*FetchSnippetTopicsRequest)(nil), // 0: proto.FetchSnippetTopicsRequest
 	(*FetchSnippetTopicsReply)(nil),   // 1: proto.FetchSnippetTopicsReply
 	(*SnippetTopic)(nil),              // 2: proto.SnippetTopic
 }
-var file_v1_fetch_snippet_topics_proto_depIdxs = []int32{
+var file_v1_rpc_fetch_snippet_topics_proto_depIdxs = []int32{
 	2, // 0: proto.FetchSnippetTopicsReply.topics:type_name -> proto.SnippetTopic
 	1, // [1:1] is the sub-list for method output_type
 	1, // [1:1] is the sub-list for method input_type
@@ -179,14 +179,14 @@ var file_v1_fetch_snippet_topics_proto_depIdxs = []int32{
 	0, // [0:1] is the sub-list for field type_name
 }
 
-func init() { file_v1_fetch_snippet_topics_proto_init() }
-func file_v1_fetch_snippet_topics_proto_init() {
-	if File_v1_fetch_snippet_topics_proto != nil {
+func init() { file_v1_rpc_fetch_snippet_topics_proto_init() }
+func file_v1_rpc_fetch_snippet_topics_proto_init() {
+	if File_v1_rpc_fetch_snippet_topics_proto != nil {
 		return
 	}
 	file_v1_snippet_topic_proto_init()
 	if !protoimpl.UnsafeEnabled {
-		file_v1_fetch_snippet_topics_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_v1_rpc_fetch_snippet_topics_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*FetchSnippetTopicsRequest); i {
 			case 0:
 				return &v.state
@@ -198,7 +198,7 @@ func file_v1_fetch_snippet_topics_proto_init() {
 				return nil
 			}
 		}
-		file_v1_fetch_snippet_topics_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+		file_v1_rpc_fetch_snippet_topics_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*FetchSnippetTopicsReply); i {
 			case 0:
 				return &v.state
@@ -215,18 +215,18 @@ func file_v1_fetch_snippet_topics_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: file_v1_fetch_snippet_topics_proto_rawDesc,
+			RawDescriptor: file_v1_rpc_fetch_snippet_topics_proto_rawDesc,
 			NumEnums:      0,
 			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_v1_fetch_snippet_topics_proto_goTypes,
-		DependencyIndexes: file_v1_fetch_snippet_topics_proto_depIdxs,
-		MessageInfos:      file_v1_fetch_snippet_topics_proto_msgTypes,
+		GoTypes:           file_v1_rpc_fetch_snippet_topics_proto_goTypes,
+		DependencyIndexes: file_v1_rpc_fetch_snippet_topics_proto_depIdxs,
+		MessageInfos:      file_v1_rpc_fetch_snippet_topics_proto_msgTypes,
 	}.Build()
-	File_v1_fetch_snippet_topics_proto = out.File
-	file_v1_fetch_snippet_topics_proto_rawDesc = nil
-	file_v1_fetch_snippet_topics_proto_goTypes = nil
-	file_v1_fetch_snippet_topics_proto_depIdxs = nil
+	File_v1_rpc_fetch_snippet_topics_proto = out.File
+	file_v1_rpc_fetch_snippet_topics_proto_rawDesc = nil
+	file_v1_rpc_fetch_snippet_topics_proto_goTypes = nil
+	file_v1_rpc_fetch_snippet_topics_proto_depIdxs = nil
 }

@@ -1,4 +1,4 @@
-package health_service
+package health_rpc
 
 import "github.com/charmingruby/swrc/proto/pb"
 

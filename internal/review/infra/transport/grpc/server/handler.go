@@ -2,7 +2,7 @@ package server
 
 import (
 	"github.com/charmingruby/swrc/internal/review/domain/usecase"
-	"github.com/charmingruby/swrc/internal/review/infra/transport/grpc/server/review_service"
+	"github.com/charmingruby/swrc/internal/review/infra/transport/grpc/server/review_rpc"
 	"github.com/charmingruby/swrc/proto/pb"
 	"google.golang.org/grpc"
 )
@@ -23,6 +23,6 @@ type ReviewGRPCServerHandler struct {
 }
 
 func (h *ReviewGRPCServerHandler) Register() {
-	reviewSvc := review_service.NewReviewGRPCService(h.reviewService)
+	reviewSvc := review_rpc.NewReviewGRPCService(h.reviewService)
 	pb.RegisterReviewServiceServer(h.server, reviewSvc)
 }

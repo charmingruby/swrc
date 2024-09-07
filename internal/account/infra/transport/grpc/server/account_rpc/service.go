@@ -1,4 +1,4 @@
-package account_service
+package account_rpc
 
 import (
 	"github.com/charmingruby/swrc/internal/account/domain/usecase"

@@ -2,7 +2,7 @@ package server
 
 import (
 	"github.com/charmingruby/swrc/internal/account/domain/usecase"
-	"github.com/charmingruby/swrc/internal/account/infra/transport/grpc/server/account_service"
+	"github.com/charmingruby/swrc/internal/account/infra/transport/grpc/server/account_rpc"
 	"github.com/charmingruby/swrc/internal/common/infra/security"
 	"github.com/charmingruby/swrc/proto/pb"
 	"google.golang.org/grpc"
@@ -26,6 +26,6 @@ type AccountGRPCServerHandler struct {
 }
 
 func (h *AccountGRPCServerHandler) Register() {
-	accountSvc := account_service.NewAccountGRPCService(h.accountService, h.tokenService)
+	accountSvc := account_rpc.NewAccountGRPCService(h.accountService, h.tokenService)
 	pb.RegisterAccountServiceServer(h.server, accountSvc)
 }

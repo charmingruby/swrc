@@ -1,4 +1,4 @@
-package review_service
+package review_rpc
 
 import (
 	"context"

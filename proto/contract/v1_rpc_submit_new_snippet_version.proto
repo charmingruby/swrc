@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "swrc/proto/pb";
+
+message SubmitNewSnippetVersionRequest {
+    string code_snippet = 1; 
+	string message = 2;     
+	string topic_id = 3;     
+};

@@ -13,7 +13,9 @@ import (
 	"github.com/charmingruby/swrc/internal/review"
 	reviewModuleMongoRepo "github.com/charmingruby/swrc/internal/review/infra/database/mongo_repository"
 
-	accountInterceptor "github.com/charmingruby/swrc/internal/account/infra/transport/grpc/auth"
+	accountInterceptor "github.com/charmingruby/swrc/internal/account/infra/transport/grpc/interceptor/auth"
+	reviewInterceptor "github.com/charmingruby/swrc/internal/review/infra/transport/grpc/interceptor/auth"
+
 	"github.com/charmingruby/swrc/internal/common"
 	"github.com/charmingruby/swrc/internal/common/domain/client"
 	"github.com/charmingruby/swrc/internal/common/infra/security"
@@ -56,9 +58,18 @@ func main() {
 	}
 
 	jwtSvc := jwt.NewJWTService(cfg.JWTConfig.Issuer, cfg.JWTConfig.SecretKey)
+
+	mergedMethodsToBypassAuthentication := make(map[string]bool)
+	for k, v := range reviewInterceptor.ReviewMethodsToBypass {
+		mergedMethodsToBypassAuthentication[k] = v
+	}
+	for k, v := range accountInterceptor.AccountMethodsToBypass {
+		mergedMethodsToBypassAuthentication[k] = v
+	}
+
 	interceptor := interceptor.NewGRPCInterceptor(
 		*jwtSvc,
-		accountInterceptor.AccountMethodsToBypass,
+		mergedMethodsToBypassAuthentication,
 		accountInterceptor.AccountRBACEnsuredMethods,
 	)
 

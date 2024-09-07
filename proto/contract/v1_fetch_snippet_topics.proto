@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "swrc/proto/pb";
+
+import "v1_snippet_topic.proto";
+
+message FetchSnippetTopicsRequest {
+    string id = 1;
+    string account_id = 2;
+    string status = 3;    
+};
+
+message FetchSnippetTopicsReply {
+    repeated SnippetTopic topics = 1;
+};

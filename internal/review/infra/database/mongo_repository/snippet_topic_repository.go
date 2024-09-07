@@ -67,12 +67,16 @@ func (r SnippetTopicMongoRepository) Delete(id string) error {
 func (r SnippetTopicMongoRepository) FindMany(id, status, accountID string) ([]entity.SnippetTopic, error) {
 	collection := r.db.Collection(SNIPPET_TOPIC_COLLECTION)
 
-	filter := bson.D{
-		{Key: "$or", Value: bson.A{
-			bson.D{{Key: "_id", Value: id}},
-			bson.D{{Key: "status", Value: status}},
-			bson.D{{Key: "account_id", Value: accountID}},
-		}},
+	filter := bson.D{}
+
+	if id != "" || status != "" || accountID != "" {
+		filter = bson.D{
+			{Key: "$or", Value: bson.A{
+				bson.D{{Key: "_id", Value: id}},
+				bson.D{{Key: "status", Value: status}},
+				bson.D{{Key: "account_id", Value: accountID}},
+			}},
+		}
 	}
 
 	cursor, err := collection.Find(context.Background(), filter)

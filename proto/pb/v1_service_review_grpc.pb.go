@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ReviewServiceClient interface {
 	CreateSnippetTopic(ctx context.Context, in *CreateSnippetTopicRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	FetchSnippetTopics(ctx context.Context, in *FetchSnippetTopicsRequest, opts ...grpc.CallOption) (*FetchSnippetTopicsReply, error)
 }
 
 type reviewServiceClient struct {
@@ -39,11 +40,21 @@ func (c *reviewServiceClient) CreateSnippetTopic(ctx context.Context, in *Create
 	return out, nil
 }
 
+func (c *reviewServiceClient) FetchSnippetTopics(ctx context.Context, in *FetchSnippetTopicsRequest, opts ...grpc.CallOption) (*FetchSnippetTopicsReply, error) {
+	out := new(FetchSnippetTopicsReply)
+	err := c.cc.Invoke(ctx, "/proto.ReviewService/FetchSnippetTopics", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ReviewServiceServer is the server API for ReviewService service.
 // All implementations must embed UnimplementedReviewServiceServer
 // for forward compatibility
 type ReviewServiceServer interface {
 	CreateSnippetTopic(context.Context, *CreateSnippetTopicRequest) (*emptypb.Empty, error)
+	FetchSnippetTopics(context.Context, *FetchSnippetTopicsRequest) (*FetchSnippetTopicsReply, error)
 	mustEmbedUnimplementedReviewServiceServer()
 }
 
@@ -53,6 +64,9 @@ type UnimplementedReviewServiceServer struct {
 
 func (UnimplementedReviewServiceServer) CreateSnippetTopic(context.Context, *CreateSnippetTopicRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateSnippetTopic not implemented")
+}
+func (UnimplementedReviewServiceServer) FetchSnippetTopics(context.Context, *FetchSnippetTopicsRequest) (*FetchSnippetTopicsReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FetchSnippetTopics not implemented")
 }
 func (UnimplementedReviewServiceServer) mustEmbedUnimplementedReviewServiceServer() {}
 
@@ -85,6 +99,24 @@ func _ReviewService_CreateSnippetTopic_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ReviewService_FetchSnippetTopics_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FetchSnippetTopicsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ReviewServiceServer).FetchSnippetTopics(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.ReviewService/FetchSnippetTopics",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ReviewServiceServer).FetchSnippetTopics(ctx, req.(*FetchSnippetTopicsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ReviewService_ServiceDesc is the grpc.ServiceDesc for ReviewService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -95,6 +127,10 @@ var ReviewService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateSnippetTopic",
 			Handler:    _ReviewService_CreateSnippetTopic_Handler,
+		},
+		{
+			MethodName: "FetchSnippetTopics",
+			Handler:    _ReviewService_FetchSnippetTopics_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

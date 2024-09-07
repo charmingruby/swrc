@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "swrc/proto/pb";
+
+message CommentOnSnippetTopicRequest{
+    string content = 1;          
+	string snippet_topic_id = 2;  
+	string parent_comment_id = 3;   
+};

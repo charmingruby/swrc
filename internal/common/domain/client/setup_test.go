@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/charmingruby/swrc/internal/account/domain/entity"
-	"github.com/charmingruby/swrc/internal/review/domain/adapter"
+	"github.com/charmingruby/swrc/internal/review/domain/port"
 	"github.com/charmingruby/swrc/test/inmemory_repository"
 	"github.com/stretchr/testify/suite"
 )
@@ -12,7 +12,7 @@ import (
 type Suite struct {
 	suite.Suite
 	accountRepository *inmemory_repository.InMemoryAccountRepository
-	accountClient     adapter.AccountClient
+	accountClient     port.AccountClient
 }
 
 func (s *Suite) SetupSuite() {

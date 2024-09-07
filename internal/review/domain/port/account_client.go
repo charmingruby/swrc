@@ -1,4 +1,4 @@
-package adapter
+package port
 
 type AccountClient interface {
 	AccountExists(accountID string) bool

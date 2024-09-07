@@ -1,8 +1,8 @@
 package usecase
 
 import (
-	"github.com/charmingruby/swrc/internal/review/domain/adapter"
 	"github.com/charmingruby/swrc/internal/review/domain/dto"
+	adapter "github.com/charmingruby/swrc/internal/review/domain/port"
 	"github.com/charmingruby/swrc/internal/review/domain/repository"
 )
 

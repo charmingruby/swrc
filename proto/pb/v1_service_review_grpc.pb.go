@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion7
 type ReviewServiceClient interface {
 	CreateSnippetTopic(ctx context.Context, in *CreateSnippetTopicRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	SubmitNewSnippetVersion(ctx context.Context, in *SubmitNewSnippetVersionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	CommentOnSnippetTopic(ctx context.Context, in *CommentOnSnippetTopicRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	FetchSnippetTopics(ctx context.Context, in *FetchSnippetTopicsRequest, opts ...grpc.CallOption) (*FetchSnippetTopicsReply, error)
 	FetchSnippets(ctx context.Context, in *FetchSnippetsRequest, opts ...grpc.CallOption) (*FetchSnippetsReply, error)
 }
@@ -51,6 +52,15 @@ func (c *reviewServiceClient) SubmitNewSnippetVersion(ctx context.Context, in *S
 	return out, nil
 }
 
+func (c *reviewServiceClient) CommentOnSnippetTopic(ctx context.Context, in *CommentOnSnippetTopicRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/proto.ReviewService/CommentOnSnippetTopic", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *reviewServiceClient) FetchSnippetTopics(ctx context.Context, in *FetchSnippetTopicsRequest, opts ...grpc.CallOption) (*FetchSnippetTopicsReply, error) {
 	out := new(FetchSnippetTopicsReply)
 	err := c.cc.Invoke(ctx, "/proto.ReviewService/FetchSnippetTopics", in, out, opts...)
@@ -75,6 +85,7 @@ func (c *reviewServiceClient) FetchSnippets(ctx context.Context, in *FetchSnippe
 type ReviewServiceServer interface {
 	CreateSnippetTopic(context.Context, *CreateSnippetTopicRequest) (*emptypb.Empty, error)
 	SubmitNewSnippetVersion(context.Context, *SubmitNewSnippetVersionRequest) (*emptypb.Empty, error)
+	CommentOnSnippetTopic(context.Context, *CommentOnSnippetTopicRequest) (*emptypb.Empty, error)
 	FetchSnippetTopics(context.Context, *FetchSnippetTopicsRequest) (*FetchSnippetTopicsReply, error)
 	FetchSnippets(context.Context, *FetchSnippetsRequest) (*FetchSnippetsReply, error)
 	mustEmbedUnimplementedReviewServiceServer()
@@ -89,6 +100,9 @@ func (UnimplementedReviewServiceServer) CreateSnippetTopic(context.Context, *Cre
 }
 func (UnimplementedReviewServiceServer) SubmitNewSnippetVersion(context.Context, *SubmitNewSnippetVersionRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SubmitNewSnippetVersion not implemented")
+}
+func (UnimplementedReviewServiceServer) CommentOnSnippetTopic(context.Context, *CommentOnSnippetTopicRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CommentOnSnippetTopic not implemented")
 }
 func (UnimplementedReviewServiceServer) FetchSnippetTopics(context.Context, *FetchSnippetTopicsRequest) (*FetchSnippetTopicsReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FetchSnippetTopics not implemented")
@@ -145,6 +159,24 @@ func _ReviewService_SubmitNewSnippetVersion_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ReviewService_CommentOnSnippetTopic_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CommentOnSnippetTopicRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ReviewServiceServer).CommentOnSnippetTopic(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.ReviewService/CommentOnSnippetTopic",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ReviewServiceServer).CommentOnSnippetTopic(ctx, req.(*CommentOnSnippetTopicRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ReviewService_FetchSnippetTopics_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(FetchSnippetTopicsRequest)
 	if err := dec(in); err != nil {
@@ -195,6 +227,10 @@ var ReviewService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SubmitNewSnippetVersion",
 			Handler:    _ReviewService_SubmitNewSnippetVersion_Handler,
+		},
+		{
+			MethodName: "CommentOnSnippetTopic",
+			Handler:    _ReviewService_CommentOnSnippetTopic_Handler,
 		},
 		{
 			MethodName: "FetchSnippetTopics",

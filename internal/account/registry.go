@@ -1,7 +1,7 @@
 package account
 
 import (
-	"github.com/charmingruby/swrc/internal/account/domain/adapter"
+	"github.com/charmingruby/swrc/internal/account/domain/port"
 	"github.com/charmingruby/swrc/internal/account/domain/repository"
 	"github.com/charmingruby/swrc/internal/account/domain/usecase"
 	"github.com/charmingruby/swrc/internal/account/infra/transport/grpc/server"
@@ -11,7 +11,7 @@ import (
 
 func NewService(
 	accountRepository repository.AccountRepository,
-	hashAdapter adapter.HashAdapter,
+	hashAdapter port.HashPort,
 ) usecase.AccountUseCase {
 	return usecase.NewAccountUseCaseRegistry(accountRepository, hashAdapter)
 }

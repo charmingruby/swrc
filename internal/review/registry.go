@@ -1,7 +1,7 @@
 package review
 
 import (
-	"github.com/charmingruby/swrc/internal/review/domain/adapter"
+	"github.com/charmingruby/swrc/internal/review/domain/port"
 	"github.com/charmingruby/swrc/internal/review/domain/repository"
 	"github.com/charmingruby/swrc/internal/review/domain/usecase"
 	"github.com/charmingruby/swrc/internal/review/infra/transport/grpc/server"
@@ -13,7 +13,7 @@ func NewService(
 	snippetTopicRepository repository.SnippetTopicRepository,
 	commentRepository repository.CommentRepository,
 	commentVoteRepository repository.CommentVoteRepository,
-	accountClient adapter.AccountClient,
+	accountClient port.AccountClient,
 ) usecase.ReviewUseCase {
 	return usecase.NewReviewUseCaseRegistry(
 		snippetRepository,

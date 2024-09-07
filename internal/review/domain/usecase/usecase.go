@@ -2,7 +2,7 @@ package usecase
 
 import (
 	"github.com/charmingruby/swrc/internal/review/domain/dto"
-	adapter "github.com/charmingruby/swrc/internal/review/domain/port"
+	port "github.com/charmingruby/swrc/internal/review/domain/port"
 	"github.com/charmingruby/swrc/internal/review/domain/repository"
 )
 
@@ -30,7 +30,7 @@ func NewReviewUseCaseRegistry(
 	snippetTopicRepository repository.SnippetTopicRepository,
 	commentRepository repository.CommentRepository,
 	commentVoteRepository repository.CommentVoteRepository,
-	accountClient adapter.AccountClient,
+	accountClient port.AccountClient,
 ) *ReviewUseCaseRegistry {
 	return &ReviewUseCaseRegistry{
 		SnippetRepository:      snippetRepository,
@@ -46,5 +46,5 @@ type ReviewUseCaseRegistry struct {
 	SnippetTopicRepository repository.SnippetTopicRepository
 	CommentRepository      repository.CommentRepository
 	CommentVoteRepository  repository.CommentVoteRepository
-	AccountClient          adapter.AccountClient
+	AccountClient          port.AccountClient
 }

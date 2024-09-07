@@ -20,7 +20,7 @@ func (s *AccountUseCaseRegistry) RegisterUseCase(input dto.RegisterInputDTO) (*d
 		return nil, core.NewConflictErr("account", "github_display_name")
 	}
 
-	passwordHash, err := s.HashAdapter.GenerateHash(input.Password)
+	passwordHash, err := s.HashPort.GenerateHash(input.Password)
 	if err != nil {
 		logger.LogInternalErr(registerUseCase, err)
 		return nil, core.NewInternalErr()

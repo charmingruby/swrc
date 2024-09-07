@@ -11,7 +11,7 @@ func (s *AccountUseCaseRegistry) AuthenticateUseCase(input dto.AuthenticateInput
 		return nil, core.NewInvalidCredentialsErr()
 	}
 
-	if passwordMatch := s.HashAdapter.VerifyHash(input.Password, acc.Password); !passwordMatch {
+	if passwordMatch := s.HashPort.VerifyHash(input.Password, acc.Password); !passwordMatch {
 		return nil, core.NewInvalidCredentialsErr()
 	}
 

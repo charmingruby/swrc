@@ -11,9 +11,9 @@ import (
 
 func NewService(
 	accountRepository repository.AccountRepository,
-	hashAdapter port.HashPort,
+	hashPort port.HashPort,
 ) usecase.AccountUseCase {
-	return usecase.NewAccountUseCaseRegistry(accountRepository, hashAdapter)
+	return usecase.NewAccountUseCaseRegistry(accountRepository, hashPort)
 }
 
 func NewGRPCHandler(srv *grpc.Server, accountSvc usecase.AccountUseCase, tokenSvc security.TokenService) {

@@ -15,11 +15,11 @@ type AccountUseCase interface {
 
 func NewAccountUseCaseRegistry(
 	accountRepository repository.AccountRepository,
-	hashAdapter port.HashPort,
+	hashPort port.HashPort,
 ) *AccountUseCaseRegistry {
 	registry := AccountUseCaseRegistry{
 		AccountRepository: accountRepository,
-		HashAdapter:       hashAdapter,
+		HashPort:          hashPort,
 	}
 
 	return &registry
@@ -27,5 +27,5 @@ func NewAccountUseCaseRegistry(
 
 type AccountUseCaseRegistry struct {
 	AccountRepository repository.AccountRepository
-	HashAdapter       port.HashPort
+	HashPort          port.HashPort
 }

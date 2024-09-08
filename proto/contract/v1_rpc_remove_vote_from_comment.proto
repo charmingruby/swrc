@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "swrc/proto/pb";
+
+message RemoveVoteFromCommentRequest{
+    string comment_vote_id = 1; 
+};

@@ -14,6 +14,7 @@ import "v1_rpc_modify_snippet_topic.proto";
 import "v1_rpc_modify_snippet.proto";
 import "v1_rpc_choose_snippet_topic_best_answer.proto";
 import "v1_rpc_vote_on_comment.proto";
+import "v1_rpc_remove_vote_from_comment.proto";
 import "v1_rpc_fetch_snippet_topics.proto";
 import "v1_rpc_fetch_snippets.proto";
 import "v1_rpc_fetch_comments.proto";
@@ -27,6 +28,7 @@ service ReviewService{
     rpc ModifySnippet(ModifySnippetRequest) returns (google.protobuf.Empty){}
     rpc ChooseSnippetTopicBestAnswer(ChooseSnippetTopicBestAnswerRequest) returns (google.protobuf.Empty){}
     rpc VoteOnComment(VoteOnCommentRequest) returns (google.protobuf.Empty){}
+    rpc RemoveVoteFromComment(RemoveVoteFromCommentRequest) returns (google.protobuf.Empty){}
     rpc FetchSnippetTopics(FetchSnippetTopicsRequest) returns (FetchSnippetTopicsReply){}
     rpc FetchSnippets(FetchSnippetsRequest) returns (FetchSnippetsReply){}
     rpc FetchComments(FetchCommentsRequest) returns (FetchCommentsReply){}

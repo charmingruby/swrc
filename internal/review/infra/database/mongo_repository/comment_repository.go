@@ -7,7 +7,6 @@ import (
 	"github.com/charmingruby/swrc/internal/review/domain/entity"
 	"github.com/charmingruby/swrc/internal/review/infra/database/mongo_repository/mapper"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -124,8 +123,8 @@ func (r CommentMongoRepository) DeleteManyByParentCommentID(parentCommentID stri
 			if err := cursor.Decode(&comment); err != nil {
 				return nil, err
 			}
-			if id, ok := comment["_id"].(primitive.ObjectID); ok {
-				childID := id.Hex()
+			if id, ok := comment["_id"].(string); ok {
+				childID := id
 				childIDs, err := collectCommentsToDelete(childID)
 				if err != nil {
 					return nil, err
@@ -142,16 +141,7 @@ func (r CommentMongoRepository) DeleteManyByParentCommentID(parentCommentID stri
 		return err
 	}
 
-	objectIDs := make([]primitive.ObjectID, len(idsToDelete))
-	for i, id := range idsToDelete {
-		objectID, err := primitive.ObjectIDFromHex(id)
-		if err != nil {
-			return err
-		}
-		objectIDs[i] = objectID
-	}
-
-	filter := bson.M{"_id": bson.M{"$in": objectIDs}}
+	filter := bson.M{"_id": bson.M{"$in": idsToDelete}}
 	if _, err := collection.DeleteMany(context.Background(), filter); err != nil {
 		return err
 	}

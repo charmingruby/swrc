@@ -28,6 +28,7 @@ type ReviewServiceClient interface {
 	ChooseSnippetTopicBestAnswer(ctx context.Context, in *ChooseSnippetTopicBestAnswerRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	VoteOnComment(ctx context.Context, in *VoteOnCommentRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	RemoveVoteFromComment(ctx context.Context, in *RemoveVoteFromCommentRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	RemoveCommentFromSnippetTopic(ctx context.Context, in *RemoveCommentFromSnippetTopicRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	FetchSnippetTopics(ctx context.Context, in *FetchSnippetTopicsRequest, opts ...grpc.CallOption) (*FetchSnippetTopicsReply, error)
 	FetchSnippets(ctx context.Context, in *FetchSnippetsRequest, opts ...grpc.CallOption) (*FetchSnippetsReply, error)
 	FetchComments(ctx context.Context, in *FetchCommentsRequest, opts ...grpc.CallOption) (*FetchCommentsReply, error)
@@ -122,6 +123,15 @@ func (c *reviewServiceClient) RemoveVoteFromComment(ctx context.Context, in *Rem
 	return out, nil
 }
 
+func (c *reviewServiceClient) RemoveCommentFromSnippetTopic(ctx context.Context, in *RemoveCommentFromSnippetTopicRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/proto.ReviewService/RemoveCommentFromSnippetTopic", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *reviewServiceClient) FetchSnippetTopics(ctx context.Context, in *FetchSnippetTopicsRequest, opts ...grpc.CallOption) (*FetchSnippetTopicsReply, error) {
 	out := new(FetchSnippetTopicsReply)
 	err := c.cc.Invoke(ctx, "/proto.ReviewService/FetchSnippetTopics", in, out, opts...)
@@ -162,6 +172,7 @@ type ReviewServiceServer interface {
 	ChooseSnippetTopicBestAnswer(context.Context, *ChooseSnippetTopicBestAnswerRequest) (*emptypb.Empty, error)
 	VoteOnComment(context.Context, *VoteOnCommentRequest) (*emptypb.Empty, error)
 	RemoveVoteFromComment(context.Context, *RemoveVoteFromCommentRequest) (*emptypb.Empty, error)
+	RemoveCommentFromSnippetTopic(context.Context, *RemoveCommentFromSnippetTopicRequest) (*emptypb.Empty, error)
 	FetchSnippetTopics(context.Context, *FetchSnippetTopicsRequest) (*FetchSnippetTopicsReply, error)
 	FetchSnippets(context.Context, *FetchSnippetsRequest) (*FetchSnippetsReply, error)
 	FetchComments(context.Context, *FetchCommentsRequest) (*FetchCommentsReply, error)
@@ -198,6 +209,9 @@ func (UnimplementedReviewServiceServer) VoteOnComment(context.Context, *VoteOnCo
 }
 func (UnimplementedReviewServiceServer) RemoveVoteFromComment(context.Context, *RemoveVoteFromCommentRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveVoteFromComment not implemented")
+}
+func (UnimplementedReviewServiceServer) RemoveCommentFromSnippetTopic(context.Context, *RemoveCommentFromSnippetTopicRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RemoveCommentFromSnippetTopic not implemented")
 }
 func (UnimplementedReviewServiceServer) FetchSnippetTopics(context.Context, *FetchSnippetTopicsRequest) (*FetchSnippetTopicsReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FetchSnippetTopics not implemented")
@@ -383,6 +397,24 @@ func _ReviewService_RemoveVoteFromComment_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ReviewService_RemoveCommentFromSnippetTopic_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RemoveCommentFromSnippetTopicRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ReviewServiceServer).RemoveCommentFromSnippetTopic(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.ReviewService/RemoveCommentFromSnippetTopic",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ReviewServiceServer).RemoveCommentFromSnippetTopic(ctx, req.(*RemoveCommentFromSnippetTopicRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ReviewService_FetchSnippetTopics_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(FetchSnippetTopicsRequest)
 	if err := dec(in); err != nil {
@@ -479,6 +511,10 @@ var ReviewService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RemoveVoteFromComment",
 			Handler:    _ReviewService_RemoveVoteFromComment_Handler,
+		},
+		{
+			MethodName: "RemoveCommentFromSnippetTopic",
+			Handler:    _ReviewService_RemoveCommentFromSnippetTopic_Handler,
 		},
 		{
 			MethodName: "FetchSnippetTopics",

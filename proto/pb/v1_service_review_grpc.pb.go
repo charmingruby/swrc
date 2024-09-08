@@ -25,6 +25,7 @@ type ReviewServiceClient interface {
 	ChooseSnippetTopicSolution(ctx context.Context, in *ChooseSnippetTopicSolutionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	ModifySnippetTopic(ctx context.Context, in *ModifySnippetTopicRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	ModifySnippet(ctx context.Context, in *ModifySnippetRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	ChooseSnippetTopicBestAnswer(ctx context.Context, in *ChooseSnippetTopicBestAnswerRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	FetchSnippetTopics(ctx context.Context, in *FetchSnippetTopicsRequest, opts ...grpc.CallOption) (*FetchSnippetTopicsReply, error)
 	FetchSnippets(ctx context.Context, in *FetchSnippetsRequest, opts ...grpc.CallOption) (*FetchSnippetsReply, error)
 	FetchComments(ctx context.Context, in *FetchCommentsRequest, opts ...grpc.CallOption) (*FetchCommentsReply, error)
@@ -92,6 +93,15 @@ func (c *reviewServiceClient) ModifySnippet(ctx context.Context, in *ModifySnipp
 	return out, nil
 }
 
+func (c *reviewServiceClient) ChooseSnippetTopicBestAnswer(ctx context.Context, in *ChooseSnippetTopicBestAnswerRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/proto.ReviewService/ChooseSnippetTopicBestAnswer", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *reviewServiceClient) FetchSnippetTopics(ctx context.Context, in *FetchSnippetTopicsRequest, opts ...grpc.CallOption) (*FetchSnippetTopicsReply, error) {
 	out := new(FetchSnippetTopicsReply)
 	err := c.cc.Invoke(ctx, "/proto.ReviewService/FetchSnippetTopics", in, out, opts...)
@@ -129,6 +139,7 @@ type ReviewServiceServer interface {
 	ChooseSnippetTopicSolution(context.Context, *ChooseSnippetTopicSolutionRequest) (*emptypb.Empty, error)
 	ModifySnippetTopic(context.Context, *ModifySnippetTopicRequest) (*emptypb.Empty, error)
 	ModifySnippet(context.Context, *ModifySnippetRequest) (*emptypb.Empty, error)
+	ChooseSnippetTopicBestAnswer(context.Context, *ChooseSnippetTopicBestAnswerRequest) (*emptypb.Empty, error)
 	FetchSnippetTopics(context.Context, *FetchSnippetTopicsRequest) (*FetchSnippetTopicsReply, error)
 	FetchSnippets(context.Context, *FetchSnippetsRequest) (*FetchSnippetsReply, error)
 	FetchComments(context.Context, *FetchCommentsRequest) (*FetchCommentsReply, error)
@@ -156,6 +167,9 @@ func (UnimplementedReviewServiceServer) ModifySnippetTopic(context.Context, *Mod
 }
 func (UnimplementedReviewServiceServer) ModifySnippet(context.Context, *ModifySnippetRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ModifySnippet not implemented")
+}
+func (UnimplementedReviewServiceServer) ChooseSnippetTopicBestAnswer(context.Context, *ChooseSnippetTopicBestAnswerRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChooseSnippetTopicBestAnswer not implemented")
 }
 func (UnimplementedReviewServiceServer) FetchSnippetTopics(context.Context, *FetchSnippetTopicsRequest) (*FetchSnippetTopicsReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FetchSnippetTopics not implemented")
@@ -287,6 +301,24 @@ func _ReviewService_ModifySnippet_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ReviewService_ChooseSnippetTopicBestAnswer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ChooseSnippetTopicBestAnswerRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ReviewServiceServer).ChooseSnippetTopicBestAnswer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.ReviewService/ChooseSnippetTopicBestAnswer",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ReviewServiceServer).ChooseSnippetTopicBestAnswer(ctx, req.(*ChooseSnippetTopicBestAnswerRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ReviewService_FetchSnippetTopics_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(FetchSnippetTopicsRequest)
 	if err := dec(in); err != nil {
@@ -371,6 +403,10 @@ var ReviewService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ModifySnippet",
 			Handler:    _ReviewService_ModifySnippet_Handler,
+		},
+		{
+			MethodName: "ChooseSnippetTopicBestAnswer",
+			Handler:    _ReviewService_ChooseSnippetTopicBestAnswer_Handler,
 		},
 		{
 			MethodName: "FetchSnippetTopics",

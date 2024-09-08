@@ -49,13 +49,17 @@ func (r CommentMongoRepository) FindMany(
 ) ([]entity.Comment, error) {
 	collection := r.db.Collection(COMMENT_COLLECTION)
 
-	filter := bson.D{
-		{Key: "$or", Value: bson.A{
-			bson.D{{Key: "_id", Value: id}},
-			bson.D{{Key: "account_id", Value: accountID}},
-			bson.D{{Key: "snippet_topic_id", Value: snippetTopicID}},
-			bson.D{{Key: "parent_comment_id", Value: parentCommentID}},
-		}},
+	filter := bson.D{{}}
+
+	if id != "" || snippetTopicID != "" || accountID != "" || parentCommentID != "" {
+		filter = bson.D{
+			{Key: "$or", Value: bson.A{
+				bson.D{{Key: "_id", Value: id}},
+				bson.D{{Key: "account_id", Value: accountID}},
+				bson.D{{Key: "snippet_topic_id", Value: snippetTopicID}},
+				bson.D{{Key: "parent_comment_id", Value: parentCommentID}},
+			}},
+		}
 	}
 
 	cursor, err := collection.Find(context.Background(), filter)

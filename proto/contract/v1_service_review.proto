@@ -11,6 +11,7 @@ import "v1_rpc_submit_new_snippet_version.proto";
 import "v1_rpc_comment_on_snippet_topic.proto"; 
 import "v1_rpc_fetch_snippet_topics.proto";
 import "v1_rpc_fetch_snippets.proto";
+import "v1_rpc_fetch_comments.proto";
 
 service ReviewService{
     rpc CreateSnippetTopic(CreateSnippetTopicRequest) returns (google.protobuf.Empty){}
@@ -18,4 +19,5 @@ service ReviewService{
     rpc CommentOnSnippetTopic(CommentOnSnippetTopicRequest) returns (google.protobuf.Empty){}
     rpc FetchSnippetTopics(FetchSnippetTopicsRequest) returns (FetchSnippetTopicsReply){}
     rpc FetchSnippets(FetchSnippetsRequest) returns (FetchSnippetsReply){}
+    rpc FetchComments(FetchCommentsRequest) returns (FetchCommentsReply){}
 }

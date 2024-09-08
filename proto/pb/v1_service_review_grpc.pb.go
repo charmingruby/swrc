@@ -24,6 +24,7 @@ type ReviewServiceClient interface {
 	CommentOnSnippetTopic(ctx context.Context, in *CommentOnSnippetTopicRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	FetchSnippetTopics(ctx context.Context, in *FetchSnippetTopicsRequest, opts ...grpc.CallOption) (*FetchSnippetTopicsReply, error)
 	FetchSnippets(ctx context.Context, in *FetchSnippetsRequest, opts ...grpc.CallOption) (*FetchSnippetsReply, error)
+	FetchComments(ctx context.Context, in *FetchCommentsRequest, opts ...grpc.CallOption) (*FetchCommentsReply, error)
 }
 
 type reviewServiceClient struct {
@@ -79,6 +80,15 @@ func (c *reviewServiceClient) FetchSnippets(ctx context.Context, in *FetchSnippe
 	return out, nil
 }
 
+func (c *reviewServiceClient) FetchComments(ctx context.Context, in *FetchCommentsRequest, opts ...grpc.CallOption) (*FetchCommentsReply, error) {
+	out := new(FetchCommentsReply)
+	err := c.cc.Invoke(ctx, "/proto.ReviewService/FetchComments", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ReviewServiceServer is the server API for ReviewService service.
 // All implementations must embed UnimplementedReviewServiceServer
 // for forward compatibility
@@ -88,6 +98,7 @@ type ReviewServiceServer interface {
 	CommentOnSnippetTopic(context.Context, *CommentOnSnippetTopicRequest) (*emptypb.Empty, error)
 	FetchSnippetTopics(context.Context, *FetchSnippetTopicsRequest) (*FetchSnippetTopicsReply, error)
 	FetchSnippets(context.Context, *FetchSnippetsRequest) (*FetchSnippetsReply, error)
+	FetchComments(context.Context, *FetchCommentsRequest) (*FetchCommentsReply, error)
 	mustEmbedUnimplementedReviewServiceServer()
 }
 
@@ -109,6 +120,9 @@ func (UnimplementedReviewServiceServer) FetchSnippetTopics(context.Context, *Fet
 }
 func (UnimplementedReviewServiceServer) FetchSnippets(context.Context, *FetchSnippetsRequest) (*FetchSnippetsReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FetchSnippets not implemented")
+}
+func (UnimplementedReviewServiceServer) FetchComments(context.Context, *FetchCommentsRequest) (*FetchCommentsReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FetchComments not implemented")
 }
 func (UnimplementedReviewServiceServer) mustEmbedUnimplementedReviewServiceServer() {}
 
@@ -213,6 +227,24 @@ func _ReviewService_FetchSnippets_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ReviewService_FetchComments_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FetchCommentsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ReviewServiceServer).FetchComments(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.ReviewService/FetchComments",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ReviewServiceServer).FetchComments(ctx, req.(*FetchCommentsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ReviewService_ServiceDesc is the grpc.ServiceDesc for ReviewService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -239,6 +271,10 @@ var ReviewService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FetchSnippets",
 			Handler:    _ReviewService_FetchSnippets_Handler,
+		},
+		{
+			MethodName: "FetchComments",
+			Handler:    _ReviewService_FetchComments_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

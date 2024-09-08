@@ -8,7 +8,7 @@ import "google/protobuf/empty.proto";
 
 import "v1_rpc_create_snippet_topic.proto";
 import "v1_rpc_submit_new_snippet_version.proto";
-import "v1_rpc_comment_on_snippet_topic.proto"; 
+import "v1_rpc_comment_on_snippet_topic.proto";
 import "v1_rpc_fetch_snippet_topics.proto";
 import "v1_rpc_fetch_snippets.proto";
 import "v1_rpc_fetch_comments.proto";

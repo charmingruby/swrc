@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "swrc/proto/pb";
+
+message VoteOnCommentRequest{
+	string comment_id = 1;
+	bool is_up = 2;
+}

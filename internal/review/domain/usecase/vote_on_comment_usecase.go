@@ -2,8 +2,13 @@ package usecase
 
 import (
 	"github.com/charmingruby/swrc/internal/common/core"
+	"github.com/charmingruby/swrc/internal/common/core/logger"
 	"github.com/charmingruby/swrc/internal/review/domain/dto"
 	"github.com/charmingruby/swrc/internal/review/domain/entity"
+)
+
+const (
+	voteOnCommentUseCase = "Vote On Comment Use Case"
 )
 
 func (r *ReviewUseCaseRegistry) VoteOnCommentUseCase(input dto.VoteOnCommentInputDTO) error {
@@ -20,8 +25,14 @@ func (r *ReviewUseCaseRegistry) VoteOnCommentUseCase(input dto.VoteOnCommentInpu
 		return core.NewAlreadyExistsErr("comment vote")
 	}
 
-	if _, err := entity.NewCommentVote(input.IsUp, input.AccountID, input.CommentID); err != nil {
+	commentVote, err := entity.NewCommentVote(input.IsUp, input.AccountID, input.CommentID)
+	if err != nil {
 		return err
+	}
+
+	if err := r.CommentVoteRepository.Store(*commentVote); err != nil {
+		logger.LogInternalErr(voteOnCommentUseCase, err)
+		return core.NewInternalErr()
 	}
 
 	return nil

@@ -24,7 +24,7 @@ func NewCommentVote(isUp bool, accountID, commentID string) (*CommentVote, error
 
 type CommentVote struct {
 	ID        string    `json:"id" validate:"required"`
-	IsUp      bool      `json:"is_up" validate:"required"`
+	IsUp      bool      `json:"is_up"`
 	AccountID string    `json:"account_id" validate:"required"`
 	CommentID string    `json:"comment_id" validate:"required"`
 	CreatedAt time.Time `json:"created_at" validate:"required"`

@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "swrc/proto/pb";
+
+message ModifySnippetRequest{
+    string snippet_id = 1; 
+    string message = 2;          
+    string code_snippet = 3;            
+};

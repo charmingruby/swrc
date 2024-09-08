@@ -6,5 +6,6 @@ type CommentVoteRepository interface {
 	FindByID(id string) (entity.CommentVote, error)
 	FindByCommentIDAndAccountID(commentID, accountID string) (entity.CommentVote, error)
 	Store(vote entity.CommentVote) error
+	DeleteManyByCommentID(commentID string) error
 	Delete(vote entity.CommentVote) error
 }

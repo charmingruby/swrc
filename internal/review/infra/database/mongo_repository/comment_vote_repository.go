@@ -88,3 +88,15 @@ func (r CommentVoteMongoRepository) Delete(vote entity.CommentVote) error {
 
 	return nil
 }
+
+func (r CommentVoteMongoRepository) DeleteManyByCommentID(commentID string) error {
+	collection := r.db.Collection(COMMENT_VOTE_COLLECTION)
+
+	filter := bson.D{{Key: "comment_id", Value: commentID}}
+
+	if _, err := collection.DeleteMany(context.Background(), filter); err != nil {
+		return err
+	}
+
+	return nil
+}

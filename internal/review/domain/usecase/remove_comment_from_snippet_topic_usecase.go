@@ -24,6 +24,11 @@ func (r *ReviewUseCaseRegistry) RemoveCommentFromSnippetTopicUseCase(input dto.R
 		return core.NewUnauthorizedErr()
 	}
 
+	if err := r.CommentVoteRepository.DeleteManyByCommentID(comment.ID); err != nil {
+		logger.LogInternalErr(removeCommentFromTopicUseCase, err)
+		return core.NewInternalErr()
+	}
+
 	if err := r.CommentRepository.Delete(comment); err != nil {
 		logger.LogInternalErr(removeCommentFromTopicUseCase, err)
 		return core.NewInternalErr()

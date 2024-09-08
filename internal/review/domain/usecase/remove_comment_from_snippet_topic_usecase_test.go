@@ -26,6 +26,13 @@ func (s *Suite) Test_RemoveCommentFromSnippetTopicUseCase() {
 		s.NoError(err)
 		s.Equal(1, len(s.commentRepo.Items))
 
+		_, err = factory.MakeCommentVote(s.commentVoteRepo, factory.MakeCommentVoteInput{
+			AccountID: acc.ID,
+			CommentID: comment.ID,
+		})
+		s.NoError(err)
+		s.Equal(1, len(s.commentVoteRepo.Items))
+
 		input := dto.RemoveCommentFromSnippetTopicInputDTO{
 			AccountID: acc.ID,
 			CommentID: comment.ID,
@@ -34,6 +41,8 @@ func (s *Suite) Test_RemoveCommentFromSnippetTopicUseCase() {
 		err = s.useCase.RemoveCommentFromSnippetTopicUseCase(input)
 		s.NoError(err)
 		s.Equal(0, len(s.commentRepo.Items))
+		s.Equal(0, len(s.commentVoteRepo.Items))
+
 	})
 
 	s.Run("it should be able to remove a comment from a snippet topic and delete all children comments", func() {

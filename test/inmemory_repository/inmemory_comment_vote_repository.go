@@ -41,6 +41,20 @@ func (r *InMemoryCommentVoteRepository) FindByID(id string) (entity.CommentVote,
 	return entity.CommentVote{}, core.NewNotFoundErr("comment vote")
 }
 
+func (r *InMemoryCommentVoteRepository) DeleteManyByCommentID(commentID string) error {
+	remainingVotes := []entity.CommentVote{}
+
+	for _, cv := range r.Items {
+		if cv.CommentID != commentID {
+			remainingVotes = append(remainingVotes, cv)
+		}
+	}
+
+	r.Items = remainingVotes
+
+	return nil
+}
+
 func (r *InMemoryCommentVoteRepository) FindByCommentIDAndAccountID(commentID, accountID string) (entity.CommentVote, error) {
 	for _, cv := range r.Items {
 		if cv.CommentID == commentID && cv.AccountID == accountID {

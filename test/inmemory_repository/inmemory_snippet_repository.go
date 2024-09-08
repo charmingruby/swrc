@@ -53,21 +53,16 @@ func (r *InMemorySnippetRepository) FindManyByTopicID(topicID string) ([]entity.
 	return snippets, nil
 }
 
-func (r *InMemorySnippetRepository) DeleteMany(snippets []entity.Snippet) error {
-	remainingSnippets := []entity.Snippet{}
+func (r *InMemorySnippetRepository) DeleteManyByTopicID(topicID string) error {
+	remainingVotes := []entity.Snippet{}
 
-	toBeRemoved := make(map[string]struct{})
-	for _, snippet := range snippets {
-		toBeRemoved[snippet.ID] = struct{}{}
-	}
-
-	for _, s := range r.Items {
-		if _, found := toBeRemoved[s.ID]; !found {
-			remainingSnippets = append(remainingSnippets, s)
+	for _, c := range r.Items {
+		if c.TopicID != topicID {
+			remainingVotes = append(remainingVotes, c)
 		}
 	}
 
-	r.Items = remainingSnippets
+	r.Items = remainingVotes
 
 	return nil
 }

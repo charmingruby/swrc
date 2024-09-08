@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "swrc/proto/pb";
+
+message DeleteSnippetTopicRequest {
+	string snippet_topic_id = 1;  
+};

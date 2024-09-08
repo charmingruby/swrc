@@ -24,17 +24,9 @@ func (s *ReviewUseCaseRegistry) DeleteSnippetTopicUseCase(input dto.DeleteSnippe
 		return core.NewUnauthorizedErr()
 	}
 
-	snippetsToDelete, err := s.SnippetRepository.FindManyByTopicID(topic.ID)
-	if err != nil {
+	if err := s.SnippetRepository.DeleteManyByTopicID(topic.ID); err != nil {
 		logger.LogInternalErr(deleteSnippetTopicUseCase, err)
 		return core.NewInternalErr()
-	}
-
-	if len(snippetsToDelete) > 0 {
-		if err := s.SnippetRepository.DeleteMany(snippetsToDelete); err != nil {
-			logger.LogInternalErr(deleteSnippetTopicUseCase, err)
-			return core.NewInternalErr()
-		}
 	}
 
 	if err := s.SnippetTopicRepository.Delete(topic.ID); err != nil {

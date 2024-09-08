@@ -7,7 +7,6 @@ import (
 	"github.com/charmingruby/swrc/internal/review/domain/entity"
 	"github.com/charmingruby/swrc/internal/review/infra/database/mongo_repository/mapper"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -99,19 +98,10 @@ func (r SnippetMongoRepository) FindManyByTopicID(topicID string) ([]entity.Snip
 	return snippets, nil
 }
 
-func (r SnippetMongoRepository) DeleteMany(snippets []entity.Snippet) error {
+func (r SnippetMongoRepository) DeleteManyByTopicID(topicID string) error {
 	collection := r.db.Collection(SNIPPET_COLLECTION)
 
-	objectIDs := make([]primitive.ObjectID, len(snippets))
-	for i, snippet := range snippets {
-		objectID, err := primitive.ObjectIDFromHex(snippet.ID)
-		if err != nil {
-			return err
-		}
-		objectIDs[i] = objectID
-	}
-
-	filter := bson.M{"_id": bson.M{"$in": objectIDs}}
+	filter := bson.D{{Key: "snippet_topic_id", Value: topicID}}
 
 	if _, err := collection.DeleteMany(context.Background(), filter); err != nil {
 		return err

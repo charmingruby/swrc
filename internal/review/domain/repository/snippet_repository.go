@@ -7,5 +7,5 @@ type SnippetRepository interface {
 	Save(snippet entity.Snippet) error
 	FindByID(id string) (entity.Snippet, error)
 	FindManyByTopicID(topicID string) ([]entity.Snippet, error)
-	DeleteMany([]entity.Snippet) error
+	DeleteManyByTopicID(topicID string) error
 }
